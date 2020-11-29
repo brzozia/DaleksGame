@@ -17,7 +17,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'Main'
+    mainClass = 'MainApp'
 }
 
 java {

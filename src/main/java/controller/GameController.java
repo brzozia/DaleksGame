@@ -15,21 +15,21 @@ public class GameController {
     }
 
     public void initRootLayout() {
-        try {
-            this.primaryStage.setTitle("Dalek Game");
-
-            // load layout from FXML file
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(GameController.class.getResource("../view/Map.fxml"));
-            AnchorPane rootLayout = loader.load();
-
-            // add layout to a scene and show them all
-            Scene scene = new Scene(rootLayout);
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            this.primaryStage.setTitle("Dalek Game");
+//
+//            // load layout from FXML file
+//            FXMLLoader loader = new FXMLLoader();
+//            loader.setLocation(GameController.class.getResource("../view/Map.fxml"));
+//            AnchorPane rootLayout = loader.load();
+//
+//            // add layout to a scene and show them all
+//            Scene scene = new Scene(rootLayout);
+//            primaryStage.setScene(scene);
+//            primaryStage.show();
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 }
