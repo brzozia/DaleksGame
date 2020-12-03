@@ -13,27 +13,35 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        this.primaryStage = primaryStage;
+
 //        this.primaryStage.setTitle("Dalek Game");
-        this.gameController = new GameController(primaryStage);
-        this.gameController.initRootLayout();
+//        this.gameController = new GameController();
+//        this.gameController.initRootLayout();
 
         try {
-            this.primaryStage.setTitle("Dalek Game");
-
             // load layout from FXML file
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(GameController.class.getResource("../view/Map.fxml"));
+            //TODO gameController -> MainApp and resolve errors
             AnchorPane rootLayout = loader.load();
 
+            //set initial data into controller
+            GameController controller = loader.getController();
+
             // add layout to a scene and show them all
-            Scene scene = new Scene(rootLayout);
-            primaryStage.setScene(scene);
+            configureStage(primaryStage, rootLayout);
             primaryStage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void configureStage(Stage primaryStage, AnchorPane rootLayout) {
+        Scene scene = new Scene(rootLayout);
+        primaryStage.setScene(scene);
+        this.primaryStage = primaryStage;
+        this.primaryStage.setTitle("Dalek Game");
     }
 
     private void configureModel() {
@@ -44,7 +52,7 @@ public class MainApp extends Application {
 
     }
 
-    private void configureView() {
+    private void fillBoard() {
 
     }
 }

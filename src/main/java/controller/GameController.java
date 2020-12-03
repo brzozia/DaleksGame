@@ -1,35 +1,48 @@
 package controller;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Stream;
 
+import model.Vector2D;
+import model.mapobjects.*;
+
+//should it implement some IController and guice bind it?
 public class GameController {
-    private final Stage primaryStage;
 
-    public GameController(Stage primaryStage) {
-        this.primaryStage = primaryStage;
+    @FXML
+    private ImageView doctorImage;
+
+    //model
+    MapController mapController;
+
+    //view
+
+    @FXML
+    public void initialize() {
+
+
+
     }
 
     public void initRootLayout() {
-//        try {
-//            this.primaryStage.setTitle("Dalek Game");
-//
-//            // load layout from FXML file
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(GameController.class.getResource("../view/Map.fxml"));
-//            AnchorPane rootLayout = loader.load();
-//
-//            // add layout to a scene and show them all
-//            Scene scene = new Scene(rootLayout);
-//            primaryStage.setScene(scene);
-//            primaryStage.show();
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+
     }
+
+    public void bindToView() {
+        //...
+    }
+
+    private void onMoveButtonPress(Vector2D direction) {
+        mapController.makeMove(direction);
+    }
+
+
 }
