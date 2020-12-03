@@ -1,49 +1,69 @@
 package controller;
 
+import game.entity.Doctor;
+import game.entity.MapObject;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+import mainApp.MainApp;
 import model.Vector2D;
-import model.mapobjects.*;
 
-import java.util.List;
-import java.util.stream.Stream;
+import java.io.IOException;
+import java.util.Optional;
 
+//should it implement some IController and guice bind it?
 public class MapController {
-//    private MapObject[][] map;  //probably unnecessary
-    private Doctor doctor;
-    private List<Dalek> dalekList;
-    private List<Dalek> deadDalekList;
 
-    public void makeMove(Vector2D direction) {
+    @FXML
+    public GridPane gridPane;
 
-        doctor.move(direction);
-        checkDoctorCollision();
+    Stage stage;
+    GameController gameController;
 
-        dalekList.forEach(Dalek::move);
+    private int width;
+    private int height;
 
-        checkDaleksCollisions();
+    @FXML
+    public void initialize() {
+        Platform.runLater( () -> {
+            for (int i=0; i<MainApp.HEIGHT; i++) {
+                for (int j=0; j<MainApp.WIDTH; j++) {
+//                    Optional<MapObject> object = gameController.getWorldMap().objectAt(new Vector2D(i,j));
+                    ImageView tile;
+                    tile = new ImageView(new Image( getClass().getResourceAsStream("/tile.jpg")));
+//                    tile = new ImageView(new Image( getClass().getResourceAsStream("/doctor.png")));
+                    tile.fitWidthProperty().bind(stage.widthProperty().divide(width));
+                    tile.fitHeightProperty().bind(stage.heightProperty().divide(height));
+                    gridPane.add(tile, i, j);
+                }
+            }
 
+        });
     }
-    private void checkDoctorCollision() {
-        Stream.concat(dalekList.stream(), deadDalekList.stream())
-                .forEach(dalek -> {
-                    if(this.doctor.getPosition().equals(dalek.getPosition())) {
-                        //TODO gameOver
-                    }
-                });
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
 
-    private void checkDaleksCollisions() { //TODO IMPLEMENT
-//        dalekList.forEach(dalek -> {
-//            //1. check coll with doctor
-//            if(this.doctor.getPosition().equals(dalek.getPosition())) {
-//                //TODO gameOver
-//            }
-//            //2. check coll with other alive Daleks
-//            dalekList.forEach(otherDalek -> {
-//                if(dalek != otherDalek && dalek.getPosition().equals(otherDalek.getPosition())) {
-//                    break;
-//                }
-//            });
-//
-//        });
+    public void setSize(int width, int height) {
+        this.width  = width;
+        this.height = height;
     }
+
+    public void initRootLayout() {}
+
+    public void bindToView() {}
+
+    private void onMoveButtonPress(Vector2D direction) {
+        gameController.makeMove(direction);
+    }
+
+    private void onUseTeleport(Vector2D newPosition) {
+        gameController.makeTeleport(newPosition);
+    }
+
+
 }

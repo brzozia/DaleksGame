@@ -14,10 +14,12 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    implementation group: 'com.google.inject', name: 'guice', version: '4.2.3'
+    implementation group: 'com.google.inject.extensions', name: 'guice-multibindings', version: '4.2.3'
 }
 
 application {
-    mainClass = 'MainApp'
+    mainClass = 'mainApp.MainApp'
 }
 
 java {

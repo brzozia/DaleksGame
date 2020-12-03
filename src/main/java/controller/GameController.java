@@ -1,48 +1,62 @@
 package controller;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Stream;
-
+import game.World;
+import game.WorldMap;
+import game.entity.Dalek;
+import mainApp.MainApp;
 import model.Vector2D;
-import model.mapobjects.*;
 
-//should it implement some IController and guice bind it?
 public class GameController {
+    private final WorldMap worldMap;
+    private final World world;
 
-    @FXML
-    private ImageView doctorImage;
-
-    //model
-    MapController mapController;
-
-    //view
-
-    @FXML
-    public void initialize() {
-
-
-
+    public GameController() {
+        this.world = new World(MainApp.HEIGHT, MainApp.WIDTH, 5);
+        worldMap = world.getWorldMap();
     }
 
-    public void initRootLayout() {
-
+    public void makeMove(Vector2D direction) {
+        world.getDoctor().move(direction);
+        checkDoctorCollision();
+        world.getDalekList().forEach(dalek -> dalek.move(direction) );
+        checkDaleksCollisions();
     }
 
-    public void bindToView() {
-        //...
+    public void makeTeleport(Vector2D newPosition) {
+        world.getDoctor().teleport(newPosition);
     }
 
-    private void onMoveButtonPress(Vector2D direction) {
-        mapController.makeMove(direction);
+    private void checkDoctorCollision() {
+        world.getDalekList().forEach(dalek -> {
+                if(dalek.getPosition().equals(world.getDoctor().getPosition())) {
+                    //TODO gameover
+                }
+        });
     }
 
+    private void checkDaleksCollisions() {
+        world.getDalekList()
+            .stream().filter(Dalek::isAlive)
+            .forEach(dalek -> {
+                if(world.getDoctor().getPosition().equals(dalek.getPosition())) {
+                    //TODO gameOver
+                }
+
+                world.getDalekList().forEach(otherDalek -> {
+                if(dalek != otherDalek && dalek.getPosition().equals(otherDalek.getPosition())) {
+                    dalek.setAlive(false);
+                }
+            });
+
+        });
+    }
+
+    public WorldMap getWorldMap() {
+        return worldMap;
+    }
+
+    public World getWorld() {
+        return world;
+    }
 
 }
