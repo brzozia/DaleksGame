@@ -29,6 +29,7 @@ public class MainApp extends Application {
             FXMLLoader loader = fxmlLoaderService.getLoader(getClass().getResource("/view/Map.fxml"));
             Parent root = loader.load();
             MapController mapController = loader.getController();
+//            mapController.setGameController();
             mapController.setSize(MainApp.WIDTH, MainApp.HEIGHT);
             mapController.setStage(primaryStage);
             Scene scene = new Scene(root, WIDTH*TILE_SIZE, HEIGHT*TILE_SIZE);

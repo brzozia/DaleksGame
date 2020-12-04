@@ -10,7 +10,6 @@ public class WorldMap {
 
     private final int height;
     private final int width;
-
     private final Map<Vector2D, MapObject> positions = new HashMap<>();
 
     public WorldMap(int height, int width) {
@@ -20,17 +19,18 @@ public class WorldMap {
 
     public void addEntity(MapObject mapObject) {
         if (isOccupied(mapObject.getPosition())) {
+            System.out.println(mapObject.getPosition().getX() + " "+mapObject.getPosition().getY()+"  " +mapObject);
             throw new RuntimeException("Place is already occupied!");
         }
         positions.put(mapObject.getPosition(), mapObject);
     }
 
     public boolean isOccupied(Vector2D vector2D) {
-        return !positions.containsKey(vector2D);
+        return positions.containsKey(vector2D);
     }
 
     public Optional<MapObject> objectAt (Vector2D position) {
-        return Optional.of(positions.get(position));
+        return Optional.ofNullable(positions.get(position));
     }
 
     public int getHeight() {

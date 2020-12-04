@@ -1,5 +1,6 @@
 package controller;
 
+import game.entity.Dalek;
 import game.entity.Doctor;
 import game.entity.MapObject;
 import javafx.application.Platform;
@@ -26,15 +27,27 @@ public class MapController {
     private int width;
     private int height;
 
+
     @FXML
     public void initialize() {
+        setGameController();
+
         Platform.runLater( () -> {
             for (int i=0; i<MainApp.HEIGHT; i++) {
                 for (int j=0; j<MainApp.WIDTH; j++) {
-//                    Optional<MapObject> object = gameController.getWorldMap().objectAt(new Vector2D(i,j));
-                    ImageView tile;
-                    tile = new ImageView(new Image( getClass().getResourceAsStream("/tile.jpg")));
-//                    tile = new ImageView(new Image( getClass().getResourceAsStream("/doctor.png")));
+                    Optional<MapObject> object = gameController.getWorldMap().objectAt(new Vector2D(i,j));
+                    ImageView tile = new ImageView(new Image( getClass().getResourceAsStream("/tile.jpg")));
+                    if(object.isPresent()){
+                        if(object.get() instanceof Doctor){
+                            tile = new ImageView(new Image( getClass().getResourceAsStream("/doctor.png")));
+                        }
+                        else{
+                            // tile = dalek.png
+                        }
+                    }
+
+//                    tile = new ImageView(new Image( getClass().getResourceAsStream("/tile.jpg")));
+
                     tile.fitWidthProperty().bind(stage.widthProperty().divide(width));
                     tile.fitHeightProperty().bind(stage.heightProperty().divide(height));
                     gridPane.add(tile, i, j);
@@ -47,6 +60,11 @@ public class MapController {
     public void setStage(Stage stage) {
         this.stage = stage;
     }
+
+    public void setGameController() {
+        this.gameController = new GameController();
+    }
+
 
     public void setSize(int width, int height) {
         this.width  = width;
