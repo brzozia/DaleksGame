@@ -22,6 +22,7 @@ public class World {
     public WorldMap getWorldMap() {
         return worldMap;
     }
+
     public List<Dalek> getDalekList() {
         return dalekList;
     }

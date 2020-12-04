@@ -36,6 +36,15 @@ public class Vector2D {
         return new Vector2D(move.x-1, move.y-1);
     }
 
+    public void getCloseTo(Vector2D to){
+
+        if(this.x < to.getX()) this.x++;
+        else if (this.x > to.getX()) this.x--;
+
+        if(this.y < to.getY()) this.y++;
+        else if (this.y > to.getY()) this.y--;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

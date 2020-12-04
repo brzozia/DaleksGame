@@ -18,6 +18,7 @@ public class Doctor extends MapObject {
     }
 
     public void teleport(Vector2D newPosition) {
+        this.teleports--;
         this.setPosition(newPosition);
     }
 

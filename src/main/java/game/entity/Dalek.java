@@ -11,7 +11,7 @@ public class Dalek extends MapObject {
 
     public void move(Vector2D position) {
         if(isAlive) {
-            this.getPosition().add(position);
+            this.position.getCloseTo(position);
         }
     }
 
