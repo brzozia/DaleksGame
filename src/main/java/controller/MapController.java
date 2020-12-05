@@ -14,7 +14,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import mainApp.MainApp;
 import model.Vector2D;
 
@@ -53,14 +52,10 @@ public class MapController {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 
             public void handle(KeyEvent ke) {
-                System.out.println("Key Pressed: " + ke.getText());
+
                 if (ke.getText().matches("[1-4|6-9]")) {
-
-                    Vector2D vec = new Vector2D(Integer.parseInt(ke.getText()));
-                    System.out.println("Key Pressed: " + ke.getText()+ " "+ vec.getX()+ " "+ vec.getY());
-
+                    onMoveButtonPress(Integer.parseInt(ke.getText()));
                     ke.consume(); // <-- stops passing the event to next node
-                    onMoveButtonPress(vec);
                     drawScreen();
                 }
                 else if(ke.getText().equals("t")){
@@ -80,7 +75,7 @@ public class MapController {
 
     public void bindToView() {}
 
-    private void onMoveButtonPress(Vector2D direction) {
+    private void onMoveButtonPress(Integer direction) {
         world.makeMove(direction);
     }
 
@@ -119,8 +114,6 @@ public class MapController {
                             else{
                                 context.drawImage(rock, (cellWidth*i)+i*2, (cellHeight*j)+j*2, cellWidth-1, cellHeight-1);
                             }
-
-                           //else tile = new ImageView(new Image(getClass().getResourceAsStream("/rock.png")));
                         }
                     }
                 }

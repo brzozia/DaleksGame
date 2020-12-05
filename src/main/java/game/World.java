@@ -34,18 +34,26 @@ public class World {
     }
 
 
-    public void makeMove(Vector2D direction) {
-        getDoctor().move(direction);
-        checkDoctorCollision();
-        getDalekList().forEach(dalek -> dalek.move( getDoctor().getPosition()) );
-        checkDaleksCollisions();
-        System.out.println(getDoctor().getPosition().toString());
-        getDalekList().forEach(dalek -> System.out.println(dalek.getPosition().toString()) );
-
+    public void makeMove(Integer direction) {
+        Vector2D vec = parseToVector2D(direction, getDoctor().getPosition());
+        if(worldMap.isInMap(vec)){
+            getDoctor().move(vec);
+            checkCollisionsAndMoveDaleks();
+        }
+        else{
+            System.out.println("What you are trying to do? Wanna run beyond the borders? GL");
+        }
     }
 
     public void makeTeleport() {
         getDoctor().teleport(worldMap.getRandomVector());
+        checkCollisionsAndMoveDaleks();
+    }
+
+    private void checkCollisionsAndMoveDaleks(){
+        checkDoctorCollision();
+        getDalekList().forEach(dalek -> dalek.move( getDoctor().getPosition()) );
+        checkDaleksCollisions();
     }
 
     private void checkDoctorCollision() {
@@ -92,4 +100,49 @@ public class World {
         return worldMap;
     }
 
+    public Vector2D parseToVector2D(int num, Vector2D position){
+        int x = position.getX();
+        int y = position.getY();
+
+        switch (num) {
+            case 1 -> {
+                x += -1;
+                y += 1;
+            }
+            case 2 -> {
+                x += 0;
+                y += 1;
+            }
+            case 3 -> {
+                x += 1;
+                y += 1;
+            }
+            case 6 -> {
+                x += 1;
+                y += 0;
+            }
+            case 9 -> {
+                x += 1;
+                y += -1;
+            }
+            case 8 -> {
+                x += 0;
+                y += -1;
+            }
+            case 7 -> {
+                x += -1;
+                y += -1;
+            }
+            case 4 -> {
+                x += -1;
+                y += 0;
+            }
+            default -> {
+                x += 0;
+                y += 0;
+            }
+        }
+
+        return new Vector2D(x,y);
+    }
 }

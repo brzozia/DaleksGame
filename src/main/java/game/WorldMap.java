@@ -41,12 +41,22 @@ public class WorldMap  {
         return width;
     }
 
+    public boolean isInMap(Vector2D vec){
+        if(vec.getX() >= width || vec.getX() < 0){
+            return false;
+        }
+        else if(vec.getY() >= width || vec.getY() < 0){
+            return false;
+        }
+        return true;
+    }
+
 
     public void positionChanged(MapObject object, Vector2D oldPosition, Vector2D newPosition) {
         positions.remove(oldPosition);
         positions.put(newPosition, object);
-
     }
+
 
     public void removePosition(Vector2D oldPosition) {
         positions.remove(oldPosition);

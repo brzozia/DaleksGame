@@ -15,15 +15,16 @@ public class Doctor extends MapObject {
         this.teleports = teleports;
     }
 
-    public void move(Vector2D direction) {
-        this.prevPosition = position.cloneVector();
-        this.position.add(direction);
+    public void move(Vector2D newPosition) {
+        this.prevPosition = position;
+        this.position = newPosition;
     }
 
     public void teleport(Vector2D newPosition) {
-        this.teleports--;
-        this.prevPosition = position.cloneVector();
-        this.setPosition(newPosition);
+        if(--teleports>0) {
+            this.prevPosition = position;
+            this.position = newPosition;
+        }
     }
 
     @Override

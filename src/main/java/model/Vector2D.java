@@ -19,13 +19,10 @@ public class Vector2D {
         this.y = y;
     }
 
-    public Vector2D cloneVector(){
-        return new Vector2D(this.x,this.y);
-    }
 
-    public Vector2D(int num) {
-        parseToVector2D(num);
-    }
+//    public Vector2D(int num) {
+//        parseToVector2D(num);
+//    }
 
     public String toString(){
         return "x:  "+ this.x +",  y: "+this.y;
@@ -49,56 +46,20 @@ public class Vector2D {
         return new Vector2D(move.x-1, move.y-1);
     }
 
-    public void getCloseTo(Vector2D to){
-        if(this.x < to.getX()) this.x++;
-        else if (this.x > to.getX()) this.x--;
+    public Vector2D getCloseTo(Vector2D to){
+        int x = this.x;
+        int y = this.y;
 
-        if(this.y < to.getY()) this.y++;
-        else if (this.y > to.getY()) this.y--;
+        if(this.x < to.getX()) x++;
+        else if (this.x > to.getX()) x--;
+
+        if(this.y < to.getY()) y++;
+        else if (this.y > to.getY()) y--;
+
+        return new Vector2D(x,y);
 
     }
 
-
-    public void parseToVector2D(int num){
-        switch (num) {
-            case 1 -> {
-                this.x = -1;
-                this.y = 1;
-            }
-            case 2 -> {
-                this.x = 0;
-                this.y = 1;
-            }
-            case 3 -> {
-                this.x = 1;
-                this.y = 1;
-            }
-            case 6 -> {
-                this.x = 1;
-                this.y = 0;
-            }
-            case 9 -> {
-                this.x = 1;
-                this.y = -1;
-            }
-            case 8 -> {
-                this.x = 0;
-                this.y = -1;
-            }
-            case 7 -> {
-                this.x = -1;
-                this.y = -1;
-            }
-            case 4 -> {
-                this.x = -1;
-                this.y = 0;
-            }
-            default -> {
-                this.x = 0;
-                this.y = 0;
-            }
-        }
-    }
 
     @Override
     public boolean equals(Object o) {
