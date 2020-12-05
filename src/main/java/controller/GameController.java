@@ -18,7 +18,7 @@ public class GameController {
     public void makeMove(Vector2D direction) {
         world.getDoctor().move(direction);
         checkDoctorCollision();
-        world.getDalekList().forEach(dalek -> dalek.move(direction) );
+        world.getDalekList().forEach(dalek -> dalek.move(direction,world.getDoctor().getPosition()) );
         checkDaleksCollisions();
         System.out.println(world.getDoctor().getPosition().toString());
         world.getDalekList().forEach(dalek -> System.out.println(dalek.getPosition().toString()) );
