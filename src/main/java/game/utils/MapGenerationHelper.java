@@ -35,6 +35,7 @@ public class MapGenerationHelper {
             }
 
             Dalek dalek = new Dalek(dalekPosition);
+            dalek.setAlive(true);
             worldMap.addEntity(dalek);
             dalekList.add(dalek);
         }

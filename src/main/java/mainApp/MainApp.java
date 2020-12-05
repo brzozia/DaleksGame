@@ -3,12 +3,12 @@ package mainApp;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import controller.MapController;
+import guice.AppModule;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import guice.AppModule;
 import service.FxmlLoaderService;
 
 import java.io.IOException;
@@ -30,8 +30,6 @@ public class MainApp extends Application {
             Parent root = loader.load();
 
             MapController mapController = loader.getController();
-            mapController.setSize(MainApp.WIDTH, MainApp.HEIGHT);
-            mapController.setStage(primaryStage);
 
             Scene scene = new Scene(root, WIDTH*TILE_SIZE, HEIGHT*TILE_SIZE);
             primaryStage.setScene(scene);

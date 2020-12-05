@@ -9,11 +9,12 @@ public class WorldMap  {
 
     private final int height;
     private final int width;
-    private final Map<Vector2D, MapObject> positions = new HashMap<>();
+    private final Map<Vector2D, MapObject> positions;
 
     public WorldMap(int height, int width) {
         this.height = height;
         this.width = width;
+        positions = new HashMap<>();
     }
 
     public void addEntity(MapObject mapObject) {
@@ -44,5 +45,20 @@ public class WorldMap  {
     public void positionChanged(MapObject object, Vector2D oldPosition, Vector2D newPosition) {
         positions.remove(oldPosition);
         positions.put(newPosition, object);
+
     }
+
+    public void removePosition(Vector2D oldPosition) {
+        positions.remove(oldPosition);
+    }
+
+    public Vector2D getRandomVector(){
+        Random random = new Random();
+        int x = random.nextInt(width);
+        int y = random.nextInt(height);
+        Vector2D vec = new Vector2D(x,y);
+
+        return vec;
+    }
+
 }

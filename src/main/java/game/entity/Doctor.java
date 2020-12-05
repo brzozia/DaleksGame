@@ -2,6 +2,8 @@ package game.entity;
 
 import model.Vector2D;
 
+import java.util.Random;
+
 public class Doctor extends MapObject {
     private int bombs;
     private int teleports;

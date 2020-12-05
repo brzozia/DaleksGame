@@ -1,5 +1,7 @@
 package controller;
 
+import game.World;
+import game.WorldMap;
 import game.entity.Dalek;
 import game.entity.Doctor;
 import game.entity.MapObject;
@@ -7,68 +9,51 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.layout.GridPane;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import mainApp.MainApp;
 import model.Vector2D;
 
-import javafx.scene.input.KeyEvent;
-import java.io.IOException;
 import java.util.Optional;
 
 //should it implement some IController and guice bind it?
 public class MapController {
 
     @FXML
-    public GridPane gridPane;
+    public Canvas canvas;
 
-    Stage stage;
-    GameController gameController;
+    private WorldMap worldMap;
+    private World world;
+    private Image doctor;
+    private Image dalek;
+    private Image rock;
+    private GraphicsContext context;
+    private int cellWidth;
+    private int cellHeight;
 
-    private int width;
-    private int height;
 
-
-    @FXML
     public void initialize() {
-        setGameController();
+        world = new World(MainApp.HEIGHT, MainApp.WIDTH, 5);
+        worldMap = world.getWorldMap();
+        context = canvas.getGraphicsContext2D();
+        doctor = new Image( getClass().getResourceAsStream("/doctor.png"));
+        rock = new Image( getClass().getResourceAsStream("/rock.png"));
+        dalek = new Image( getClass().getResourceAsStream("/dalek.jpg"));
+        cellWidth = ((int) canvas.getWidth() - (worldMap.getWidth()-1) * 2 ) / worldMap.getWidth();
+        cellHeight = ( (int) canvas.getHeight() - (worldMap.getHeight()-1) * 2 ) / worldMap.getHeight();
+
         drawScreen();
-//        Platform.runLater( () -> {
-//            for (int i=0; i<MainApp.HEIGHT; i++) {
-//                for (int j=0; j<MainApp.WIDTH; j++) {
-//                    Optional<MapObject> object = gameController.getWorldMap().objectAt(new Vector2D(i,j));
-//                    ImageView tile = new ImageView(new Image( getClass().getResourceAsStream("/tile.jpg")));
-//
-//                    if(object.isPresent()){
-//                        if(object.get() instanceof Doctor){
-//                            tile = new ImageView(new Image( getClass().getResourceAsStream("/doctor.png")));
-//                        }
-//                        else{
-//                            tile = new ImageView(new Image( getClass().getResourceAsStream("/dalek.jpg")));
-//                        }
-//                    }
-//
-//                    tile.fitWidthProperty().bind(stage.widthProperty().divide(width));
-//                    tile.fitHeightProperty().bind(stage.heightProperty().divide(height));
-//                    gridPane.add(tile, i, j);
-//                }
-//            }
-//        });
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    @FXML
     public void addEventToScene(Scene scene){
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 
             public void handle(KeyEvent ke) {
+                System.out.println("Key Pressed: " + ke.getText());
                 if (ke.getText().matches("[1-4|6-9]")) {
 
                     Vector2D vec = new Vector2D(Integer.parseInt(ke.getText()));
@@ -78,53 +63,66 @@ public class MapController {
                     onMoveButtonPress(vec);
                     drawScreen();
                 }
+                else if(ke.getText().equals("t")){
+                    System.out.println("Teleportation!");
+                    ke.consume();
+                    onUseTeleport();
+                    drawScreen();
+                }
+
             }
         });
     }
 
 
-    public void setGameController() {
-        this.gameController = new GameController();
-    }
-
-
-    public void setSize(int width, int height) {
-        this.width  = width;
-        this.height = height;
-    }
 
     public void initRootLayout() {}
 
     public void bindToView() {}
 
     private void onMoveButtonPress(Vector2D direction) {
-        gameController.makeMove(direction);
+        world.makeMove(direction);
     }
 
-    private void onUseTeleport(Vector2D newPosition) {
-        gameController.makeTeleport(newPosition);
+    private void onUseTeleport() {
+        world.makeTeleport();
     }
 
-    @FXML
     private void drawScreen(){
         Platform.runLater( () -> {
+            context.setFill(Color.WHITE);
+            context.clearRect(0,0, canvas.getWidth(), canvas.getHeight());
+
+            for (int i=0; i<MainApp.HEIGHT-1; i++) {
+                context.setLineWidth(2.0);
+                context.setFill(Color.BLACK);
+                context.strokeLine(0,  0.5+(i+1)*cellHeight + i*2, canvas.getWidth(), 0.5+(i+1)*cellHeight + i*2);
+            }
+            for (int i=0; i<MainApp.WIDTH-1; i++) {
+                context.setLineWidth(2.0);
+                context.setFill(Color.BLACK);
+                context.strokeLine( 0.5+(i+1)*cellWidth + i*2, 0, 0.5+(i+1)*cellWidth + i*2, canvas.getHeight());
+            }
+
             for (int i=0; i<MainApp.HEIGHT; i++) {
                 for (int j=0; j<MainApp.WIDTH; j++) {
-                    Optional<MapObject> object = gameController.getWorldMap().objectAt(new Vector2D(i,j));
-                    ImageView tile = new ImageView(new Image( getClass().getResourceAsStream("/tile.jpg")));
-
+                    Optional<MapObject> object = worldMap.objectAt(new Vector2D(i,j));
                     if(object.isPresent()){
                         if(object.get() instanceof Doctor){
-                            tile = new ImageView(new Image( getClass().getResourceAsStream("/doctor.png")));
+                            context.drawImage(doctor, (cellWidth*i)+i*2, (cellHeight*j)+j*2, cellWidth-1, cellHeight-1);
                         }
                         else{
-                            tile = new ImageView(new Image( getClass().getResourceAsStream("/dalek.jpg")));
+                            Dalek daleki = (Dalek) object.get();
+                            if(daleki.isAlive()){
+                                context.drawImage(dalek, (cellWidth*i)+i*2, (cellHeight*j)+j*2, cellWidth-1, cellHeight-1);
+                            }
+                            else{
+                                context.drawImage(rock, (cellWidth*i)+i*2, (cellHeight*j)+j*2, cellWidth-1, cellHeight-1);
+                            }
+
+                           //else tile = new ImageView(new Image(getClass().getResourceAsStream("/rock.png")));
                         }
                     }
-
-                    tile.fitWidthProperty().bind(stage.widthProperty().divide(width));
-                    tile.fitHeightProperty().bind(stage.heightProperty().divide(height));
-                    gridPane.add(tile, i, j);
                 }
             }
         });

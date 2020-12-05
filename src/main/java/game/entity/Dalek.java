@@ -7,13 +7,12 @@ public class Dalek extends MapObject {
 
     public Dalek (Vector2D position) {
         super(position);
-        isAlive = true;
     }
 
-    public void move(Vector2D position, Vector2D doctorsPosition) {
+    public void move(Vector2D doctorsPosition) {
         if(isAlive) {
             this.prevPosition = position;
-            this.position.getCloseTo(doctorsPosition);
+            this.position = this.position.getCloseTo(doctorsPosition);
         }
     }
 
@@ -27,6 +26,6 @@ public class Dalek extends MapObject {
     }
 
     public void setAlive(boolean isAlive) {
-        this.isAlive =  true;
+        this.isAlive =  isAlive;
     }
 }

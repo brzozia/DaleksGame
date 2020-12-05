@@ -24,7 +24,7 @@ public class Vector2D {
     }
 
     public String toString(){
-        return "x: "+ this.x +" y: "+this.y;
+        return "x:  "+ this.x +",  y: "+this.y;
     }
 
     public void add(Vector2D move) {
@@ -45,13 +45,17 @@ public class Vector2D {
         return new Vector2D(move.x-1, move.y-1);
     }
 
-    public void getCloseTo(Vector2D to){
+    public Vector2D getCloseTo(Vector2D to){
+        int x = this.x;
+        int y = this.y;
 
-        if(this.x < to.getX()) this.x++;
-        else if (this.x > to.getX()) this.x--;
+        if(this.x < to.getX()) x++;
+        else if (this.x > to.getX()) x--;
 
-        if(this.y < to.getY()) this.y++;
-        else if (this.y > to.getY()) this.y--;
+        if(this.y < to.getY()) y++;
+        else if (this.y > to.getY()) y--;
+
+        return new Vector2D(x,y);
     }
 
 

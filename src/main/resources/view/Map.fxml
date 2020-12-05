@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.layout.BorderPane?>
 
 
-<GridPane fx:id="gridPane"
-          alignment="TOP_CENTER"
-          gridLinesVisible="true"
-          hgap="1.0"
-          minHeight="-Infinity" minWidth="-Infinity"
-          prefHeight="500.0" prefWidth="500.0"
-          vgap="1.0"
-          xmlns="http://javafx.com/javafx/11.0.1"
-          xmlns:fx="http://javafx.com/fxml/1"
-          fx:controller="controller.MapController"
-/>
+<BorderPane xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controller.MapController">
+   <center>
+      <Canvas fx:id="canvas" height="500.0" width="500.0" />
+   </center>
+</BorderPane>
