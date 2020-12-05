@@ -2,6 +2,7 @@ package game;
 
 import game.entity.Dalek;
 import game.entity.Doctor;
+import game.entity.MapObject;
 import game.entity.PowerUp;
 import game.utils.MapGenerationHelper;
 import model.Vector2D;
@@ -48,47 +49,43 @@ public class World {
     }
 
     private void checkDoctorCollision() {
-//        world.getDalekList().forEach(dalek -> {
-//                if(dalek.getPosition().equals(world.getDoctor().getPosition())) {
-//                    //TODO gameover
-//                }
-//        });
-
-        // we have map of positions in WorldMap - it is enough to check whether new doctor place is Occupied by anything
-
         if(worldMap.isOccupied(getDoctor().getPosition())){
             //TODO gameover
-            System.out.println("Doctor's Collision detected!");
+            System.out.println("Doctor's Collision detected! - E N D   G A M E");
         }
         else{
-            // update map of positions in WorldMap
             worldMap.positionChanged(getDoctor(), getDoctor().getPrevPosition(), getDoctor().getPosition());
         }
     }
 
     private void checkDaleksCollisions() {
         getDalekList()
-                .stream().filter(Dalek::isAlive)
-                .forEach(dalek -> {
-//                if(world.getDoctor().getPosition().equals(dalek.getPosition())) {
-//                    //TODO gameOver
-//                }
+            .stream().filter(Dalek::isAlive)
+            .forEach(dalek -> {
+                if(worldMap.isOccupied(dalek.getPosition())){
+                    MapObject obj = worldMap.objectAt(dalek.getPosition()).get();
 
-                    if(worldMap.isOccupied(dalek.getPosition())){
+                    if(obj instanceof Doctor){
+                        System.out.println("DALEK ATE THR DOCTOR - E N D   G A M E ");
+                        worldMap.positionChanged(dalek, dalek.getPrevPosition(), dalek.getPosition());
                         //TODO gameOver
+
+                    }else{
+                        Dalek dalek2 = (Dalek) obj;
+                        dalek2.setAlive(false);
+
                         System.out.println("Dalek's Collision detected!");
                     }
-                    else{
-                        worldMap.positionChanged(dalek, dalek.getPrevPosition(), dalek.getPosition());
-                    }
 
-//                world.getDalekList().forEach(otherDalek -> {
-//                if(dalek != otherDalek && dalek.getPosition().equals(otherDalek.getPosition())) {
-//                    dalek.setAlive(false);
-//                }
-//            });
+                    worldMap.removePosition(dalek.getPrevPosition());
+                    dalek.setAlive(false);
 
-                });
+                }
+                else{
+                    worldMap.positionChanged(dalek, dalek.getPrevPosition(), dalek.getPosition());
+                }
+
+            });
     }
 
     public WorldMap getWorldMap() {

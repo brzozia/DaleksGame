@@ -56,9 +56,8 @@ public class WorldMap  {
         Random random = new Random();
         int x = random.nextInt(width);
         int y = random.nextInt(height);
-        Vector2D vec = new Vector2D(x,y);
 
-        return vec;
+        return new Vector2D(x,y);
     }
 
 }

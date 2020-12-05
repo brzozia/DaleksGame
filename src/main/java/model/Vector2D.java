@@ -19,6 +19,10 @@ public class Vector2D {
         this.y = y;
     }
 
+    public Vector2D cloneVector(){
+        return new Vector2D(this.x,this.y);
+    }
+
     public Vector2D(int num) {
         parseToVector2D(num);
     }
@@ -45,17 +49,13 @@ public class Vector2D {
         return new Vector2D(move.x-1, move.y-1);
     }
 
-    public Vector2D getCloseTo(Vector2D to){
-        int x = this.x;
-        int y = this.y;
+    public void getCloseTo(Vector2D to){
+        if(this.x < to.getX()) this.x++;
+        else if (this.x > to.getX()) this.x--;
 
-        if(this.x < to.getX()) x++;
-        else if (this.x > to.getX()) x--;
+        if(this.y < to.getY()) this.y++;
+        else if (this.y > to.getY()) this.y--;
 
-        if(this.y < to.getY()) y++;
-        else if (this.y > to.getY()) y--;
-
-        return new Vector2D(x,y);
     }
 
 

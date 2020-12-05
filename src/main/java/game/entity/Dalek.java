@@ -11,8 +11,8 @@ public class Dalek extends MapObject {
 
     public void move(Vector2D doctorsPosition) {
         if(isAlive) {
-            this.prevPosition = position;
-            this.position = this.position.getCloseTo(doctorsPosition);
+            this.prevPosition = position.cloneVector();
+            this.position.getCloseTo(doctorsPosition);
         }
     }
 
