@@ -5,8 +5,7 @@ import model.Vector2D;
 
 import java.util.*;
 
-public class WorldMap {
-
+public class WorldMap  {
 
     private final int height;
     private final int width;
@@ -39,5 +38,11 @@ public class WorldMap {
 
     public int getWidth() {
         return width;
+    }
+
+
+    public void positionChanged(MapObject object, Vector2D oldPosition, Vector2D newPosition) {
+        positions.remove(oldPosition);
+        positions.put(newPosition, object);
     }
 }

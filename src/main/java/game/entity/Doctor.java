@@ -14,11 +14,13 @@ public class Doctor extends MapObject {
     }
 
     public void move(Vector2D direction) {
+        this.prevPosition = position;
         this.position.add(direction);
     }
 
     public void teleport(Vector2D newPosition) {
         this.teleports--;
+        this.prevPosition = position;
         this.setPosition(newPosition);
     }
 

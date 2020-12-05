@@ -14,9 +14,9 @@ import service.FxmlLoaderService;
 import java.io.IOException;
 
 public class MainApp extends Application {
-    public static final int TILE_SIZE = 100;
-    public static final int WIDTH = 5;
-    public static final int HEIGHT = 5;
+    public static final int TILE_SIZE = 50;
+    public static final int WIDTH = 10;
+    public static final int HEIGHT = 10;
 
     @Override
     public void start(Stage primaryStage) {
@@ -28,14 +28,15 @@ public class MainApp extends Application {
         try {
             FXMLLoader loader = fxmlLoaderService.getLoader(getClass().getResource("/view/Map.fxml"));
             Parent root = loader.load();
+
             MapController mapController = loader.getController();
-//            mapController.setGameController();
             mapController.setSize(MainApp.WIDTH, MainApp.HEIGHT);
             mapController.setStage(primaryStage);
-            Scene scene = new Scene(root, WIDTH*TILE_SIZE, HEIGHT*TILE_SIZE);
 
+            Scene scene = new Scene(root, WIDTH*TILE_SIZE, HEIGHT*TILE_SIZE);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Dalek Game");
+            mapController.addEventToScene(scene);
 
             primaryStage.setResizable(false);
             primaryStage.show();

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Objects;
+import java.util.Vector;
 
 public class Vector2D {
     private int x;
@@ -16,6 +17,14 @@ public class Vector2D {
     public Vector2D(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Vector2D(int num) {
+        parseToVector2D(num);
+    }
+
+    public String toString(){
+        return "x: "+ this.x +" y: "+this.y;
     }
 
     public void add(Vector2D move) {
@@ -43,6 +52,48 @@ public class Vector2D {
 
         if(this.y < to.getY()) this.y++;
         else if (this.y > to.getY()) this.y--;
+    }
+
+
+    public void parseToVector2D(int num){
+        switch (num) {
+            case 7 -> {
+                this.x = -1;
+                this.y = 1;
+            }
+            case 8 -> {
+                this.x = 0;
+                this.y = 1;
+            }
+            case 9 -> {
+                this.x = 1;
+                this.y = 1;
+            }
+            case 6 -> {
+                this.x = 1;
+                this.y = 0;
+            }
+            case 3 -> {
+                this.x = 1;
+                this.y = -1;
+            }
+            case 2 -> {
+                this.x = 0;
+                this.y = -1;
+            }
+            case 1 -> {
+                this.x = -1;
+                this.y = -1;
+            }
+            case 4 -> {
+                this.x = -1;
+                this.y = 0;
+            }
+            default -> {
+                this.x = 0;
+                this.y = 0;
+            }
+        }
     }
 
     @Override
