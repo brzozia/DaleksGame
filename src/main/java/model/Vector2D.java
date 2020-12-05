@@ -57,15 +57,15 @@ public class Vector2D {
 
     public void parseToVector2D(int num){
         switch (num) {
-            case 7 -> {
+            case 1 -> {
                 this.x = -1;
                 this.y = 1;
             }
-            case 8 -> {
+            case 2 -> {
                 this.x = 0;
                 this.y = 1;
             }
-            case 9 -> {
+            case 3 -> {
                 this.x = 1;
                 this.y = 1;
             }
@@ -73,15 +73,15 @@ public class Vector2D {
                 this.x = 1;
                 this.y = 0;
             }
-            case 3 -> {
+            case 9 -> {
                 this.x = 1;
                 this.y = -1;
             }
-            case 2 -> {
+            case 8 -> {
                 this.x = 0;
                 this.y = -1;
             }
-            case 1 -> {
+            case 7 -> {
                 this.x = -1;
                 this.y = -1;
             }
