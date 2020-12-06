@@ -34,6 +34,10 @@ public class Doctor extends MapObject {
         isAlive = false;
     }
 
+    public void setAlive(boolean isAlive) {
+        this.isAlive = isAlive;
+    }
+
     public boolean isAlive() {
         return isAlive;
     }
