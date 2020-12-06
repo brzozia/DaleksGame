@@ -2,17 +2,17 @@ package game.entity;
 
 import model.Vector2D;
 
-import java.util.Random;
-
 public class Doctor extends MapObject {
     private int bombs;
     private int teleports;
+    private boolean isAlive;
 
     public Doctor(Vector2D position, int bombs, int teleports) {
         super(position);
 
         this.bombs = bombs;
         this.teleports = teleports;
+        isAlive = true;
     }
 
     public void move(Vector2D newPosition) {
@@ -20,11 +20,22 @@ public class Doctor extends MapObject {
         this.position = newPosition;
     }
 
-    public void teleport(Vector2D newPosition) {
-        if(--teleports>0) {
+    public boolean teleport(Vector2D newPosition) {
+        if(teleports > 0) {
             this.prevPosition = position;
             this.position = newPosition;
+            teleports--;
+            return true;
         }
+        return false;
+    }
+
+    public void die() {
+        isAlive = false;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
     }
 
     @Override

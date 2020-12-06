@@ -19,7 +19,6 @@ public class Vector2D {
         this.y = y;
     }
 
-
 //    public Vector2D(int num) {
 //        parseToVector2D(num);
 //    }
@@ -57,9 +56,7 @@ public class Vector2D {
         else if (this.y > to.getY()) y--;
 
         return new Vector2D(x,y);
-
     }
-
 
     @Override
     public boolean equals(Object o) {
