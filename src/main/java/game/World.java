@@ -33,7 +33,6 @@ public class World {
         return powerUpsList;
     }
 
-
     public void makeMove(Integer direction) {
         Vector2D vec = parseToVector2D(direction, getDoctor().getPosition());
         if(worldMap.isInMap(vec)){
@@ -73,12 +72,11 @@ public class World {
                 if(worldMap.isOccupied(dalek.getPosition())){
                     MapObject obj = worldMap.objectAt(dalek.getPosition()).get();
 
-                    if(obj instanceof Doctor){
+                    if(obj instanceof Doctor) {
                         System.out.println("DALEK ATE THR DOCTOR - E N D   G A M E ");
                         worldMap.positionChanged(dalek, dalek.getPrevPosition(), dalek.getPosition());
                         //TODO gameOver
-
-                    }else{
+                    } else {
                         Dalek dalek2 = (Dalek) obj;
                         dalek2.setAlive(false);
 
@@ -87,12 +85,9 @@ public class World {
 
                     worldMap.removePosition(dalek.getPrevPosition());
                     dalek.setAlive(false);
-
-                }
-                else{
+                } else {
                     worldMap.positionChanged(dalek, dalek.getPrevPosition(), dalek.getPosition());
                 }
-
             });
     }
 

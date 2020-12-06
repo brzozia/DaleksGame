@@ -6,7 +6,6 @@ import game.entity.Dalek;
 import game.entity.Doctor;
 import game.entity.MapObject;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -19,7 +18,7 @@ import model.Vector2D;
 
 import java.util.Optional;
 
-//should it implement some IController and guice bind it?
+
 public class MapController {
 
     @FXML
@@ -34,7 +33,6 @@ public class MapController {
     private int cellWidth;
     private int cellHeight;
 
-
     public void initialize() {
         world = new World(MainApp.HEIGHT, MainApp.WIDTH, 5);
         worldMap = world.getWorldMap();
@@ -44,36 +42,23 @@ public class MapController {
         dalek = new Image( getClass().getResourceAsStream("/dalek.jpg"));
         cellWidth = ((int) canvas.getWidth() - (worldMap.getWidth()-1) * 2 ) / worldMap.getWidth();
         cellHeight = ( (int) canvas.getHeight() - (worldMap.getHeight()-1) * 2 ) / worldMap.getHeight();
-
         drawScreen();
     }
 
     public void addEventToScene(Scene scene){
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-
-            public void handle(KeyEvent ke) {
-
-                if (ke.getText().matches("[1-4|6-9]")) {
-                    onMoveButtonPress(Integer.parseInt(ke.getText()));
-                    ke.consume(); // <-- stops passing the event to next node
-                    drawScreen();
-                }
-                else if(ke.getText().equals("t")){
-                    System.out.println("Teleportation!");
-                    ke.consume();
-                    onUseTeleport();
-                    drawScreen();
-                }
-
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, ke -> {
+            if (ke.getText().matches("[1-4|6-9]")) {
+                onMoveButtonPress(Integer.parseInt(ke.getText()));
+                ke.consume(); // <-- stops passing the event to next node
+                drawScreen();
+            } else if(ke.getText().equals("t")){
+                System.out.println("Teleportation!");
+                ke.consume();
+                onUseTeleport();
+                drawScreen();
             }
         });
     }
-
-
-
-    public void initRootLayout() {}
-
-    public void bindToView() {}
 
     private void onMoveButtonPress(Integer direction) {
         world.makeMove(direction);
@@ -103,10 +88,10 @@ public class MapController {
                 for (int j=0; j<MainApp.WIDTH; j++) {
                     Optional<MapObject> object = worldMap.objectAt(new Vector2D(i,j));
                     if(object.isPresent()){
-                        if(object.get() instanceof Doctor){
+                        if(object.get() instanceof Doctor) {
                             context.drawImage(doctor, (cellWidth*i)+i*2, (cellHeight*j)+j*2, cellWidth-1, cellHeight-1);
                         }
-                        else{
+                        else {
                             Dalek daleki = (Dalek) object.get();
                             if(daleki.isAlive()){
                                 context.drawImage(dalek, (cellWidth*i)+i*2, (cellHeight*j)+j*2, cellWidth-1, cellHeight-1);

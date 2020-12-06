@@ -51,7 +51,6 @@ public class WorldMap  {
         return true;
     }
 
-
     public void positionChanged(MapObject object, Vector2D oldPosition, Vector2D newPosition) {
         positions.remove(oldPosition);
         positions.put(newPosition, object);
@@ -62,12 +61,11 @@ public class WorldMap  {
         positions.remove(oldPosition);
     }
 
-    public Vector2D getRandomVector(){
+    public Vector2D getRandomVector() {
         Random random = new Random();
         int x = random.nextInt(width);
         int y = random.nextInt(height);
 
         return new Vector2D(x,y);
     }
-
 }
