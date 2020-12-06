@@ -56,17 +56,18 @@ public class World {
     }
 
     public void makeTeleport() {
-        getDoctor().teleport(worldMap.getRandomVector());
-        checkCollisionsAndMoveDaleks();
+        if(getDoctor().teleport(worldMap.getRandomVector())) {
+            System.out.println("Teleportation!");
+            checkCollisionsAndMoveDaleks();
+        }
     }
 
     private void checkCollisionsAndMoveDaleks(){
         checkDoctorCollision();
-        if(isGameOver()) {
-            return;
+        if(!isGameOver()) {
+            getDalekList().forEach(dalek -> dalek.move( getDoctor().getPosition()) );
+            checkDaleksCollisions();
         }
-        getDalekList().forEach(dalek -> dalek.move( getDoctor().getPosition()) );
-        checkDaleksCollisions();
     }
 
     private void checkDoctorCollision() {

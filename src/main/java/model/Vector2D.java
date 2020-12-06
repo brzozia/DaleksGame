@@ -19,10 +19,6 @@ public class Vector2D {
         this.y = y;
     }
 
-//    public Vector2D(int num) {
-//        parseToVector2D(num);
-//    }
-
     public String toString(){
         return "x:  "+ this.x +",  y: "+this.y;
     }

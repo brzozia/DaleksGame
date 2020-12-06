@@ -65,8 +65,7 @@ public class MapController {
                         ke.consume(); // <-- stops passing the event to next node
                         drawScreen();
                     }
-                    else if(ke.getText().equals("t")){
-                        System.out.println("Teleportation!");
+                    else if(ke.getText().equals("t") || ke.getText().matches("[5]")){
                         ke.consume();
                         onUseTeleport();
                         drawScreen();
