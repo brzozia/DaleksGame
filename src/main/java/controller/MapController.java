@@ -52,19 +52,26 @@ public class MapController {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 
             public void handle(KeyEvent ke) {
-
-                if (ke.getText().matches("[1-4|6-9]")) {
-                    onMoveButtonPress(Integer.parseInt(ke.getText()));
-                    ke.consume(); // <-- stops passing the event to next node
-                    drawScreen();
+                if(world.isGameOver()) {
+                    if(ke.getText().equals("r")) {
+                        //TODO reset game
+                        world.initializeWorld(5);
+                        drawScreen();
+                    }
                 }
-                else if(ke.getText().equals("t")){
-                    System.out.println("Teleportation!");
-                    ke.consume();
-                    onUseTeleport();
-                    drawScreen();
+                else {
+                    if (ke.getText().matches("[1-4|6-9]")) {
+                        onMoveButtonPress(Integer.parseInt(ke.getText()));
+                        ke.consume(); // <-- stops passing the event to next node
+                        drawScreen();
+                    }
+                    else if(ke.getText().equals("t")){
+                        System.out.println("Teleportation!");
+                        ke.consume();
+                        onUseTeleport();
+                        drawScreen();
+                    }
                 }
-
             }
         });
     }

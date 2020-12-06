@@ -25,6 +25,13 @@ public class WorldMap  {
         positions.put(mapObject.getPosition(), mapObject);
     }
 
+    public void removeEntity(MapObject mapObject) {
+//        if (!isOccupied(mapObject.getPosition())) {
+//            throw new RuntimeException("Cannot remove already empty place!");
+//        }
+        positions.remove(mapObject.getPosition(), mapObject);
+    }
+
     public boolean isOccupied(Vector2D vector2D) {
         return positions.containsKey(vector2D);
     }

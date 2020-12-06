@@ -11,15 +11,25 @@ import java.util.List;
 
 public class World {
     private final WorldMap worldMap;
-    private final List<Dalek> dalekList;
-    private final Doctor doctor;
+    private  List<Dalek> dalekList;
+    private  Doctor doctor;
     private List<PowerUp> powerUpsList;
+    private boolean gameOver;
 
     public World(int height, int width, int dalekNumber) {
         worldMap = new WorldMap(height, width);
+        this.initializeWorld(dalekNumber);
+    }
+
+    public void initializeWorld(int dalekNumber) {
+        //TODO review it? MB GUICE
+        MapGenerationHelper.clearDaleksFromWorldAndList(worldMap, dalekList, doctor);
+
         doctor = MapGenerationHelper.randomPlaceDoctor(worldMap);
         dalekList = MapGenerationHelper.randomPlaceDalek(worldMap, dalekNumber);
+        this.gameOver = false;
     }
+
 
     public List<Dalek> getDalekList() {
         return dalekList;
@@ -52,14 +62,19 @@ public class World {
 
     private void checkCollisionsAndMoveDaleks(){
         checkDoctorCollision();
+        if(isGameOver()) {
+            return;
+        }
         getDalekList().forEach(dalek -> dalek.move( getDoctor().getPosition()) );
         checkDaleksCollisions();
     }
 
     private void checkDoctorCollision() {
         if(worldMap.isOccupied(getDoctor().getPosition())){
-            //TODO gameover
+            this.setGameOver();
             System.out.println("Doctor's Collision detected! - E N D   G A M E");
+
+            worldMap.removePosition(getDoctor().getPrevPosition());
         }
         else{
             worldMap.positionChanged(getDoctor(), getDoctor().getPrevPosition(), getDoctor().getPosition());
@@ -74,9 +89,9 @@ public class World {
                     MapObject obj = worldMap.objectAt(dalek.getPosition()).get();
 
                     if(obj instanceof Doctor){
-                        System.out.println("DALEK ATE THR DOCTOR - E N D   G A M E ");
+                        System.out.println("DALEK ATE THE DOCTOR - E N D   G A M E ");
                         worldMap.positionChanged(dalek, dalek.getPrevPosition(), dalek.getPosition());
-                        //TODO gameOver
+                        this.setGameOver();
 
                     }else{
                         Dalek dalek2 = (Dalek) obj;
@@ -100,7 +115,14 @@ public class World {
         return worldMap;
     }
 
-    public Vector2D parseToVector2D(int num, Vector2D position){
+    private void setGameOver() {
+        this.gameOver = true;
+    }
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public static Vector2D parseToVector2D(int num, Vector2D position){
         int x = position.getX();
         int y = position.getY();
 
