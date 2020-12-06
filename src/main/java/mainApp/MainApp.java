@@ -15,8 +15,8 @@ import java.io.IOException;
 
 public class MainApp extends Application {
     public static final int TILE_SIZE = 50;
-    public static final int WIDTH = 10;
-    public static final int HEIGHT = 10;
+    public static final int WIDTH = 15;
+    public static final int HEIGHT = 15;
 
     @Override
     public void start(Stage primaryStage) {

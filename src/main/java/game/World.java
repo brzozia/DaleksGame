@@ -45,8 +45,9 @@ public class World {
     }
 
     public void makeTeleport() {
-        getDoctor().teleport(worldMap.getRandomVector());
-        checkCollisionsAndMoveDaleks();
+        if(getDoctor().teleport(worldMap.getRandomVector())){
+            checkCollisionsAndMoveDaleks();
+        }
     }
 
     private void checkCollisionsAndMoveDaleks(){
@@ -59,6 +60,8 @@ public class World {
         if(worldMap.isOccupied(getDoctor().getPosition())){
             //TODO gameover
             System.out.println("Doctor's Collision detected! - E N D   G A M E");
+//            mapController.removeEventFromScene(scene);
+            doctor.die();
         }
         else{
             worldMap.positionChanged(getDoctor(), getDoctor().getPrevPosition(), getDoctor().getPosition());
@@ -75,6 +78,7 @@ public class World {
                     if(obj instanceof Doctor) {
                         System.out.println("DALEK ATE THR DOCTOR - E N D   G A M E ");
                         worldMap.positionChanged(dalek, dalek.getPrevPosition(), dalek.getPosition());
+                        doctor.die();
                         //TODO gameOver
                     } else {
                         Dalek dalek2 = (Dalek) obj;

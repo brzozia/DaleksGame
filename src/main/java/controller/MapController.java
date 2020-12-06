@@ -6,6 +6,7 @@ import game.entity.Dalek;
 import game.entity.Doctor;
 import game.entity.MapObject;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -46,18 +47,25 @@ public class MapController {
     }
 
     public void addEventToScene(Scene scene){
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, ke -> {
-            if (ke.getText().matches("[1-4|6-9]")) {
-                onMoveButtonPress(Integer.parseInt(ke.getText()));
-                ke.consume(); // <-- stops passing the event to next node
-                drawScreen();
-            } else if(ke.getText().equals("t")){
-                System.out.println("Teleportation!");
-                ke.consume();
-                onUseTeleport();
-                drawScreen();
-            }
-        });
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, moveEvent);
+    }
+
+    public EventHandler<KeyEvent> moveEvent = (ke -> {
+        if(!world.getDoctor().isAlive()) return;
+        if (ke.getText().matches("[1-4|6-9]")) {
+            onMoveButtonPress(Integer.parseInt(ke.getText()));
+            ke.consume(); // <-- stops passing the event to next node
+            drawScreen();
+        } else if(ke.getText().equals("t") || ke.getText().matches("[5]")){
+            System.out.println("Teleportation!");
+            ke.consume();
+            onUseTeleport();
+            drawScreen();
+        }
+    });
+
+    public void removeEventFromScene(Scene scene) {
+        scene.removeEventFilter(KeyEvent.KEY_PRESSED, moveEvent);
     }
 
     private void onMoveButtonPress(Integer direction) {
