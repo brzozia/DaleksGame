@@ -7,6 +7,7 @@ public class Dalek extends MapObject {
 
     public Dalek (Vector2D position) {
         super(position);
+        this.isAlive = true;
     }
 
     public void move(Vector2D doctorsPosition) {

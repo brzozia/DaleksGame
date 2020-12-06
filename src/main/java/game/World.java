@@ -82,6 +82,8 @@ public class World {
     }
 
     private void checkDaleksCollisions() {
+        // TODO fix collisions: 2 daleks bump into each other then they dont reset;
+        //  When daleks are going to same direction they kill themselves - after movement we MUST update position
         getDalekList()
             .stream().filter(Dalek::isAlive)
             .forEach(dalek -> {
@@ -126,6 +128,7 @@ public class World {
         int x = position.getX();
         int y = position.getY();
 
+        //TODO make enum making it more explicit
         switch (num) {
             case 1 -> {
                 x += -1;
