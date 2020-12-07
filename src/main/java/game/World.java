@@ -22,8 +22,7 @@ public class World {
     }
 
     public void initializeWorld(int dalekNumber) {
-        //TODO review it? MB GUICE
-        MapGenerationHelper.clearDaleksFromWorldAndList(worldMap, dalekList, doctor);
+        MapGenerationHelper.clearDaleksFromWorldAndList(worldMap, dalekList);
 
         doctor = MapGenerationHelper.randomPlaceDoctor(worldMap);
         dalekList = MapGenerationHelper.randomPlaceDalek(worldMap, dalekNumber);
@@ -50,7 +49,7 @@ public class World {
             getDoctor().move(vec);
             checkCollisionsAndMoveDaleks();
         }
-        else{
+        else {
             System.out.println("What you are trying to do? Wanna run beyond the borders? GL");
         }
     }
@@ -83,8 +82,6 @@ public class World {
     }
 
     private void checkDaleksCollisions() {
-        // TODO fix collisions: 2 daleks bump into each other then they dont reset;
-        //  When daleks are going to same direction they kill themselves - after movement we MUST update position
         getDalekList()
             .stream().filter(Dalek::isAlive)
             .forEach(dalek -> {
@@ -96,7 +93,7 @@ public class World {
                         worldMap.positionChanged(dalek, dalek.getPrevPosition(), dalek.getPosition());
                         this.setGameOver();
 
-                    }else{
+                    } else {
                         Dalek dalek2 = (Dalek) obj;
                         dalek2.setAlive(false);
 
@@ -107,7 +104,7 @@ public class World {
                     dalek.setAlive(false);
 
                 }
-                else{
+                else {
                     worldMap.positionChanged(dalek, dalek.getPrevPosition(), dalek.getPosition());
                 }
 

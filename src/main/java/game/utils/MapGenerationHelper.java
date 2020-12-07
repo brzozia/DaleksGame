@@ -43,15 +43,11 @@ public class MapGenerationHelper {
         return dalekList;
     }
 
-    public static void clearDaleksFromWorldAndList(WorldMap worldMap, List<Dalek> dalekList, Doctor doctor) {
+    public static void clearDaleksFromWorldAndList(WorldMap worldMap, List<Dalek> dalekList) {
         if(dalekList != null && !dalekList.isEmpty()) {
-            dalekList.forEach(worldMap::removeEntity);
             dalekList.clear();
         }
-        if(doctor != null) {
-            System.out.println("remove doc");
-            worldMap.removeEntity(doctor);
-        }
+        worldMap.clearAllPositions();
     }
 
 }

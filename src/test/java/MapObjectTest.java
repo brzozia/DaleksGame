@@ -76,15 +76,17 @@ public class MapObjectTest {
     @Test
     public void testTwoDaleksGoSameDirection() {
         setUp();
-        Dalek dalek2 = new Dalek(new Vector2D(3,2));
+        Dalek dalek2 = new Dalek(new Vector2D(3,3));
         world.getDalekList().add(dalek2);
         worldMap.addEntity(dalek2);
 
-        doctor.move(new Vector2D(7,2));
+        doctor.move(new Vector2D(7,3));
         worldMap.positionChanged(doctor, doctor.getPrevPosition(), doctor.getPosition());
         world.makeMove(6); // y+=0, x+=1
 
         assertEquals(2, world.getDalekList().size());
+        assertEquals(new Vector2D(3,3), dalek.getPosition());
+        assertEquals(new Vector2D(4,3), dalek2.getPosition());
         assertTrue(dalek.isAlive());
         assertTrue(dalek2.isAlive());
         assertNotEquals(dalek.getPosition(), dalek2.getPosition());
