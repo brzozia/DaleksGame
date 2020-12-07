@@ -40,13 +40,6 @@ public class WorldMap  {
         return positionsOfAlive.containsKey(vector2D) || positionsOfDead.containsKey(vector2D);
     }
 
-    public boolean isOccupiedByAlive(Vector2D vector2D) {
-        return positionsOfAlive.containsKey(vector2D);
-    }
-
-    public boolean isOccupiedByDead(Vector2D vector2D) {
-        return positionsOfDead.containsKey(vector2D);
-    }
 
     public Optional<MapObject> objectAt (Vector2D position) {
         Optional<MapObject> optional = Optional.ofNullable(positionsOfAlive.get(position));
@@ -75,8 +68,14 @@ public class WorldMap  {
     }
 
     public void makeDeadPosition(MapObject obj){
-        this.positionsOfDead.put(obj.getPosition(),obj);
-        this.positionsOfAlive.remove(obj.getPosition());
+        if(positionsOfAlive.containsKey(obj.getPosition())) {
+            this.positionsOfDead.put(obj.getPosition(), obj);
+            this.positionsOfAlive.remove(obj.getPosition());
+        }
+    }
+
+    public int aliveDaleks(){
+        return positionsOfAlive.size() - 1;
     }
 
 

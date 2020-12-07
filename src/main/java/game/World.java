@@ -72,7 +72,11 @@ public class World {
 
     private void checkDoctorCollision() {
         if(worldMap.isOccupied(getDoctor().getPosition())){
+            MapObject obj = worldMap.objectAt(doctor.getPosition()).get();
+
+            obj.setAlive(false);   // when we will have GAME OVER screen we won't need so many instructions here
             doctor.setAlive(false);
+            worldMap.makeDeadPosition(obj);
             worldMap.removeAlivePosition(doctor.getPrevPosition());
             System.out.println("Doctor's Collision detected! - E N D   G A M E");
 
@@ -86,10 +90,7 @@ public class World {
         getDalekList()
             .stream().filter(Dalek::isAlive)
             .forEach(dalek -> {
-                if(worldMap.isOccupiedByDead(dalek.getPosition())){ // can be also without this if but then it does "objectAt" and "makeDeadPosition" witout any sense - so now it's faster
-                    dalek.setAlive(false);
-                }
-                else if(worldMap.isOccupiedByAlive(dalek.getPosition())) { //without above if there should be "isOccupied", not "isOccupiedByAlive"
+                if(worldMap.isOccupied(dalek.getPosition())) {
                     MapObject obj = worldMap.objectAt(dalek.getPosition()).get();
 
                     worldMap.makeDeadPosition(dalek);
@@ -108,6 +109,10 @@ public class World {
 
     public boolean isGameOver() {
         return !doctor.isAlive();
+    }
+
+    public boolean hasWon(){
+        return worldMap.aliveDaleks() == 0;
     }
 
     public static Vector2D parseToVector2D(int num, Vector2D position){

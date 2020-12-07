@@ -76,6 +76,9 @@ public class MapController {
                         onUseTeleport();
                         drawScreen();
                     }
+                    if(world.hasWon()){
+                        System.out.println("Y O U   W O N!!!");
+                    }
                 }
             }
         });
