@@ -11,11 +11,13 @@ public class WorldMap  {
 
     private int height;
     private int width;
-    private final Map<Vector2D, MapObject> positions;
+    private final Map<Vector2D, MapObject> positionsOfAlive;
+    private final Map<Vector2D, MapObject> positionsOfDead;
 
     @Inject
     public WorldMap() {
-        positions = new HashMap<>();
+        positionsOfAlive = new HashMap<>();
+        positionsOfDead = new HashMap<>();
     }
     @Inject
     public void setHeight(@Named("Height") int height) {
@@ -31,20 +33,52 @@ public class WorldMap  {
             System.out.println(mapObject.getPosition().getX() + " "+mapObject.getPosition().getY()+"  " +mapObject);
             throw new RuntimeException("Place is already occupied!");
         }
-        positions.put(mapObject.getPosition(), mapObject);
-    }
-
-    public void clearAllPositions() {
-        this.positions.clear();
+        positionsOfAlive.put(mapObject.getPosition(), mapObject);
     }
 
     public boolean isOccupied(Vector2D vector2D) {
-        return positions.containsKey(vector2D);
+        return positionsOfAlive.containsKey(vector2D) || positionsOfDead.containsKey(vector2D);
+    }
+
+    public boolean isOccupiedByAlive(Vector2D vector2D) {
+        return positionsOfAlive.containsKey(vector2D);
+    }
+
+    public boolean isOccupiedByDead(Vector2D vector2D) {
+        return positionsOfDead.containsKey(vector2D);
     }
 
     public Optional<MapObject> objectAt (Vector2D position) {
-        return Optional.ofNullable(positions.get(position));
+        Optional<MapObject> optional = Optional.ofNullable(positionsOfAlive.get(position));
+        if (optional.isPresent()) {
+            return optional;
+        }
+        return Optional.ofNullable(positionsOfDead.get(position));
     }
+
+    public void clearAllPositions() {
+        this.positionsOfAlive.clear();
+        this.positionsOfDead.clear();
+    }
+
+    public void changeDoctorsPosition(MapObject object){
+        this.positionsOfAlive.clear();
+        this.positionsOfAlive.put(object.getPosition(), object);
+    }
+
+    public void removeAlivePosition(Vector2D oldPosition) {
+        this.positionsOfAlive.remove(oldPosition);
+    }
+
+    public void positionChange(MapObject object) {
+        this.positionsOfAlive.put(object.getPosition(), object);
+    }
+
+    public void makeDeadPosition(MapObject obj){
+        this.positionsOfDead.put(obj.getPosition(),obj);
+        this.positionsOfAlive.remove(obj.getPosition());
+    }
+
 
     public int getHeight() {
         return height;
@@ -61,14 +95,6 @@ public class WorldMap  {
         else return vec.getY() < width && vec.getY() >= 0;
     }
 
-    public void positionChanged(MapObject object, Vector2D oldPosition, Vector2D newPosition) {
-        positions.remove(oldPosition);
-        positions.put(newPosition, object);
-    }
-
-    public void removePosition(Vector2D oldPosition) {
-        positions.remove(oldPosition);
-    }
 
     public Vector2D getRandomVector() {
         Random random = new Random();
@@ -77,4 +103,5 @@ public class WorldMap  {
 
         return new Vector2D(x,y);
     }
+
 }

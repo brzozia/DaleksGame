@@ -16,7 +16,6 @@ public class World {
     private  List<Dalek> dalekList;
     private  Doctor doctor;
     private List<PowerUp> powerUpsList;
-//    private boolean gameOver;
 
     @Inject
     public World(WorldMap worldMap, @Named("DalekNumber") int dalekNumber) {
@@ -29,7 +28,6 @@ public class World {
 
         doctor = MapGenerationHelper.randomPlaceDoctor(worldMap);
         dalekList = MapGenerationHelper.randomPlaceDalek(worldMap, dalekNumber);
-//        this.gameOver = false;
     }
 
 
@@ -75,12 +73,12 @@ public class World {
     private void checkDoctorCollision() {
         if(worldMap.isOccupied(getDoctor().getPosition())){
             doctor.setAlive(false);
+            worldMap.removeAlivePosition(doctor.getPrevPosition());
             System.out.println("Doctor's Collision detected! - E N D   G A M E");
 
-            worldMap.removePosition(getDoctor().getPrevPosition());
         }
         else{
-            worldMap.positionChanged(getDoctor(), getDoctor().getPrevPosition(), getDoctor().getPosition());
+            worldMap.changeDoctorsPosition(doctor);
         }
     }
 
@@ -88,29 +86,19 @@ public class World {
         getDalekList()
             .stream().filter(Dalek::isAlive)
             .forEach(dalek -> {
-                if(worldMap.isOccupied(dalek.getPosition())){
+                if(worldMap.isOccupiedByDead(dalek.getPosition())){ // can be also without this if but then it does "objectAt" and "makeDeadPosition" witout any sense - so now it's faster
+                    dalek.setAlive(false);
+                }
+                else if(worldMap.isOccupiedByAlive(dalek.getPosition())) { //without above if there should be "isOccupied", not "isOccupiedByAlive"
                     MapObject obj = worldMap.objectAt(dalek.getPosition()).get();
 
-                    if(obj instanceof Doctor){
-                        System.out.println("DALEK ATE THE DOCTOR - E N D   G A M E ");
-                        worldMap.positionChanged(dalek, dalek.getPrevPosition(), dalek.getPosition());
-                        doctor.setAlive(false);
-
-                    } else {
-                        Dalek dalek2 = (Dalek) obj;
-                        dalek2.setAlive(false);
-
-                        System.out.println("Dalek's Collision detected!");
-                    }
-
-                    worldMap.removePosition(dalek.getPrevPosition());
+                    worldMap.makeDeadPosition(dalek);
                     dalek.setAlive(false);
-
+                    obj.setAlive(false);
                 }
                 else {
-                    worldMap.positionChanged(dalek, dalek.getPrevPosition(), dalek.getPosition());
+                    worldMap.positionChange(dalek);
                 }
-
             });
     }
 

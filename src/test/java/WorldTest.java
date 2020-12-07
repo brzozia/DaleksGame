@@ -2,7 +2,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import game.World;
 import game.WorldMap;
-import game.entity.Dalek;
 import game.entity.Doctor;
 import guice.AppModule;
 import mainApp.MainApp;
@@ -32,7 +31,7 @@ public class WorldTest {
     public void testBoundaries() {
         setUp();
         doctor.move(new Vector2D(0,0));
-        worldMap.positionChanged(doctor, doctor.getPrevPosition(), doctor.getPosition());
+        worldMap.positionChange(doctor, doctor.getPrevPosition(), doctor.getPosition());
         world.makeMove(1);
         world.makeMove(9);
         world.makeMove(8);
@@ -42,7 +41,7 @@ public class WorldTest {
         assertEquals(new Vector2D(0,0), doctor.getPosition());
 
         doctor.move(new Vector2D(MainApp.WIDTH-1,MainApp.HEIGHT-1));
-        worldMap.positionChanged(doctor, doctor.getPrevPosition(), doctor.getPosition());
+        worldMap.positionChange(doctor, doctor.getPrevPosition(), doctor.getPosition());
         world.makeMove(1);
         world.makeMove(2);
         world.makeMove(3);

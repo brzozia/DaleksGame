@@ -38,7 +38,7 @@ public class MapObjectTest {
         setUp(); //NO idea why it doesnt work with @BeforeEach
 
         doctor.move(new Vector2D(2,2));
-        worldMap.positionChanged(doctor, doctor.getPrevPosition(), doctor.getPosition());
+        worldMap.positionChange(doctor, doctor.getPrevPosition(), doctor.getPosition());
 
         world.makeMove(2);
 
@@ -52,7 +52,7 @@ public class MapObjectTest {
         setUp();
 
         doctor.move(new Vector2D(2, 1));
-        worldMap.positionChanged(doctor, doctor.getPrevPosition(), doctor.getPosition());
+        worldMap.positionChange(doctor, doctor.getPrevPosition(), doctor.getPosition());
 
         world.makeMove(2);
 
@@ -69,7 +69,7 @@ public class MapObjectTest {
         worldMap.addEntity(dalek2);
 
         doctor.move(new Vector2D(3,4));
-        worldMap.positionChanged(doctor, doctor.getPrevPosition(), doctor.getPosition());
+        worldMap.positionChange(doctor, doctor.getPrevPosition(), doctor.getPosition());
         world.makeMove(2); // y+=1, x+=0
 
         assertFalse(world.isGameOver());
@@ -86,7 +86,7 @@ public class MapObjectTest {
         worldMap.addEntity(dalek2);
 
         doctor.move(new Vector2D(7,3));
-        worldMap.positionChanged(doctor, doctor.getPrevPosition(), doctor.getPosition());
+        worldMap.positionChange(doctor, doctor.getPrevPosition(), doctor.getPosition());
         world.makeMove(6); // y+=0, x+=1
 
         assertEquals(2, world.getDalekList().size());
@@ -108,7 +108,7 @@ public class MapObjectTest {
         daleks.forEach(worldMap::addEntity);
 
         doctor.move(new Vector2D(5,2));
-        worldMap.positionChanged(doctor,doctor.getPrevPosition(),doctor.getPosition());
+        worldMap.positionChange(doctor,doctor.getPrevPosition(),doctor.getPosition());
         world.makeMove(4); // x-=1, y+=0
 
         assertEquals(4, world.getDalekList().size());

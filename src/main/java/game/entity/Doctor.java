@@ -5,7 +5,7 @@ import model.Vector2D;
 public class Doctor extends MapObject {
     private int bombs;
     private int teleports;
-    private boolean isAlive;
+    protected Vector2D prevPosition;
 
 
     public Doctor(Vector2D position, int bombs, int teleports) {
@@ -31,16 +31,8 @@ public class Doctor extends MapObject {
         return false;
     }
 
-//    public void die() {
-//        isAlive = false;
-//    }
-
-    public void setAlive(boolean isAlive) {
-        this.isAlive = isAlive;
-    }
-
-    public boolean isAlive() {
-        return isAlive;
+    public Vector2D getPrevPosition() {
+        return this.prevPosition;
     }
 
     @Override
