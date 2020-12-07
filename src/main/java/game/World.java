@@ -1,5 +1,7 @@
 package game;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import game.entity.Dalek;
 import game.entity.Doctor;
 import game.entity.MapObject;
@@ -16,8 +18,9 @@ public class World {
     private List<PowerUp> powerUpsList;
     private boolean gameOver;
 
-    public World(int height, int width, int dalekNumber) {
-        worldMap = new WorldMap(height, width);
+    @Inject
+    public World(WorldMap worldMap, @Named("DalekNumber") int dalekNumber) {
+        this.worldMap = worldMap;
         this.initializeWorld(dalekNumber);
     }
 

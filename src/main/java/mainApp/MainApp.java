@@ -17,6 +17,7 @@ public class MainApp extends Application {
     public static final int TILE_SIZE = 50;
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
+    public static final int DALEK_NUMBER = 5;
 
     @Override
     public void start(Stage primaryStage) {

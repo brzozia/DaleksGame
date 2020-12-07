@@ -1,10 +1,14 @@
 package controller;
 
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import game.World;
 import game.WorldMap;
 import game.entity.Dalek;
 import game.entity.Doctor;
 import game.entity.MapObject;
+import guice.AppModule;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,7 +23,6 @@ import model.Vector2D;
 
 import java.util.Optional;
 
-//should it implement some IController and guice bind it?
 public class MapController {
 
     @FXML
@@ -34,9 +37,12 @@ public class MapController {
     private int cellWidth;
     private int cellHeight;
 
+    @Inject
+    public MapController(World world) {
+        this.world = world;
+    }
 
     public void initialize() {
-        world = new World(MainApp.HEIGHT, MainApp.WIDTH, 5);
         worldMap = world.getWorldMap();
         context = canvas.getGraphicsContext2D();
         doctor = new Image( getClass().getResourceAsStream("/doctor.png"));
@@ -55,7 +61,7 @@ public class MapController {
                 if(world.isGameOver()) {
                     if(ke.getText().equals("r")) {
                         //TODO reset game
-                        world.initializeWorld(5);
+                        world.initializeWorld(MainApp.DALEK_NUMBER);
                         drawScreen();
                     }
                 }

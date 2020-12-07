@@ -1,7 +1,10 @@
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import game.World;
 import game.WorldMap;
 import game.entity.Dalek;
 import game.entity.Doctor;
+import guice.AppModule;
 import model.Vector2D;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +23,9 @@ public class MapObjectTest {
 
     @BeforeEach
     public void setUp() {
-        world = new World(10,10, 0);
+        final Injector injector = Guice.createInjector(new AppModule());
+        world = injector.getInstance(World.class);
+        world.initializeWorld(0);
         worldMap = world.getWorldMap();
         doctor = world.getDoctor();
         dalek = new Dalek(new Vector2D(2,3));

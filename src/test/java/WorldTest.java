@@ -1,7 +1,11 @@
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import game.World;
 import game.WorldMap;
 import game.entity.Dalek;
 import game.entity.Doctor;
+import guice.AppModule;
+import mainApp.MainApp;
 import model.Vector2D;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +21,9 @@ public class WorldTest {
 
     @BeforeEach
     public void setUp() {
-        world = new World(10,10, 0);
+        final Injector injector = Guice.createInjector(new AppModule());
+        world = injector.getInstance(World.class);
+        world.initializeWorld(0);
         worldMap = world.getWorldMap();
         doctor = world.getDoctor();
     }
@@ -35,7 +41,7 @@ public class WorldTest {
 
         assertEquals(new Vector2D(0,0), doctor.getPosition());
 
-        doctor.move(new Vector2D(9,9));
+        doctor.move(new Vector2D(MainApp.WIDTH-1,MainApp.HEIGHT-1));
         worldMap.positionChanged(doctor, doctor.getPrevPosition(), doctor.getPosition());
         world.makeMove(1);
         world.makeMove(2);
@@ -43,7 +49,7 @@ public class WorldTest {
         world.makeMove(6);
         world.makeMove(9);
 
-        assertEquals(new Vector2D(9,9), doctor.getPosition());
+        assertEquals(new Vector2D(MainApp.WIDTH-1,MainApp.HEIGHT-1), doctor.getPosition());
     }
 
     @Test

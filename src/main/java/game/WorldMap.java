@@ -1,5 +1,7 @@
 package game;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import game.entity.MapObject;
 import model.Vector2D;
 
@@ -7,14 +9,21 @@ import java.util.*;
 
 public class WorldMap  {
 
-    private final int height;
-    private final int width;
+    private int height;
+    private int width;
     private final Map<Vector2D, MapObject> positions;
 
-    public WorldMap(int height, int width) {
-        this.height = height;
-        this.width = width;
+    @Inject
+    public WorldMap() {
         positions = new HashMap<>();
+    }
+    @Inject
+    public void setHeight(@Named("Height") int height) {
+        this.height = height;
+    }
+    @Inject
+    public void setWidth(@Named("Width") int width) {
+        this.width = width;
     }
 
     public void addEntity(MapObject mapObject) {
