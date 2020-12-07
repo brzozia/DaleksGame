@@ -8,6 +8,6 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controller.MapController">
    <center>
-      <Canvas fx:id="canvas" height="500.0" width="500.0" />
+      <Canvas fx:id="canvas" height="750.0" width="750.0" />
    </center>
 </BorderPane>

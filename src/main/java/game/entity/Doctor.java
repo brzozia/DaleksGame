@@ -5,6 +5,7 @@ import model.Vector2D;
 public class Doctor extends MapObject {
     private int bombs;
     private int teleports;
+    private boolean isAlive;
 
 
     public Doctor(Vector2D position, int bombs, int teleports) {
@@ -12,7 +13,7 @@ public class Doctor extends MapObject {
 
         this.bombs = bombs;
         this.teleports = teleports;
-//        isAlive = true;
+        isAlive = true;
     }
 
     public void move(Vector2D newPosition) {
@@ -33,14 +34,14 @@ public class Doctor extends MapObject {
 //    public void die() {
 //        isAlive = false;
 //    }
-//
-//    public void setAlive(boolean isAlive) {
-//        this.isAlive = isAlive;
-//    }
-//
-//    public boolean isAlive() {
-//        return isAlive;
-//    }
+
+    public void setAlive(boolean isAlive) {
+        this.isAlive = isAlive;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
 
     @Override
     public void interact(MapObject mapObject) {

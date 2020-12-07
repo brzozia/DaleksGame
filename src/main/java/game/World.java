@@ -16,7 +16,7 @@ public class World {
     private  List<Dalek> dalekList;
     private  Doctor doctor;
     private List<PowerUp> powerUpsList;
-    private boolean gameOver;
+//    private boolean gameOver;
 
     @Inject
     public World(WorldMap worldMap, @Named("DalekNumber") int dalekNumber) {
@@ -29,7 +29,7 @@ public class World {
 
         doctor = MapGenerationHelper.randomPlaceDoctor(worldMap);
         dalekList = MapGenerationHelper.randomPlaceDalek(worldMap, dalekNumber);
-        this.gameOver = false;
+//        this.gameOver = false;
     }
 
 
@@ -74,7 +74,7 @@ public class World {
 
     private void checkDoctorCollision() {
         if(worldMap.isOccupied(getDoctor().getPosition())){
-            this.setGameOver();
+            doctor.setAlive(false);
             System.out.println("Doctor's Collision detected! - E N D   G A M E");
 
             worldMap.removePosition(getDoctor().getPrevPosition());
@@ -94,7 +94,7 @@ public class World {
                     if(obj instanceof Doctor){
                         System.out.println("DALEK ATE THE DOCTOR - E N D   G A M E ");
                         worldMap.positionChanged(dalek, dalek.getPrevPosition(), dalek.getPosition());
-                        this.setGameOver();
+                        doctor.setAlive(false);
 
                     } else {
                         Dalek dalek2 = (Dalek) obj;
@@ -118,11 +118,8 @@ public class World {
         return worldMap;
     }
 
-    private void setGameOver() {
-        this.gameOver = true;
-    }
     public boolean isGameOver() {
-        return gameOver;
+        return !doctor.isAlive();
     }
 
     public static Vector2D parseToVector2D(int num, Vector2D position){

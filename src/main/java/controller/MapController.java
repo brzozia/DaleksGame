@@ -40,6 +40,7 @@ public class MapController {
     @Inject
     public MapController(World world) {
         this.world = world;
+
     }
 
     public void initialize() {
@@ -50,7 +51,6 @@ public class MapController {
         dalek = new Image( getClass().getResourceAsStream("/dalek.jpg"));
         cellWidth = ((int) canvas.getWidth() - (worldMap.getWidth()-1) * 2 ) / worldMap.getWidth();
         cellHeight = ( (int) canvas.getHeight() - (worldMap.getHeight()-1) * 2 ) / worldMap.getHeight();
-
         drawScreen();
     }
 
@@ -60,7 +60,7 @@ public class MapController {
             public void handle(KeyEvent ke) {
                 if(world.isGameOver()) {
                     if(ke.getText().equals("r")) {
-                        //TODO reset game
+                        //TODO reset game prompt earlier
                         world.initializeWorld(MainApp.DALEK_NUMBER);
                         drawScreen();
                     }
