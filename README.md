@@ -10,10 +10,10 @@ Weź los doktorka w swoje ręce! Pokonaj potworne daleki i zdobądź chwałę! N
 <br><br> 
 STEROWANIE:<br>
 Aby poruszać doktorkiem po planszy wykorzystaj klawisze swojej klawiatury numerycznej lub skorzystaj z przycisków obok planszy.<br>
-Przyciski klawiatury poruszają doktorka w odpowiednich kierunkach:<br>
+Przyciski klawiatury poruszają doktorka w odpowiednich kierunkach:<br><br>
 7  8  9 <br>
 4  _  6 <br>
-1  2  3 <br>
+1  2  3 <br><br>
 Jeśli chcesz przeteleportować doktorka użyj klawisza "5" lub "t" na swojej klawiaturze. Pamiętaj, że masz tylko 3 teleportacje na grę! Po zakończonej grze możesz zresetować planszę i zagrać jeszcze raz - użyj do tego przycisku "r".<br>
 Za każdy ruch, w którym nie zginisz zwiększasz swojego scora ;).
 <br><br>
