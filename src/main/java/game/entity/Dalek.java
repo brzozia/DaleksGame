@@ -15,8 +15,4 @@ public class Dalek extends MapObject {
         }
     }
 
-    @Override
-    public void interact(MapObject mapObject) {
-
-    }
 }

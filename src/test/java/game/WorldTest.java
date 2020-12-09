@@ -1,3 +1,5 @@
+package game;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import game.World;
@@ -6,11 +8,12 @@ import game.entity.Doctor;
 import guice.AppModule;
 import mainApp.MainApp;
 import model.Vector2D;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 
 public class WorldTest {
 
@@ -31,7 +34,7 @@ public class WorldTest {
     public void testBoundaries() {
         setUp();
         doctor.move(new Vector2D(0,0));
-        worldMap.positionChange(doctor, doctor.getPrevPosition(), doctor.getPosition());
+//        worldMap.positionChange(doctor, doctor.getPrevPosition(), doctor.getPosition());
         world.makeMove(1);
         world.makeMove(9);
         world.makeMove(8);
@@ -41,7 +44,7 @@ public class WorldTest {
         assertEquals(new Vector2D(0,0), doctor.getPosition());
 
         doctor.move(new Vector2D(MainApp.WIDTH-1,MainApp.HEIGHT-1));
-        worldMap.positionChange(doctor, doctor.getPrevPosition(), doctor.getPosition());
+//        worldMap.positionChange(doctor, doctor.getPrevPosition(), doctor.getPosition());
         world.makeMove(1);
         world.makeMove(2);
         world.makeMove(3);

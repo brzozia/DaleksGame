@@ -1,11 +1,10 @@
 package model;
 
 import java.util.Objects;
-import java.util.Vector;
 
 public class Vector2D {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public int getX() {
         return x;
@@ -20,26 +19,8 @@ public class Vector2D {
     }
 
     public String toString(){
-        return "x:  "+ this.x +",  y: "+this.y;
+        return "x: "+ this.x +", y: "+this.y;
     }
-
-//    public void add(Vector2D move) {
-//        this.x += move.getX();
-//        this.y += move.getY();
-//    }
-//
-//    public void substract(Vector2D move) {
-//        this.x -= move.getX();
-//        this.y -= move.getY();
-//    }
-//
-//    public Vector2D follows(Vector2D move) {
-//        return new Vector2D(move.x+1, move.y+1);
-//    }
-//
-//    public Vector2D precedes(Vector2D move) {
-//        return new Vector2D(move.x-1, move.y-1);
-//    }
 
     public Vector2D getCloseTo(Vector2D to){
         int x = this.x;

@@ -11,6 +11,9 @@ public class WorldMap  {
 
     private int height;
     private int width;
+
+
+
     private final Map<Vector2D, MapObject> positionsOfAlive;
     private final Map<Vector2D, MapObject> positionsOfDead;
 
@@ -103,4 +106,7 @@ public class WorldMap  {
         return new Vector2D(x,y);
     }
 
+    public Map<Vector2D, MapObject> getPositionsOfAlive() {
+        return positionsOfAlive;
+    }
 }

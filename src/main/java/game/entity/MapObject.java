@@ -14,12 +14,6 @@ public abstract class MapObject {
         return this.position;
     }
 
-    public void setPosition(Vector2D position) {
-        this.position = position;
-    }
-
-    public abstract void interact(MapObject mapObject);
-
     public void setAlive(boolean isAlive) {
         this.isAlive = isAlive;
     }
@@ -27,5 +21,4 @@ public abstract class MapObject {
     public boolean isAlive() {
         return isAlive;
     }
-
 }
