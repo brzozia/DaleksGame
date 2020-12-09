@@ -16,6 +16,7 @@ public class World {
     private  List<Dalek> dalekList;
     private  Doctor doctor;
     private List<PowerUp> powerUpsList;
+    private int score;
 
     @Inject
     public World(WorldMap worldMap, @Named("DalekNumber") int dalekNumber) {
@@ -28,6 +29,7 @@ public class World {
 
         doctor = MapGenerationHelper.randomPlaceDoctor(worldMap);
         dalekList = MapGenerationHelper.randomPlaceDalek(worldMap, dalekNumber);
+        score = 0;
     }
 
 
@@ -49,6 +51,7 @@ public class World {
         if(worldMap.isInMap(vec)){
             getDoctor().move(vec);
             checkCollisionsAndMoveDaleks();
+
         }
         else {
             System.out.println("What you are trying to do? Wanna run beyond the borders? GL");
@@ -64,10 +67,9 @@ public class World {
 
     private void checkCollisionsAndMoveDaleks(){
         checkDoctorCollision();
-        if(!isGameOver()) {
-            getDalekList().forEach(dalek -> dalek.move( getDoctor().getPosition()) );
-            checkDaleksCollisions();
-        }
+        getDalekList().forEach(dalek -> dalek.move( getDoctor().getPosition()) );
+        checkDaleksCollisions();
+        increaseScore(1);
     }
 
     private void checkDoctorCollision() {
@@ -96,6 +98,7 @@ public class World {
                     worldMap.makeDeadPosition(dalek);
                     dalek.setAlive(false);
                     obj.setAlive(false);
+
                 }
                 else {
                     worldMap.positionChange(dalek);
@@ -110,6 +113,16 @@ public class World {
     public boolean isGameOver() {
         return !doctor.isAlive();
     }
+
+    private void increaseScore(int i){
+        if(doctor.isAlive())
+            this.score += i;
+    }
+
+    public int getScore(){
+        return score;
+    }
+
 
     public boolean hasWon(){
         return worldMap.aliveDaleks() == 0;

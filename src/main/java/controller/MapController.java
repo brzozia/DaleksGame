@@ -58,7 +58,7 @@ public class MapController {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 
             public void handle(KeyEvent ke) {
-                if(world.isGameOver()) {
+                if(world.isGameOver() || world.hasWon()) {
                     if(ke.getText().equals("r")) {
                         //TODO reset game prompt earlier
                         world.initializeWorld(MainApp.DALEK_NUMBER);
@@ -70,12 +70,14 @@ public class MapController {
                         onMoveButtonPress(Integer.parseInt(ke.getText()));
                         ke.consume(); // <-- stops passing the event to next node
                         drawScreen();
+                        System.out.println("Your score: " + world.getScore());
                     }
                     else if(ke.getText().equals("t") || ke.getText().matches("[5]")){
                         ke.consume();
                         onUseTeleport();
                         drawScreen();
                     }
+
                     if(world.hasWon()){
                         System.out.println("Y O U   W O N!!!");
                     }
