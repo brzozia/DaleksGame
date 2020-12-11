@@ -1,45 +1,54 @@
-package game.entity;
+package game.integration;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import game.World;
 import game.WorldMap;
+import game.entity.Dalek;
+import game.entity.Doctor;
 import guice.AppModule;
 import model.Vector2D;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MapObjectTest {
+public class CollisionTestIT {
 
-    World world;
-    WorldMap worldMap;
+    private static World world;
+    private static WorldMap worldMap;
     Doctor doctor;
     Dalek dalek;
 
-    @BeforeEach
-    public void init() {
+    private Dalek createPlaceDalek(Vector2D position) {
+        Dalek dal = new Dalek(position);
+        world.getDalekList().add(dal);
+        worldMap.addEntity(dal);
+        return dal;
+    }
+
+    @BeforeAll
+    static void init() {
         final Injector injector = Guice.createInjector(new AppModule());
         world = injector.getInstance(World.class);
-        world.initializeWorld(0);
         worldMap = world.getWorldMap();
+    }
+
+    @BeforeEach
+    void setup() {
+        world.initializeWorld(0);
         doctor = world.getDoctor();
-        dalek = new Dalek(new Vector2D(2,3));
-        world.getDalekList().add(dalek);
-        worldMap.addEntity(dalek);
+        dalek = createPlaceDalek(new Vector2D(2,3));
     }
 
     @Test
-    public void doctorIntoDalekCollisionTest() {
+    public void testDoctorIntoDalekCollision() {
         //given
-
-        //when
         doctor.move(new Vector2D(2,2));
         worldMap.positionChange(doctor);
+
+        //when
         world.makeMove(2);
 
         //then
@@ -51,10 +60,10 @@ public class MapObjectTest {
     @Test
     public void testDoctorAndDalekToNewTileCollision() {
         //given
-
-        //then
         doctor.move(new Vector2D(2, 1));
         worldMap.positionChange(doctor);
+
+        //then
         world.makeMove(2);
 
         //then
@@ -66,13 +75,11 @@ public class MapObjectTest {
     @Test
     public void testTwoDalekCollision() {
         //given
-        Dalek dalek2 = new Dalek(new Vector2D(3,3));
-
-        //when
-        world.getDalekList().add(dalek2);
-        worldMap.addEntity(dalek2);
+        Dalek dalek2 = createPlaceDalek(new Vector2D(3,3));
         doctor.move(new Vector2D(3,4));
         worldMap.positionChange(doctor);
+
+        //when
         world.makeMove(2); // y+=1, x+=0
 
         //then
@@ -83,15 +90,13 @@ public class MapObjectTest {
     }
 
     @Test
-    public void testTwoDaleksGoSameDirection() {
+    public void testTwoDaleksGoSameDirectionNotColliding() {
         //given
-        Dalek dalek2 = new Dalek(new Vector2D(3,3));
-
-        ///when
-        world.getDalekList().add(dalek2);
-        worldMap.addEntity(dalek2);
+        Dalek dalek2 = createPlaceDalek(new Vector2D(3,3));
         doctor.move(new Vector2D(7,3));
         worldMap.positionChange(doctor);
+
+        ///when
         world.makeMove(6); // y+=0, x+1
 
         //then
@@ -102,29 +107,4 @@ public class MapObjectTest {
         assertTrue(dalek2.isAlive());
         assertNotEquals(dalek.getPosition(), dalek2.getPosition());
     }
-
-    @Test
-    public void testDalekMovement() {
-        //given
-        Dalek dalekRight = new Dalek(new Vector2D(8,2));
-        Dalek dalekBottom = new Dalek(new Vector2D(4,9));
-        Dalek dalekTop = new Dalek(new Vector2D(4,0));
-        List<Dalek> daleks = Arrays.asList(dalekRight, dalekTop, dalekBottom);
-
-        //when
-        world.getDalekList().addAll(daleks);
-        daleks.forEach(worldMap::addEntity);
-        doctor.move(new Vector2D(5,2));
-        worldMap.positionChange(doctor);
-        world.makeMove(4); // x-=1, y+=0
-
-        //then
-        assertEquals(4, world.getDalekList().size());
-        assertFalse(world.isGameOver());
-        assertEquals(new Vector2D(3,2), dalek.getPosition());
-        assertEquals(new Vector2D(7,2), dalekRight.getPosition());
-        assertEquals(new Vector2D(4,8), dalekBottom.getPosition());
-        assertEquals(new Vector2D(4,1), dalekTop.getPosition());
-    }
-
 }
