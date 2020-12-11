@@ -70,7 +70,7 @@ public class World {
             System.out.println("Bombard");
             List<Vector2D> vectorsAround = Vector2D.getPositionsAround(getDoctor().getPosition());
             destroyAfterBomb(vectorsAround);
-            makeMove(0);
+            checkCollisionsAndMoveDaleks();  // can be here also Move(0) (but now doctor's positions are change in Doctor class in useBomb())
         }
     }
 
@@ -102,7 +102,7 @@ public class World {
 
     private void checkCollisionsAndMoveDaleks(){
         checkDoctorCollision();
-        getDalekList().forEach(dalek -> dalek.move( getDoctor().getPosition()) );
+        getDalekList().forEach(dalek -> dalek.move( doctor.getPosition()) );
         checkDaleksCollisions();
         increaseScore(1);
     }

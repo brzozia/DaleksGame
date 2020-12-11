@@ -24,8 +24,7 @@ public class Doctor extends MapObject {
 
     public boolean teleport(Vector2D newPosition) {
         if(teleports > 0) {
-            this.prevPosition = position;
-            this.position = newPosition;
+            move(newPosition);
             teleports--;
             return true;
         }
@@ -38,6 +37,7 @@ public class Doctor extends MapObject {
 
     public boolean useBomb() {
         if(bombs > 0) {
+            move(getPosition());
             bombs--;
             return true;
         }
