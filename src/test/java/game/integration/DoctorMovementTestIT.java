@@ -1,7 +1,6 @@
 package game.integration;
 
 import com.google.inject.Guice;
-import com.google.inject.Injector;
 import game.World;
 import game.WorldMap;
 import game.entity.Dalek;
@@ -16,7 +15,8 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 public class DoctorMovementTestIT {

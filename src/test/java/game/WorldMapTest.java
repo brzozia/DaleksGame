@@ -3,9 +3,10 @@ package game;
 import game.entity.Dalek;
 import game.entity.Doctor;
 import model.Vector2D;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,8 +17,8 @@ public class WorldMapTest {
     private static Dalek dalekOne;
     private static Vector2D positionOne;
 
-    @BeforeAll
-    static void init() {
+    @BeforeEach
+    public void init() {
         int mapWidth = 10;
         int mapHeight = 10;
         worldMap = new WorldMap(mapWidth, mapHeight);
@@ -31,7 +32,9 @@ public class WorldMapTest {
         //given
         Vector2D positionTwo = new Vector2D(3,3);
         Dalek dalekTwo = new Dalek(positionTwo);
-        Map<Vector2D, Dalek> dalekMap = Map.of(dalekOne.getPosition(), dalekOne, dalekTwo.getPosition(), dalekTwo);
+        Map<Vector2D, Dalek> dalekMap = new HashMap<>();
+        dalekMap.put(positionOne, dalekOne);
+        dalekMap.put(positionTwo, dalekTwo);
 
         //when
         worldMap.addEntity(dalekTwo);
@@ -43,8 +46,7 @@ public class WorldMapTest {
     @Test
     public void addTwoDaleksOnOnePlaceTest() {
         //given
-        Vector2D position = new Vector2D(2,2);
-        Dalek dalekTwo = new Dalek(position);
+        Dalek dalekTwo = new Dalek(positionOne);
 
         //when
 
@@ -67,15 +69,12 @@ public class WorldMapTest {
     @Test
     public void checkIfDalekIsOnPlaceTest() {
         //given
-        Vector2D dalekPosition = new Vector2D(2,2);
-        Dalek dalekOne = new Dalek(dalekPosition);
 
         //when
-        worldMap.addEntity(dalekOne);
 
         //then
-        assertTrue(worldMap.objectAt(dalekPosition).isPresent());
-        assertEquals(dalekOne, worldMap.objectAt(dalekPosition).get());
+        assertTrue(worldMap.objectAt(positionOne).isPresent());
+        assertEquals(dalekOne, worldMap.objectAt(positionOne).get());
     }
 
     @Test
