@@ -1,10 +1,26 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Vector2D {
     private final int x;
     private final int y;
+
+    public static List<Vector2D> getPositionsAround(Vector2D position) {
+        //definiately to refactor XD
+        List<Vector2D> positionsAround = new ArrayList<>();
+        positionsAround.add(new Vector2D(position.x-1, position.y+1));
+        positionsAround.add(new Vector2D(position.x, position.y+1));
+        positionsAround.add(new Vector2D(position.x+1, position.y+1));
+        positionsAround.add(new Vector2D(position.x-1, position.y));
+        positionsAround.add(new Vector2D(position.x+1, position.y));
+        positionsAround.add(new Vector2D(position.x-1, position.y-1));
+        positionsAround.add(new Vector2D(position.x, position.y-1));
+        positionsAround.add(new Vector2D(position.x+1, position.y-1));
+        return positionsAround;
+    }
 
     public int getX() {
         return x;

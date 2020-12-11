@@ -35,10 +35,12 @@ public class Doctor extends MapObject {
         return this.prevPosition;
     }
 
-    public void useBomb() {
+    public boolean useBomb() {
         if(bombs > 0) {
             bombs--;
+            return true;
         }
+        return false;
     }
 
     public int getBombs() {

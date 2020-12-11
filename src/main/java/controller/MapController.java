@@ -77,7 +77,11 @@ public class MapController {
                         onUseTeleport();
                         drawScreen();
                     }
-
+                    else if(ke.getText().equals("b")){
+                        ke.consume();
+                        onUseBomb();
+                        drawScreen();
+                    }
                     if(world.hasWon()){
                         System.out.println("Y O U   W O N!!!");
                     }
@@ -98,6 +102,10 @@ public class MapController {
 
     private void onUseTeleport() {
         world.makeTeleport();
+    }
+
+    private void onUseBomb() {
+        world.useBomb();
     }
 
     private void drawScreen(){

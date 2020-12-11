@@ -65,6 +65,33 @@ public class World {
         }
     }
 
+    public void useBomb() {
+        if(getDoctor().useBomb()) {
+            System.out.println("Bombard");
+            List<Vector2D> vectorsAround = Vector2D.getPositionsAround(getDoctor().getPosition());
+            destroyAfterBomb(vectorsAround);
+        }
+    }
+
+    private void destroyAfterBomb(List<Vector2D> positionsToDestroy) {
+        positionsToDestroy.stream()
+                .filter(worldMap::isInMap)
+                .filter(worldMap::isOccupied)
+                .forEach(position -> {
+                    getDalekList()
+                        .stream().filter(Dalek::isAlive)
+                        .forEach(dalek -> {
+                            if(dalek.getPosition().equals(position)) {
+                                Dalek obj = (Dalek) worldMap.objectAt(position).get();
+
+                                worldMap.makeDeadPosition(dalek);
+                                dalek.setAlive(false);
+                                obj.setAlive(false);
+                            }
+                    });
+                });
+    }
+
     private void checkCollisionsAndMoveDaleks(){
         checkDoctorCollision();
         getDalekList().forEach(dalek -> dalek.move( getDoctor().getPosition()) );

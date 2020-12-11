@@ -16,7 +16,7 @@ public class MapGenerationHelper {
         int x = random.nextInt(worldMap.getWidth());
         int y = random.nextInt(worldMap.getHeight());
         Vector2D doctorPosition = new Vector2D(x,y);
-        Doctor doctor = new Doctor(doctorPosition,  0, 3);
+        Doctor doctor = new Doctor(doctorPosition,  2, 3);
         worldMap.addEntity(doctor);
         return doctor;
     }
