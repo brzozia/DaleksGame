@@ -70,6 +70,7 @@ public class World {
             System.out.println("Bombard");
             List<Vector2D> vectorsAround = Vector2D.getPositionsAround(getDoctor().getPosition());
             destroyAfterBomb(vectorsAround);
+            makeMove(0);
         }
     }
 
@@ -78,17 +79,24 @@ public class World {
                 .filter(worldMap::isInMap)
                 .filter(worldMap::isOccupied)
                 .forEach(position -> {
-                    getDalekList()
-                        .stream().filter(Dalek::isAlive)
-                        .forEach(dalek -> {
-                            if(dalek.getPosition().equals(position)) {
-                                Dalek obj = (Dalek) worldMap.objectAt(position).get();
+                    if(worldMap.isOccupied(position)) {
+                        MapObject obj = worldMap.objectAt(position).get();
 
-                                worldMap.makeDeadPosition(dalek);
-                                dalek.setAlive(false);
-                                obj.setAlive(false);
-                            }
-                    });
+                        worldMap.makeDeadPosition(obj);
+                        obj.setAlive(false);
+
+                    }
+//                    getDalekList()
+//                        .stream().filter(Dalek::isAlive)
+//                        .forEach(dalek -> {
+//                            if(dalek.getPosition().equals(position)) {
+//                                Dalek obj = (Dalek) worldMap.objectAt(position).get();
+//
+//                                worldMap.makeDeadPosition(dalek);
+//                                dalek.setAlive(false);
+//                                obj.setAlive(false);
+//                            }
+//                    });
                 });
     }
 
@@ -100,7 +108,11 @@ public class World {
     }
 
     private void checkDoctorCollision() {
-        if(worldMap.isOccupied(getDoctor().getPosition())){
+
+        if(doctor.getPosition().equals(doctor.getPrevPosition())) {
+            return;
+        }
+        if (worldMap.isOccupied(getDoctor().getPosition())) {
             MapObject obj = worldMap.objectAt(doctor.getPosition()).get();
 
             obj.setAlive(false);   // when we will have GAME OVER screen we won't need so many instructions here
@@ -109,13 +121,15 @@ public class World {
             worldMap.removeAlivePosition(doctor.getPrevPosition());
             System.out.println("Doctor's Collision detected! - E N D   G A M E");
 
+        } else {
+            worldMap.changeDoctorsPosition(doctor, doctor.getPrevPosition());
         }
-        else{
-            worldMap.changeDoctorsPosition(doctor);
-        }
+
     }
 
     private void checkDaleksCollisions() {
+        worldMap.prepareMapForCheckingCollisions(doctor);
+
         getDalekList()
             .stream().filter(Dalek::isAlive)
             .forEach(dalek -> {

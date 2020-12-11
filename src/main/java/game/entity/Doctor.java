@@ -11,7 +11,8 @@ public class Doctor extends MapObject {
         super(position);
         this.bombs = bombs;
         this.teleports = teleports;
-        isAlive = true;
+        this.isAlive = true;
+        this.prevPosition = position;
     }
 
     public void move(Vector2D newPosition) {

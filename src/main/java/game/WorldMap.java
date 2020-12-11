@@ -58,7 +58,12 @@ public class WorldMap  {
         this.positionsOfDead.clear();
     }
 
-    public void changeDoctorsPosition(MapObject object){
+    public void changeDoctorsPosition(MapObject object, Vector2D oldPosition){
+        this.positionsOfAlive.remove(oldPosition);
+        this.positionsOfAlive.put(object.getPosition(), object);
+    }
+
+    public void prepareMapForCheckingCollisions(MapObject object){
         this.positionsOfAlive.clear();
         this.positionsOfAlive.put(object.getPosition(), object);
     }
