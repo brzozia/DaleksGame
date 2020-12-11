@@ -12,20 +12,22 @@ public class WorldMap  {
     private int height;
     private int width;
 
-
-
     private final Map<Vector2D, MapObject> positionsOfAlive;
     private final Map<Vector2D, MapObject> positionsOfDead;
 
     @Inject
-    public WorldMap() {
+    public WorldMap(@Named("Width") int width, @Named("Height") int height) {
+        this.width = width;
+        this.height = height;
         positionsOfAlive = new HashMap<>();
         positionsOfDead = new HashMap<>();
     }
+
     @Inject
     public void setHeight(@Named("Height") int height) {
         this.height = height;
     }
+
     @Inject
     public void setWidth(@Named("Width") int width) {
         this.width = width;
@@ -42,7 +44,6 @@ public class WorldMap  {
     public boolean isOccupied(Vector2D vector2D) {
         return positionsOfAlive.containsKey(vector2D) || positionsOfDead.containsKey(vector2D);
     }
-
 
     public Optional<MapObject> objectAt (Vector2D position) {
         Optional<MapObject> optional = Optional.ofNullable(positionsOfAlive.get(position));
@@ -81,7 +82,6 @@ public class WorldMap  {
         return positionsOfAlive.size() - 1;
     }
 
-
     public int getHeight() {
         return height;
     }
@@ -96,7 +96,6 @@ public class WorldMap  {
         }
         else return vec.getY() < width && vec.getY() >= 0;
     }
-
 
     public Vector2D getRandomVector() {
         Random random = new Random();
