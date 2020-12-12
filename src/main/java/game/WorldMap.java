@@ -79,6 +79,20 @@ public class WorldMap  {
         positionsOfAlive.put(mapObject.getPosition(), mapObject);
     }
 
+    private void makeEntityDead(MapObject obj){
+        if(positionsOfAlive.containsKey(obj.getPosition())) {
+            this.positionsOfAlive.remove(obj.getPosition());
+        }
+        else {
+            this.positionsOfDead.remove(obj.getPosition());
+        }
+        this.positionsOfDead.put(obj.getPosition(), obj);
+    }
+
+    public void clearAllEntities() {
+        this.positionsOfAlive.clear();
+        this.positionsOfDead.clear();
+    }
 
     public Optional<MapObject> objectAt (Vector2D position) {
         Optional<MapObject> optional = Optional.ofNullable(positionsOfAlive.get(position));
@@ -88,72 +102,40 @@ public class WorldMap  {
         return Optional.ofNullable(positionsOfDead.get(position));
     }
 
-    public void clearAllPositions() {
-        this.positionsOfAlive.clear();
-        this.positionsOfDead.clear();
-    }
-
-//    private void changeDoctorPosition(MapObject object, Vector2D oldPosition){
-//        this.positionsOfAlive.remove(oldPosition);
-//        this.positionsOfAlive.put(object.getPosition(), object);
-//    }
-
     public void positionChange(MapObject object) { //TODO make it private
         this.positionsOfAlive.put(object.getPosition(), object);
     }
 
-    private void removeAlivePosition(Vector2D oldPosition) {
-        this.positionsOfAlive.remove(oldPosition);
-    }
 
+    private void checkObjectCollision(MapObject mapObject) {
+        if(this.isOccupied(mapObject.getPosition())) {
+            MapObject otherObject = this.objectAt(mapObject.getPosition()).get(); //cannot be null because of if fun
 
-    private void makeDeadPosition(MapObject obj){
-        if(positionsOfAlive.containsKey(obj.getPosition())) {
-            this.positionsOfDead.put(obj.getPosition(), obj);
-            this.positionsOfAlive.remove(obj.getPosition());
+            this.makeEntityDead(mapObject);
+            mapObject.setAlive(false);
+            otherObject.setAlive(false);
+        }
+        else {
+            this.positionChange(mapObject);
         }
     }
-
 
     public void checkDoctorCollision(Doctor doctor) {
-//        removeAlivePosition(doctor.getPrevPosition()); //TODO what is better?
+        //removes doctor's previous position so he won't collide with himself wile using bomb or teleporting to same place
         this.positionsOfAlive.remove(doctor.getPrevPosition());
-
-        if (this.isOccupied(doctor.getPosition())) {
-            MapObject obj = this.objectAt(doctor.getPosition()).get();
-
-            this.makeDeadPosition(obj);
-            doctor.setAlive(false);
-            obj.setAlive(false);
-//            this.makeDeadPosition(doctor);
-        } else {
-            this.positionChange(doctor);
-        }
+        checkObjectCollision(doctor);
     }
 
-    private void prepareMapForCheckingCollisions(MapObject object){
-        this.positionsOfAlive.clear();
-        this.positionsOfAlive.put(object.getPosition(), object);
-    }
-    //TODO how about checkObjectCollision for both Dalek and Doctor
     public void checkDaleksCollisions(List<Dalek> dalekList, Doctor doctor) {
-        this.prepareMapForCheckingCollisions(doctor);
+        //clears all positions but doctors so daleks won't bump into each other while moving same direction
+        this.positionsOfAlive.clear();
+        if(doctor.isAlive()) this.addEntity(doctor);
 
-        dalekList.stream().filter(Dalek::isAlive)
-                .forEach(dalek -> {
-                    if(this.isOccupied(dalek.getPosition())) {
-                        MapObject obj = this.objectAt(dalek.getPosition()).get();
-
-                        this.makeDeadPosition(dalek);
-//                        this.makeDeadPosition(obj);
-                        dalek.setAlive(false);
-                        obj.setAlive(false);
-                    }
-                    else {
-                        this.positionChange(dalek);
-                    }
-                });
+        dalekList.stream()
+                .filter(Dalek::isAlive)
+                .forEach(this::checkObjectCollision);
     }
+
 
     public void destroyObjectsOnVectors(List<Vector2D> positionsToDestroy) {
         positionsToDestroy.stream()
@@ -161,7 +143,7 @@ public class WorldMap  {
                 .filter(this::isOccupied)
                 .forEach(position -> {
                     MapObject obj = this.objectAt(position).get();
-                    this.makeDeadPosition(obj);
+                    this.makeEntityDead(obj);
                     obj.setAlive(false);
 
 //                    getDalekList()
@@ -178,4 +160,21 @@ public class WorldMap  {
                 });
     }
 
+
+//    private void prepareMapForCheckingCollisions(MapObject object){
+//        this.positionsOfAlive.clear();
+//        if(object.isAlive()) {
+//            this.positionsOfAlive.put(object.getPosition(), object);
+//        }
+//    }
+
+
+//    private void changeDoctorPosition(MapObject object, Vector2D oldPosition){
+//        this.positionsOfAlive.remove(oldPosition);
+//        this.positionsOfAlive.put(object.getPosition(), object);
+//    }
+
+    //    private void removeAlivePosition(Vector2D oldPosition) {
+//        this.positionsOfAlive.remove(oldPosition);
+//    }
 }

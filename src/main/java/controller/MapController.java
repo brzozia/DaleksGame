@@ -127,11 +127,11 @@ public class MapController {
                 for (int j=0; j<MainApp.WIDTH; j++) {
                     Optional<MapObject> object = world.getWorldMap().objectAt(new Vector2D(i,j));
                     if(object.isPresent()){
-                        if(object.get() instanceof Doctor){
+                        if(object.get() instanceof Doctor && object.get().isAlive()){
                             context.drawImage(doctor, (cellWidth*i)+i*2, (cellHeight*j)+j*2, cellWidth-1, cellHeight-1);
                         }
                         else{
-                            Dalek daleki = (Dalek) object.get();
+                            MapObject daleki = object.get();
                             if(daleki.isAlive()){
                                 context.drawImage(dalek, (cellWidth*i)+i*2, (cellHeight*j)+j*2, cellWidth-1, cellHeight-1);
                             }

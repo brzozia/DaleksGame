@@ -105,7 +105,7 @@ public class World {
 
     private void onWorldAction(){
         worldMap.checkDoctorCollision(getDoctor());
-        getDalekList().forEach(dalek -> dalek.moveTowards( doctor.getPosition()) );
+        getDalekList().forEach(dalek -> dalek.moveTowards(doctor.getPosition()));
         worldMap.checkDaleksCollisions(getDalekList(), getDoctor());
         increaseScore(1);
     }

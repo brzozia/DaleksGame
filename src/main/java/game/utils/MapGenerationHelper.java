@@ -44,7 +44,7 @@ public class MapGenerationHelper {
         if(dalekList != null && !dalekList.isEmpty()) {
             dalekList.clear();
         }
-        worldMap.clearAllPositions();
+        worldMap.clearAllEntities();
     }
 
 }

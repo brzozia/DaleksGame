@@ -110,7 +110,7 @@ public class WorldMapTest {
 
         //then
         assertFalse(worldMap.getPositionsOfAlive().isEmpty());
-        worldMap.clearAllPositions();
+        worldMap.clearAllEntities();
         assertTrue(worldMap.getPositionsOfAlive().isEmpty());
     }
 
