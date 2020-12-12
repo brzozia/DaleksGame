@@ -1,6 +1,9 @@
 package model;
 
+import game.utils.Direction;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,18 +11,9 @@ public class Vector2D {
     private final int x;
     private final int y;
 
-    public static List<Vector2D> getPositionsAround(Vector2D position) {
-        //definiately to refactor XD
-        List<Vector2D> positionsAround = new ArrayList<>();
-        positionsAround.add(new Vector2D(position.x-1, position.y+1));
-        positionsAround.add(new Vector2D(position.x, position.y+1));
-        positionsAround.add(new Vector2D(position.x+1, position.y+1));
-        positionsAround.add(new Vector2D(position.x-1, position.y));
-        positionsAround.add(new Vector2D(position.x+1, position.y));
-        positionsAround.add(new Vector2D(position.x-1, position.y-1));
-        positionsAround.add(new Vector2D(position.x, position.y-1));
-        positionsAround.add(new Vector2D(position.x+1, position.y-1));
-        return positionsAround;
+    public Vector2D(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     public int getX() {
@@ -29,15 +23,16 @@ public class Vector2D {
         return y;
     }
 
-    public Vector2D(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+    public static List<Vector2D> getPositionsAround(Vector2D position) {
+        List<Vector2D> positionsAround = new ArrayList<>();
 
-    public String toString(){
-        return "x: "+ this.x +", y: "+this.y;
-    }
+        Arrays.asList(Direction.values()).forEach(dir -> {
+           positionsAround.add(position.add(dir.toVector()));
+        });
 
+        return positionsAround;
+    }
+    
     public Vector2D getCloseTo(Vector2D to){
         int x = this.x;
         int y = this.y;
@@ -67,6 +62,12 @@ public class Vector2D {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
+    @Override
+    public String toString(){
+        return "x: "+ this.x +", y: "+this.y;
+    }
+
 }
 
 

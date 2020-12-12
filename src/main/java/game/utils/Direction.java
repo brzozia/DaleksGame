@@ -10,8 +10,9 @@ public enum Direction {
     SOUTH,
     SOUTHWEST,
     WEST,
-    NORTHWEST,
-    NONE; //TODO: decide whether doctor stays in place if bomb is used
+    NORTHWEST;
+    //NONE;
+    //if we add NONE, then refactor Vector2D.getPositionsAround()
 
 
     public Vector2D toVector() {

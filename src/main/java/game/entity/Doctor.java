@@ -16,8 +16,6 @@ public class Doctor extends MapObject {
     }
 
     public void move(Vector2D newPosition) {
-        //firstly should check if newPosition
-        // is close to old
         this.prevPosition = position;
         this.position = newPosition;
     }
