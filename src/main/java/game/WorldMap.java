@@ -2,6 +2,8 @@ package game;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import game.entity.Dalek;
+import game.entity.Doctor;
 import game.entity.MapObject;
 import model.Vector2D;
 
@@ -31,6 +33,15 @@ public class WorldMap  {
         this.width = width;
     }
 
+    public int getHeight() {
+        return height;
+    }
+    public int getWidth() {
+        return width;
+    }
+    public Map<Vector2D, MapObject> getPositionsOfAlive() {
+        return positionsOfAlive;
+    }
 
     public void addEntity(MapObject mapObject) {
         if (isOccupied(mapObject.getPosition())) {
@@ -57,26 +68,26 @@ public class WorldMap  {
         this.positionsOfDead.clear();
     }
 
-    public void changeDoctorPosition(MapObject object, Vector2D oldPosition){
+    private void changeDoctorPosition(MapObject object, Vector2D oldPosition){
         this.positionsOfAlive.remove(oldPosition);
         this.positionsOfAlive.put(object.getPosition(), object);
     }
 
-    public void positionChange(MapObject object) {
+    public void positionChange(MapObject object) { //TODO make it private
         this.positionsOfAlive.put(object.getPosition(), object);
     }
 
-    public void prepareMapForCheckingCollisions(MapObject object){
+    private void prepareMapForCheckingCollisions(MapObject object){
         this.positionsOfAlive.clear();
         this.positionsOfAlive.put(object.getPosition(), object);
     }
 
-    public void removeAlivePosition(Vector2D oldPosition) {
+    private void removeAlivePosition(Vector2D oldPosition) {
         this.positionsOfAlive.remove(oldPosition);
     }
 
 
-    public void makeDeadPosition(MapObject obj){
+    private void makeDeadPosition(MapObject obj){
         if(positionsOfAlive.containsKey(obj.getPosition())) {
             this.positionsOfDead.put(obj.getPosition(), obj);
             this.positionsOfAlive.remove(obj.getPosition());
@@ -85,15 +96,9 @@ public class WorldMap  {
 
     public int aliveDaleks(){
         return positionsOfAlive.size() - 1;
-    } //TODO: why is it -1, misleading?
-
-    public int getHeight() {
-        return height;
     }
 
-    public int getWidth() {
-        return width;
-    }
+
 
     public boolean isInMapBounds(Vector2D vec){
         if(vec.getX() >= width || vec.getX() < 0){
@@ -115,7 +120,66 @@ public class WorldMap  {
         return vector;
     }
 
-    public Map<Vector2D, MapObject> getPositionsOfAlive() {
-        return positionsOfAlive;
+
+
+    public void checkDoctorCollision(Doctor doctor) {
+        if(doctor.getPosition().equals(doctor.getPrevPosition())) {
+            return;
+        }
+        if (this.isOccupied(doctor.getPosition())) {
+            doctor.setAlive(false);
+
+            MapObject obj = this.objectAt(doctor.getPosition()).get();
+            obj.setAlive(false);   // when we will have GAME OVER screen we won't need so many instructions here
+            this.makeDeadPosition(obj);
+            this.removeAlivePosition(doctor.getPrevPosition());
+
+        } else {
+            this.changeDoctorPosition(doctor, doctor.getPrevPosition());
+        }
+
     }
+
+    public void checkDaleksCollisions(List<Dalek> dalekList, Doctor doctor) { //TODO refactor
+        this.prepareMapForCheckingCollisions(doctor);
+
+        dalekList.stream().filter(Dalek::isAlive)
+                .forEach(dalek -> {
+                    if(this.isOccupied(dalek.getPosition())) {
+                        MapObject obj = this.objectAt(dalek.getPosition()).get();
+
+                        this.makeDeadPosition(dalek);
+                        dalek.setAlive(false);
+                        obj.setAlive(false);
+
+                    }
+                    else {
+                        this.positionChange(dalek);
+                    }
+                });
+    }
+
+    public void destroyObjectsOnVectors(List<Vector2D> positionsToDestroy) {
+        positionsToDestroy.stream()
+                .filter(this::isInMapBounds)
+                .filter(this::isOccupied)
+                .forEach(position -> {
+                    MapObject obj = this.objectAt(position).get();
+                    this.makeDeadPosition(obj);
+                    obj.setAlive(false);
+
+//                    getDalekList()
+//                        .stream().filter(Dalek::isAlive)
+//                        .forEach(dalek -> {
+//                            if(dalek.getPosition().equals(position)) {
+//                                Dalek obj = (Dalek) worldMap.objectAt(position).get();
+//
+//                                worldMap.makeDeadPosition(dalek);
+//                                dalek.setAlive(false);
+//                                obj.setAlive(false);
+//                            }
+//                    });
+                });
+    }
+
 }

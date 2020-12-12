@@ -63,7 +63,7 @@ public class MapController {
                 //  if\else is used to disable other buttons when the game is over
                 if(world.isGameOver() || world.hasWon()) {
                     if(KeyBindings.isResetKey(keyChar)) {
-                        //TODO reset game prompt earlier
+                        //TODO add reset game prompt to UI
                         onResetWorld();
                     }
                 }

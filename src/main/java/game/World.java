@@ -46,6 +46,9 @@ public class World {
     public int getScore(){
         return score;
     }
+//        public List<PowerUp> getPowerUpsList() {
+//        return powerUpsList;
+//    }
 
     public boolean isGameOver() {
         return !doctor.isAlive();
@@ -53,10 +56,6 @@ public class World {
     public boolean hasWon(){
         return doctor.isAlive() && worldMap.aliveDaleks() == 0;
     }
-
-//    public List<PowerUp> getPowerUpsList() {
-//        return powerUpsList;
-//    }
 
     //actions
     public void resetWorld() {
@@ -96,7 +95,7 @@ public class World {
         if(getDoctor().useBomb()) {
             System.out.println("Bombard");
             List<Vector2D> vectorsAround = Vector2D.getPositionsAround(getDoctor().getPosition());
-            destroyAfterBomb(vectorsAround);
+            worldMap.destroyObjectsOnVectors(vectorsAround);
             onWorldAction();  // can be here also Move(0) (but now doctor's positions are change in Doctor class in useBomb())
         }
         else {
@@ -104,77 +103,11 @@ public class World {
         }
     }
 
-    private void destroyAfterBomb(List<Vector2D> positionsToDestroy) {
-        positionsToDestroy.stream()
-                .filter(worldMap::isInMapBounds)
-                .filter(worldMap::isOccupied)
-                .forEach(position -> {
-                    if(worldMap.isOccupied(position)) {
-                        MapObject obj = worldMap.objectAt(position).get();
-
-                        worldMap.makeDeadPosition(obj);
-                        obj.setAlive(false);
-
-                    }
-//                    getDalekList()
-//                        .stream().filter(Dalek::isAlive)
-//                        .forEach(dalek -> {
-//                            if(dalek.getPosition().equals(position)) {
-//                                Dalek obj = (Dalek) worldMap.objectAt(position).get();
-//
-//                                worldMap.makeDeadPosition(dalek);
-//                                dalek.setAlive(false);
-//                                obj.setAlive(false);
-//                            }
-//                    });
-                });
-    }
-
     private void onWorldAction(){
-//        checkDoctorCollision();
-        // checking doc collision is unnecessary, because daleks will stay in place if doctor jumped on them
+        worldMap.checkDoctorCollision(getDoctor());
         getDalekList().forEach(dalek -> dalek.moveTowards( doctor.getPosition()) );
-        checkDaleksCollisions();
+        worldMap.checkDaleksCollisions(getDalekList(), getDoctor());
         increaseScore(1);
-    }
-
-    private void checkDoctorCollision() {
-        if(doctor.getPosition().equals(doctor.getPrevPosition())) {
-            return;
-        }
-        if (worldMap.isOccupied(getDoctor().getPosition())) {
-            doctor.setAlive(false);
-
-            MapObject obj = worldMap.objectAt(doctor.getPosition()).get();
-            obj.setAlive(false);   // when we will have GAME OVER screen we won't need so many instructions here
-            worldMap.makeDeadPosition(obj);
-            worldMap.removeAlivePosition(doctor.getPrevPosition());
-            System.out.println("Doctor's Collision detected! - E N D   G A M E");
-
-        } else {
-            worldMap.changeDoctorPosition(doctor, doctor.getPrevPosition());
-        }
-
-    }
-
-    private void checkDaleksCollisions() { //TODO refactor
-        worldMap.prepareMapForCheckingCollisions(doctor);
-
-        getDalekList()
-            .stream().filter(Dalek::isAlive)
-            .forEach(dalek -> {
-                if(worldMap.isOccupied(dalek.getPosition())) {
-                    MapObject obj = worldMap.objectAt(dalek.getPosition()).get();
-
-                    worldMap.makeDeadPosition(dalek);
-                    dalek.setAlive(false);
-                    obj.setAlive(false);
-
-                }
-                else {
-                    worldMap.positionChange(dalek);
-                }
-            });
     }
 
     private void increaseScore(int i){
