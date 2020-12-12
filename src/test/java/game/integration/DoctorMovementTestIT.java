@@ -5,6 +5,7 @@ import game.World;
 import game.WorldMap;
 import game.entity.Dalek;
 import game.entity.Doctor;
+import game.utils.Direction;
 import guice.AppModule;
 import mainApp.MainApp;
 import model.Vector2D;
@@ -44,11 +45,11 @@ public class DoctorMovementTestIT {
         worldMap.positionChange(doctor);
 
         //when
-        world.makeMove(1);
-        world.makeMove(9);
-        world.makeMove(8);
-        world.makeMove(7);
-        world.makeMove(4);
+        world.makeMove(Direction.SOUTHWEST);
+        world.makeMove(Direction.WEST);
+        world.makeMove(Direction.NORTHWEST);
+        world.makeMove(Direction.NORTH);
+        world.makeMove(Direction.NORTHEAST);
 
         //then
         assertEquals(new Vector2D(0,0), doctor.getPosition());
@@ -62,11 +63,11 @@ public class DoctorMovementTestIT {
         worldMap.positionChange(doctor);
 
         //when
-        world.makeMove(1);
-        world.makeMove(2);
-        world.makeMove(3);
-        world.makeMove(6);
-        world.makeMove(9);
+        world.makeMove(Direction.SOUTHWEST);
+        world.makeMove(Direction.SOUTH);
+        world.makeMove(Direction.SOUTHEAST);
+        world.makeMove(Direction.EAST);
+        world.makeMove(Direction.NORTHEAST);
 
         //then
         assertEquals(new Vector2D(MainApp.WIDTH-1,MainApp.HEIGHT-1), doctor.getPosition());
@@ -88,7 +89,7 @@ public class DoctorMovementTestIT {
         worldMap.positionChange(doctor);
 
         //when
-        world.makeMove(4); // x-=1, y+=0
+        world.makeMove(Direction.WEST); // x-=1, y+=0
 
         //then
         assertEquals(4, world.getDalekList().size());

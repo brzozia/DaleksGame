@@ -35,7 +35,7 @@ public class MainApp extends Application {
             Scene scene = new Scene(root, WIDTH*TILE_SIZE, HEIGHT*TILE_SIZE);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Dalek Game");
-            mapController.addEventToScene(scene);
+            mapController.addKeyboardEventToScene(scene);
 
             primaryStage.setResizable(false);
             primaryStage.show();

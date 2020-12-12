@@ -22,16 +22,15 @@ public class WorldMap  {
         positionsOfAlive = new HashMap<>();
         positionsOfDead = new HashMap<>();
     }
-
     @Inject
     public void setHeight(@Named("Height") int height) {
         this.height = height;
     }
-
     @Inject
     public void setWidth(@Named("Width") int width) {
         this.width = width;
     }
+
 
     public void addEntity(MapObject mapObject) {
         if (isOccupied(mapObject.getPosition())) {
@@ -58,7 +57,7 @@ public class WorldMap  {
         this.positionsOfDead.clear();
     }
 
-    public void changeDoctorsPosition(MapObject object, Vector2D oldPosition){
+    public void changeDoctorPosition(MapObject object, Vector2D oldPosition){
         this.positionsOfAlive.remove(oldPosition);
         this.positionsOfAlive.put(object.getPosition(), object);
     }
@@ -85,7 +84,7 @@ public class WorldMap  {
 
     public int aliveDaleks(){
         return positionsOfAlive.size() - 1;
-    }
+    } //TODO: why is it -1, misleading?
 
     public int getHeight() {
         return height;
@@ -95,19 +94,24 @@ public class WorldMap  {
         return width;
     }
 
-    public boolean isInMap(Vector2D vec){
+    public boolean isInMapBounds(Vector2D vec){
         if(vec.getX() >= width || vec.getX() < 0){
             return false;
         }
         else return vec.getY() < width && vec.getY() >= 0;
     }
 
-    public Vector2D getRandomVector() {
+    public Vector2D getRandomVector(boolean mustBeUnoccupied) {
         Random random = new Random();
         int x = random.nextInt(width);
         int y = random.nextInt(height);
-
-        return new Vector2D(x,y);
+        Vector2D vector = new Vector2D(x,y);
+        while(mustBeUnoccupied && this.isOccupied(vector)) {
+            x = random.nextInt(this.getWidth());
+            y = random.nextInt(this.getHeight());
+            vector = new Vector2D(x,y);
+        }
+        return vector;
     }
 
     public Map<Vector2D, MapObject> getPositionsOfAlive() {

@@ -123,20 +123,20 @@ public class WorldMapTest {
         //when
 
         //then
-        assertTrue(worldMap.isInMap(inMapPosition));
-        assertFalse(worldMap.isInMap(notInMapPosition));
+        assertTrue(worldMap.isInMapBounds(inMapPosition));
+        assertFalse(worldMap.isInMapBounds(notInMapPosition));
     }
 
     @Test
     public void randomVectorInMapTest() {
         //given
-        Vector2D inMapPositionOne = worldMap.getRandomVector();
-        Vector2D inMapPositionTwo = worldMap.getRandomVector();
+        Vector2D inMapPositionOne = worldMap.getRandomVector(true);
+        Vector2D inMapPositionTwo = worldMap.getRandomVector(false);
 
         //when
 
         //then
-        assertTrue(worldMap.isInMap(inMapPositionOne));
-        assertTrue(worldMap.isInMap(inMapPositionTwo));
+        assertTrue(worldMap.isInMapBounds(inMapPositionOne));
+        assertTrue(worldMap.isInMapBounds(inMapPositionTwo));
     }
 }

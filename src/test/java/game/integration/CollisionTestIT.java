@@ -6,6 +6,7 @@ import game.World;
 import game.WorldMap;
 import game.entity.Dalek;
 import game.entity.Doctor;
+import game.utils.Direction;
 import guice.AppModule;
 import model.Vector2D;
 import org.junit.jupiter.api.BeforeAll;
@@ -49,7 +50,7 @@ public class CollisionTestIT {
         worldMap.positionChange(doctor);
 
         //when
-        world.makeMove(2);
+        world.makeMove(Direction.SOUTH);
 
         //then
         assertTrue(world.isGameOver());
@@ -64,7 +65,7 @@ public class CollisionTestIT {
         worldMap.positionChange(doctor);
 
         //then
-        world.makeMove(2);
+        world.makeMove(Direction.SOUTH);
 
         //then
         assertTrue(world.isGameOver());
@@ -80,7 +81,7 @@ public class CollisionTestIT {
         worldMap.positionChange(doctor);
 
         //when
-        world.makeMove(2); // y+=1, x+=0
+        world.makeMove(Direction.SOUTH); // y+=1, x+=0
 
         //then
         assertFalse(world.isGameOver());
@@ -97,7 +98,7 @@ public class CollisionTestIT {
         worldMap.positionChange(doctor);
 
         ///when
-        world.makeMove(6); // y+=0, x+1
+        world.makeMove(Direction.EAST); // y+=0, x+1
 
         //then
         assertEquals(2, world.getDalekList().size());

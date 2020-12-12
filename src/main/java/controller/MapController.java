@@ -8,6 +8,7 @@ import game.WorldMap;
 import game.entity.Dalek;
 import game.entity.Doctor;
 import game.entity.MapObject;
+import game.utils.Direction;
 import guice.AppModule;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -23,13 +24,13 @@ import model.Vector2D;
 
 import java.util.Optional;
 
+
 public class MapController {
 
     @FXML
     public Canvas canvas;
 
-    private WorldMap worldMap;
-    private World world;
+    private final World world;
     private Image doctor;
     private Image dalek;
     private Image rock;
@@ -40,63 +41,58 @@ public class MapController {
     @Inject
     public MapController(World world) {
         this.world = world;
-
     }
 
     public void initialize() {
-        worldMap = world.getWorldMap();
         context = canvas.getGraphicsContext2D();
         doctor = new Image( getClass().getResourceAsStream("/doctor.png"));
         rock = new Image( getClass().getResourceAsStream("/rock.png"));
         dalek = new Image( getClass().getResourceAsStream("/dalek.jpg"));
+
+        WorldMap worldMap = world.getWorldMap();
         cellWidth = ((int) canvas.getWidth() - (worldMap.getWidth()-1) * 2 ) / worldMap.getWidth();
         cellHeight = ( (int) canvas.getHeight() - (worldMap.getHeight()-1) * 2 ) / worldMap.getHeight();
         drawScreen();
     }
 
-    public void addEventToScene(Scene scene){
+    public void addKeyboardEventToScene(Scene scene){
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-
+            //handler
             public void handle(KeyEvent ke) {
+                String keyChar = ke.getText();
+                ke.consume();// <-- stops passing the event to next node
                 if(world.isGameOver() || world.hasWon()) {
-                    if(ke.getText().equals("r")) {
+                    if(KeyBindings.isResetKey(keyChar)) {
                         //TODO reset game prompt earlier
-                        world.initializeWorld(MainApp.DALEK_NUMBER);
-                        drawScreen();
+                        onResetWorld();
                     }
-                }
+                } //  if\else is used to disable other buttons when game is over
                 else {
-                    if (ke.getText().matches("[1-4|6-9]")) {
-                        onMoveButtonPress(Integer.parseInt(ke.getText()));
-                        ke.consume(); // <-- stops passing the event to next node
-                        drawScreen();
+                    if (KeyBindings.isMovementKey(keyChar)) {
+                        onMoveButtonPress(KeyBindings.keyToDirection(keyChar));
                         System.out.println("Your score: " + world.getScore());
+                        //TODO add score to UI, not console
                     }
-                    else if(ke.getText().equals("t") || ke.getText().matches("[5]")){
-                        ke.consume();
+                    else if(KeyBindings.isTeleportKey(keyChar)){
                         onUseTeleport();
-                        drawScreen();
                     }
-                    else if(ke.getText().equals("b")){
-                        ke.consume();
+                    else if(KeyBindings.isBombKey(keyChar)){
                         onUseBomb();
-                        drawScreen();
                     }
                     if(world.hasWon()){
                         System.out.println("Y O U   W O N!!!");
                     }
+                    if(world.isGameOver()) {
+                        System.out.println("Y O U   L O S T  :(");
+                    }
                 }
+                drawScreen();
             }
+            //end of handler
         });
     }
 
-
-
-    public void initRootLayout() {}
-
-    public void bindToView() {}
-
-    private void onMoveButtonPress(Integer direction) {
+    private void onMoveButtonPress(Direction direction) {
         world.makeMove(direction);
     }
 
@@ -106,6 +102,10 @@ public class MapController {
 
     private void onUseBomb() {
         world.useBomb();
+    }
+
+    private void onResetWorld() {
+        world.resetWorld();
     }
 
     private void drawScreen(){
@@ -126,7 +126,7 @@ public class MapController {
 
             for (int i=0; i<MainApp.HEIGHT; i++) {
                 for (int j=0; j<MainApp.WIDTH; j++) {
-                    Optional<MapObject> object = worldMap.objectAt(new Vector2D(i,j));
+                    Optional<MapObject> object = world.getWorldMap().objectAt(new Vector2D(i,j));
                     if(object.isPresent()){
                         if(object.get() instanceof Doctor){
                             context.drawImage(doctor, (cellWidth*i)+i*2, (cellHeight*j)+j*2, cellWidth-1, cellHeight-1);

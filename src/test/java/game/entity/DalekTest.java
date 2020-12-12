@@ -18,7 +18,7 @@ public class DalekTest {
         Dalek dalek = new Dalek(dalekPosition);
 
         //when
-        dalek.move(doctorPosition);
+        dalek.moveTowards(doctorPosition);
 
         //then
         assertEquals(positionToFinishOn, dalek.getPosition());
@@ -33,7 +33,7 @@ public class DalekTest {
         Dalek dalek = new Dalek(dalekPosition);
 
         //when
-        dalek.move(doctorPosition);
+        dalek.moveTowards(doctorPosition);
 
         //then
         assertEquals(dalekPosition, dalek.getPosition());
@@ -48,7 +48,7 @@ public class DalekTest {
         Dalek dalek = new Dalek(dalekPosition);
 
         //when
-        dalek.move(doctorPosition);
+        dalek.moveTowards(doctorPosition);
 
         //then
         assertEquals(doctorPosition, dalek.getPosition());

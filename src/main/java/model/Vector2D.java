@@ -51,6 +51,10 @@ public class Vector2D {
         return new Vector2D(x,y);
     }
 
+    public Vector2D add(Vector2D other) {
+        return new Vector2D(this.x + other.getX(), this.y + other.getY());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,3 +68,5 @@ public class Vector2D {
         return Objects.hash(x, y);
     }
 }
+
+

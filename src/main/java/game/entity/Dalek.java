@@ -9,7 +9,7 @@ public class Dalek extends MapObject {
         this.isAlive = true;
     }
 
-    public void move(Vector2D doctorsPosition) {
+    public void moveTowards(Vector2D doctorsPosition) {
         if(isAlive) {
             this.position = position.getCloseTo(doctorsPosition);
         }

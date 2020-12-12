@@ -13,29 +13,26 @@ public class MapGenerationHelper {
     private final static Random random = new Random();
 
     public static Doctor randomPlaceDoctor(WorldMap worldMap) {
-        int x = random.nextInt(worldMap.getWidth());
-        int y = random.nextInt(worldMap.getHeight());
-        Vector2D doctorPosition = new Vector2D(x,y);
+        Vector2D doctorPosition = worldMap.getRandomVector(true);
         Doctor doctor = new Doctor(doctorPosition,  2, 3);
         worldMap.addEntity(doctor);
         return doctor;
     }
 
-    public static List<Dalek> randomPlaceDalek(WorldMap worldMap, int daleksToCreate){
+    public static List<Dalek> randomPlaceDaleks(WorldMap worldMap, int daleksToCreate){
         List<Dalek> dalekList = new ArrayList<>();
 
         for(int i = 0; i < daleksToCreate; i++) {
-            int x = random.nextInt(worldMap.getWidth());
-            int y = random.nextInt(worldMap.getHeight());
-            Vector2D dalekPosition = new Vector2D(x,y);
-            while(worldMap.isOccupied(dalekPosition)) {
-                x = random.nextInt(worldMap.getWidth());
-                y = random.nextInt(worldMap.getHeight());
-                dalekPosition = new Vector2D(x,y);
-            }
-
+//            int x = random.nextInt(worldMap.getWidth());
+//            int y = random.nextInt(worldMap.getHeight());
+//            Vector2D dalekPosition = new Vector2D(x,y);
+//            while(worldMap.isOccupied(dalekPosition)) {
+//                x = random.nextInt(worldMap.getWidth());
+//                y = random.nextInt(worldMap.getHeight());
+//                dalekPosition = new Vector2D(x,y);
+//            }
+            Vector2D dalekPosition = worldMap.getRandomVector(true);
             Dalek dalek = new Dalek(dalekPosition);
-            dalek.setAlive(true);
             worldMap.addEntity(dalek);
             dalekList.add(dalek);
         }

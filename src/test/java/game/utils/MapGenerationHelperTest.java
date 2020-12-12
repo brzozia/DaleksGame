@@ -41,7 +41,7 @@ public class MapGenerationHelperTest {
         int numberOfDaleksToCreate = 10;
 
         //when
-        List<Dalek> generatedDaleks = MapGenerationHelper.randomPlaceDalek(worldMap, numberOfDaleksToCreate);
+        List<Dalek> generatedDaleks = MapGenerationHelper.randomPlaceDaleks(worldMap, numberOfDaleksToCreate);
 
         //then
         assertEquals(numberOfDaleksToCreate, generatedDaleks.size());
