@@ -27,7 +27,7 @@ public class World {
         this.initializeWorld(dalekNumber);
     }
 
-    public void initializeWorld(int dalekNumber) { // could be private but we use it on tests
+    public void initializeWorld(int dalekNumber) { //what if doctor keeps bomb and tp count towards next game?
         if(doctor != null && isGameOver()) score = 0;
         MapGenerationHelper.clearDaleksFromWorldAndList(worldMap, dalekList);
         doctor = MapGenerationHelper.randomPlaceDoctor(worldMap);
@@ -51,7 +51,7 @@ public class World {
         return !doctor.isAlive();
     }
     public boolean hasWon(){
-        return worldMap.aliveDaleks() == 0;
+        return doctor.isAlive() && worldMap.aliveDaleks() == 0;
     }
 
 //    public List<PowerUp> getPowerUpsList() {
@@ -59,6 +59,17 @@ public class World {
 //    }
 
     //actions
+    public void resetWorld() {
+        if(hasWon()) {
+            this.dalekNumber++;
+            initializeWorld(this.dalekNumber);
+        }
+        if(isGameOver()) {
+            this.dalekNumber = MainApp.DALEK_NUMBER;
+            initializeWorld(this.dalekNumber);
+        }
+    }
+
     public void makeMove(Direction direction) {
         Vector2D newDocPosition = getDoctor().getPosition().add(direction.toVector());
 
@@ -72,24 +83,12 @@ public class World {
     }
 
     public void makeTeleport() {
-        //TODO in reference app having TPs made safe teleport, else you could tp to enemies. Do we make it the same?
         if(getDoctor().teleport(worldMap.getRandomVector(false))) {
             System.out.println("Teleportation!");
             onWorldAction();
         }
         else {
             System.out.println("You've ran out of teleportations!");
-        }
-    }
-
-    public void resetWorld() {
-        if(hasWon()) {
-            this.dalekNumber++;
-            initializeWorld(this.dalekNumber);
-        }
-        if(isGameOver()) {
-            this.dalekNumber = MainApp.DALEK_NUMBER;
-            initializeWorld(this.dalekNumber);
         }
     }
 
@@ -131,24 +130,23 @@ public class World {
                 });
     }
 
-    //collisions
     private void onWorldAction(){
-        checkDoctorCollision();
+//        checkDoctorCollision();
+        // checking doc collision is unnecessary, because daleks will stay in place if doctor jumped on them
         getDalekList().forEach(dalek -> dalek.moveTowards( doctor.getPosition()) );
         checkDaleksCollisions();
         increaseScore(1);
     }
 
     private void checkDoctorCollision() {
-
         if(doctor.getPosition().equals(doctor.getPrevPosition())) {
             return;
         }
         if (worldMap.isOccupied(getDoctor().getPosition())) {
-            MapObject obj = worldMap.objectAt(doctor.getPosition()).get();
-
-            obj.setAlive(false);   // when we will have GAME OVER screen we won't need so many instructions here
             doctor.setAlive(false);
+
+            MapObject obj = worldMap.objectAt(doctor.getPosition()).get();
+            obj.setAlive(false);   // when we will have GAME OVER screen we won't need so many instructions here
             worldMap.makeDeadPosition(obj);
             worldMap.removeAlivePosition(doctor.getPrevPosition());
             System.out.println("Doctor's Collision detected! - E N D   G A M E");
@@ -159,7 +157,7 @@ public class World {
 
     }
 
-    private void checkDaleksCollisions() {
+    private void checkDaleksCollisions() { //TODO refactor
         worldMap.prepareMapForCheckingCollisions(doctor);
 
         getDalekList()
@@ -178,9 +176,6 @@ public class World {
                 }
             });
     }
-
-
-
 
     private void increaseScore(int i){
         if(doctor.isAlive())

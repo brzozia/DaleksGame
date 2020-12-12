@@ -11,8 +11,7 @@ public enum Direction {
     SOUTHWEST,
     WEST,
     NORTHWEST;
-    //NONE;
-    //if we add NONE, then refactor Vector2D.getPositionsAround()
+    //NONE;         //if we add NONE, then refactor Vector2D.getPositionsAround()
 
 
     public Vector2D toVector() {
@@ -25,7 +24,7 @@ public enum Direction {
             case NORTHWEST -> new Vector2D(-1, -1);
             case WEST -> new Vector2D(-1, 0);
             case SOUTHWEST -> new Vector2D(-1, 1);
-            default -> new Vector2D(0, 0);
+//            default -> new Vector2D(0, 0);
         };
     }
 

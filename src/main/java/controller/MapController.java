@@ -57,16 +57,16 @@ public class MapController {
 
     public void addKeyboardEventToScene(Scene scene){
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-            //handler
             public void handle(KeyEvent ke) {
                 String keyChar = ke.getText();
                 ke.consume();// <-- stops passing the event to next node
+                //  if\else is used to disable other buttons when the game is over
                 if(world.isGameOver() || world.hasWon()) {
                     if(KeyBindings.isResetKey(keyChar)) {
                         //TODO reset game prompt earlier
                         onResetWorld();
                     }
-                } //  if\else is used to disable other buttons when game is over
+                }
                 else {
                     if (KeyBindings.isMovementKey(keyChar)) {
                         onMoveButtonPress(KeyBindings.keyToDirection(keyChar));
@@ -88,7 +88,6 @@ public class MapController {
                 }
                 drawScreen();
             }
-            //end of handler
         });
     }
 

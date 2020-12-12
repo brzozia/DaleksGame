@@ -62,6 +62,10 @@ public class WorldMap  {
         this.positionsOfAlive.put(object.getPosition(), object);
     }
 
+    public void positionChange(MapObject object) {
+        this.positionsOfAlive.put(object.getPosition(), object);
+    }
+
     public void prepareMapForCheckingCollisions(MapObject object){
         this.positionsOfAlive.clear();
         this.positionsOfAlive.put(object.getPosition(), object);
@@ -71,9 +75,6 @@ public class WorldMap  {
         this.positionsOfAlive.remove(oldPosition);
     }
 
-    public void positionChange(MapObject object) {
-        this.positionsOfAlive.put(object.getPosition(), object);
-    }
 
     public void makeDeadPosition(MapObject obj){
         if(positionsOfAlive.containsKey(obj.getPosition())) {

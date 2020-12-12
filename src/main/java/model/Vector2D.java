@@ -26,13 +26,11 @@ public class Vector2D {
     public static List<Vector2D> getPositionsAround(Vector2D position) {
         List<Vector2D> positionsAround = new ArrayList<>();
 
-        Arrays.asList(Direction.values()).forEach(dir -> {
-           positionsAround.add(position.add(dir.toVector()));
-        });
+        Arrays.asList(Direction.values()).forEach(dir -> positionsAround.add(position.add(dir.toVector())));
 
         return positionsAround;
     }
-    
+
     public Vector2D getCloseTo(Vector2D to){
         int x = this.x;
         int y = this.y;
