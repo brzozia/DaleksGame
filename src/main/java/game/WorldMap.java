@@ -42,69 +42,8 @@ public class WorldMap  {
     public Map<Vector2D, MapObject> getPositionsOfAlive() {
         return positionsOfAlive;
     }
-
-    public void addEntity(MapObject mapObject) {
-        if (isOccupied(mapObject.getPosition())) {
-            System.out.println(mapObject.getPosition().getX() + " "+mapObject.getPosition().getY()+"  " +mapObject);
-            throw new RuntimeException("Place is already occupied!");
-        }
-        positionsOfAlive.put(mapObject.getPosition(), mapObject);
-    }
-
-    public boolean isOccupied(Vector2D vector2D) {
-        return positionsOfAlive.containsKey(vector2D) || positionsOfDead.containsKey(vector2D);
-    }
-
-    public Optional<MapObject> objectAt (Vector2D position) {
-        Optional<MapObject> optional = Optional.ofNullable(positionsOfAlive.get(position));
-        if (optional.isPresent()) {
-            return optional;
-        }
-        return Optional.ofNullable(positionsOfDead.get(position));
-    }
-
-    public void clearAllPositions() {
-        this.positionsOfAlive.clear();
-        this.positionsOfDead.clear();
-    }
-
-    private void changeDoctorPosition(MapObject object, Vector2D oldPosition){
-        this.positionsOfAlive.remove(oldPosition);
-        this.positionsOfAlive.put(object.getPosition(), object);
-    }
-
-    public void positionChange(MapObject object) { //TODO make it private
-        this.positionsOfAlive.put(object.getPosition(), object);
-    }
-
-    private void prepareMapForCheckingCollisions(MapObject object){
-        this.positionsOfAlive.clear();
-        this.positionsOfAlive.put(object.getPosition(), object);
-    }
-
-    private void removeAlivePosition(Vector2D oldPosition) {
-        this.positionsOfAlive.remove(oldPosition);
-    }
-
-
-    private void makeDeadPosition(MapObject obj){
-        if(positionsOfAlive.containsKey(obj.getPosition())) {
-            this.positionsOfDead.put(obj.getPosition(), obj);
-            this.positionsOfAlive.remove(obj.getPosition());
-        }
-    }
-
     public int aliveDaleks(){
         return positionsOfAlive.size() - 1;
-    }
-
-
-
-    public boolean isInMapBounds(Vector2D vec){
-        if(vec.getX() >= width || vec.getX() < 0){
-            return false;
-        }
-        else return vec.getY() < width && vec.getY() >= 0;
     }
 
     public Vector2D getRandomVector(boolean mustBeUnoccupied) {
@@ -120,27 +59,84 @@ public class WorldMap  {
         return vector;
     }
 
+    public boolean isOccupied(Vector2D vector2D) {
+        return positionsOfAlive.containsKey(vector2D) || positionsOfDead.containsKey(vector2D);
+    }
+
+    public boolean isInMapBounds(Vector2D vec){
+        if(vec.getX() >= width || vec.getX() < 0){
+            return false;
+        }
+        else return vec.getY() < width && vec.getY() >= 0;
+    }
+
+
+    public void addEntity(MapObject mapObject) {
+        if (isOccupied(mapObject.getPosition())) {
+            System.out.println(mapObject.getPosition().getX() + " "+mapObject.getPosition().getY()+"  " +mapObject);
+            throw new RuntimeException("Place is already occupied!");
+        }
+        positionsOfAlive.put(mapObject.getPosition(), mapObject);
+    }
+
+
+    public Optional<MapObject> objectAt (Vector2D position) {
+        Optional<MapObject> optional = Optional.ofNullable(positionsOfAlive.get(position));
+        if (optional.isPresent()) {
+            return optional;
+        }
+        return Optional.ofNullable(positionsOfDead.get(position));
+    }
+
+    public void clearAllPositions() {
+        this.positionsOfAlive.clear();
+        this.positionsOfDead.clear();
+    }
+
+//    private void changeDoctorPosition(MapObject object, Vector2D oldPosition){
+//        this.positionsOfAlive.remove(oldPosition);
+//        this.positionsOfAlive.put(object.getPosition(), object);
+//    }
+
+    public void positionChange(MapObject object) { //TODO make it private
+        this.positionsOfAlive.put(object.getPosition(), object);
+    }
+
+    private void removeAlivePosition(Vector2D oldPosition) {
+        this.positionsOfAlive.remove(oldPosition);
+    }
+
+
+    private void makeDeadPosition(MapObject obj){
+        if(positionsOfAlive.containsKey(obj.getPosition())) {
+            this.positionsOfDead.put(obj.getPosition(), obj);
+            this.positionsOfAlive.remove(obj.getPosition());
+        }
+    }
 
 
     public void checkDoctorCollision(Doctor doctor) {
-        if(doctor.getPosition().equals(doctor.getPrevPosition())) {
-            return;
-        }
+//        removeAlivePosition(doctor.getPrevPosition()); //TODO what is better?
+        this.positionsOfAlive.remove(doctor.getPrevPosition());
+
         if (this.isOccupied(doctor.getPosition())) {
-            doctor.setAlive(false);
-
             MapObject obj = this.objectAt(doctor.getPosition()).get();
-            obj.setAlive(false);   // when we will have GAME OVER screen we won't need so many instructions here
+
             this.makeDeadPosition(obj);
-            this.removeAlivePosition(doctor.getPrevPosition());
-
+            doctor.setAlive(false);
+            obj.setAlive(false);
+//            this.makeDeadPosition(doctor);
         } else {
-            this.changeDoctorPosition(doctor, doctor.getPrevPosition());
+            this.positionChange(doctor);
         }
-
     }
 
-    public void checkDaleksCollisions(List<Dalek> dalekList, Doctor doctor) { //TODO refactor
+    private void prepareMapForCheckingCollisions(MapObject object){
+        this.positionsOfAlive.clear();
+        this.positionsOfAlive.put(object.getPosition(), object);
+    }
+    //TODO how about checkObjectCollision for both Dalek and Doctor
+    public void checkDaleksCollisions(List<Dalek> dalekList, Doctor doctor) {
         this.prepareMapForCheckingCollisions(doctor);
 
         dalekList.stream().filter(Dalek::isAlive)
@@ -149,9 +145,9 @@ public class WorldMap  {
                         MapObject obj = this.objectAt(dalek.getPosition()).get();
 
                         this.makeDeadPosition(dalek);
+//                        this.makeDeadPosition(obj);
                         dalek.setAlive(false);
                         obj.setAlive(false);
-
                     }
                     else {
                         this.positionChange(dalek);
