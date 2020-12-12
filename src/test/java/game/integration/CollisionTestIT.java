@@ -76,9 +76,9 @@ public class CollisionTestIT {
     @Test
     public void testTwoDalekCollision() {
         //given
-        Dalek dalek2 = createPlaceDalek(new Vector2D(3,3));
         doctor.move(new Vector2D(3,4));
         worldMap.positionChange(doctor);
+        Dalek dalek2 = createPlaceDalek(new Vector2D(3,3));
 
         //when
         world.makeMove(Direction.SOUTH); // y+=1, x+=0
@@ -93,9 +93,9 @@ public class CollisionTestIT {
     @Test
     public void testTwoDaleksGoSameDirectionNotColliding() {
         //given
-        Dalek dalek2 = createPlaceDalek(new Vector2D(3,3));
         doctor.move(new Vector2D(7,3));
         worldMap.positionChange(doctor);
+        Dalek dalek2 = createPlaceDalek(new Vector2D(3,3));
 
         ///when
         world.makeMove(Direction.EAST); // y+=0, x+1

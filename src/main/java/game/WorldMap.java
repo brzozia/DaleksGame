@@ -82,11 +82,8 @@ public class WorldMap  {
     private void makeEntityDead(MapObject obj){
         if(positionsOfAlive.containsKey(obj.getPosition())) {
             this.positionsOfAlive.remove(obj.getPosition());
+            this.positionsOfDead.put(obj.getPosition(), obj);
         }
-        else {
-            this.positionsOfDead.remove(obj.getPosition());
-        }
-        this.positionsOfDead.put(obj.getPosition(), obj);
     }
 
     public void clearAllEntities() {
