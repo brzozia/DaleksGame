@@ -35,20 +35,6 @@ public class DoctorTest {
         assertEquals(prevPosition, doctor.getPrevPosition());
     }
 
-    @Test //bug in Doctor.move()
-    public void moveDoctorToWrongPlaceTest() {
-        //given
-        Vector2D prevPosition = doctor.getPosition();
-        Vector2D newPosition = new Vector2D(5,5);
-
-        //when
-//        doctor.move(newPosition);
-
-        //then
-//        assertEquals(position, doctor.getPosition());
-        assertNull(doctor.getPrevPosition());
-    }
-
     @Test
     public void oneTeleportTest(){
         //given

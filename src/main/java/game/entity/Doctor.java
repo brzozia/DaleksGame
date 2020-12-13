@@ -11,31 +11,26 @@ public class Doctor extends MapObject {
         super(position);
         this.bombs = bombs;
         this.teleports = teleports;
-        this.isAlive = true;
         this.prevPosition = position;
     }
 
     public void move(Vector2D newPosition) {
-        this.prevPosition = position;
+        this.prevPosition = this.position;
         this.position = newPosition;
     }
 
     public boolean teleport(Vector2D newPosition) {
         if(teleports > 0) {
-            move(newPosition);
+            this.move(newPosition);
             teleports--;
             return true;
         }
         return false;
     }
 
-    public Vector2D getPrevPosition() {
-        return this.prevPosition;
-    }
-
     public boolean useBomb() {
         if(bombs > 0) {
-            move(getPosition());
+            this.move(getPosition());
             bombs--;
             return true;
         }
@@ -45,9 +40,10 @@ public class Doctor extends MapObject {
     public int getBombs() {
         return bombs;
     }
-
+    public Vector2D getPrevPosition() {
+        return this.prevPosition;
+    }
     public int getTeleports() {
         return teleports;
     }
-
 }

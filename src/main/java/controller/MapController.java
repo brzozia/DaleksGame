@@ -28,7 +28,7 @@ import java.util.Optional;
 public class MapController {
 
     @FXML
-    public Canvas canvas;
+    private Canvas canvas;
 
     private final World world;
     private Image doctor;
@@ -52,15 +52,15 @@ public class MapController {
         WorldMap worldMap = world.getWorldMap();
         cellWidth = ((int) canvas.getWidth() - (worldMap.getWidth()-1) * 2 ) / worldMap.getWidth();
         cellHeight = ( (int) canvas.getHeight() - (worldMap.getHeight()-1) * 2 ) / worldMap.getHeight();
-        drawScreen();
+        this.drawScreen();
     }
 
-    public void addKeyboardEventToScene(Scene scene){
+    public void addKeyboardEventToScene(Scene scene){ //TODO: refactor this function while adding EndGame screens and UI
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             public void handle(KeyEvent ke) {
                 String keyChar = ke.getText();
                 ke.consume();// <-- stops passing the event to next node
-                //  if\else is used to disable other buttons when the game is over
+                //  if\else used to disable other buttons when the game is over
                 if(world.isGameOver() || world.hasWon()) {
                     if(KeyBindings.isResetKey(keyChar)) {
                         //TODO add reset game prompt to UI

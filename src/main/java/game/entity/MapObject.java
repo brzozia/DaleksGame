@@ -8,10 +8,11 @@ public abstract class MapObject {
 
     public MapObject(Vector2D position) {
         this.position = position;
+        this.isAlive = true;
     }
 
     public Vector2D getPosition() {
-        return this.position;
+        return position;
     }
 
     public void setAlive(boolean isAlive) {

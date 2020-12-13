@@ -16,13 +16,6 @@ public class Vector2D {
         this.y = y;
     }
 
-    public int getX() {
-        return x;
-    }
-    public int getY() {
-        return y;
-    }
-
     public static List<Vector2D> getPositionsAround(Vector2D position) {
         List<Vector2D> positionsAround = new ArrayList<>();
 
@@ -66,6 +59,13 @@ public class Vector2D {
         return "x: "+ this.x +", y: "+this.y;
     }
 
+    //getters
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
+    }
 }
 
 
