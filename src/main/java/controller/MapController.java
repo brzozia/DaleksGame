@@ -1,15 +1,10 @@
 package controller;
 
-import com.google.inject.Guice;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import game.World;
 import game.WorldMap;
-import game.entity.Dalek;
 import game.entity.Doctor;
-import game.entity.MapObject;
 import game.utils.Direction;
-import guice.AppModule;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,8 +17,6 @@ import javafx.scene.paint.Color;
 import mainApp.MainApp;
 import model.Vector2D;
 
-import java.util.Optional;
-
 
 public class MapController {
 
@@ -31,12 +24,19 @@ public class MapController {
     private Canvas canvas;
 
     private final World world;
-    private Image doctor;
-    private Image dalek;
-    private Image rock;
+    private Image doctorImage;
+    private Image dalekImage;
+    private Image rockImage;
     private GraphicsContext context;
     private int cellWidth;
     private int cellHeight;
+
+    private final static String DOCTOR_PATH = "/doctor.png";
+    private final static String ROCK_PATH = "/rock.png";
+    private final static String DALEK_PATH = "/dalek.png";
+
+    private static final double TILE_LINE_WIDTH = 2.0;
+
 
     @Inject
     public MapController(World world) {
@@ -45,9 +45,9 @@ public class MapController {
 
     public void initialize() {
         context = canvas.getGraphicsContext2D();
-        doctor = new Image( getClass().getResourceAsStream("/doctor.png"));
-        rock = new Image( getClass().getResourceAsStream("/rock.png"));
-        dalek = new Image( getClass().getResourceAsStream("/dalek.jpg"));
+        doctorImage = new Image( getClass().getResourceAsStream(DOCTOR_PATH));
+        rockImage = new Image( getClass().getResourceAsStream(ROCK_PATH));
+        dalekImage = new Image( getClass().getResourceAsStream(DALEK_PATH));
 
         WorldMap worldMap = world.getWorldMap();
         cellWidth = ((int) canvas.getWidth() - (worldMap.getWidth()-1) * 2 ) / worldMap.getWidth();
@@ -68,17 +68,18 @@ public class MapController {
                     }
                 }
                 else {
-                    if (KeyBindings.isMovementKey(keyChar)) {
-                        onMoveButtonPress(KeyBindings.keyToDirection(keyChar));
-                        System.out.println("Your score: " + world.getScore());
-                        //TODO add score to UI, not console
+                    switch (keyChar) {
+                        case KeyBindings.USE_TELEPORT, KeyBindings.USE_TELEPORT_NUMERICAL -> onUseTeleport();
+                        case KeyBindings.USE_BOMB -> onUseBomb();
+                        default -> {
+                            if (KeyBindings.isMovementKey(keyChar)) {
+                                onMoveButtonPress(KeyBindings.keyToDirection(keyChar));
+                                System.out.println("Your score: " + world.getScore());
+                                //TODO add score to UI, not console
+                            }
+                        }
                     }
-                    else if(KeyBindings.isTeleportKey(keyChar)){
-                        onUseTeleport();
-                    }
-                    else if(KeyBindings.isBombKey(keyChar)){
-                        onUseBomb();
-                    }
+
                     if(world.hasWon()){
                         System.out.println("Y O U   W O N!!!");
                     }
@@ -118,28 +119,28 @@ public class MapController {
                 context.strokeLine(0,  0.5+(i+1)*cellHeight + i*2, canvas.getWidth(), 0.5+(i+1)*cellHeight + i*2);
             }
             for (int i=0; i<MainApp.WIDTH-1; i++) {
-                context.setLineWidth(2.0);
+                context.setLineWidth(TILE_LINE_WIDTH);
                 context.setFill(Color.BLACK);
                 context.strokeLine( 0.5+(i+1)*cellWidth + i*2, 0, 0.5+(i+1)*cellWidth + i*2, canvas.getHeight());
             }
 
             for (int i=0; i<MainApp.HEIGHT; i++) {
                 for (int j=0; j<MainApp.WIDTH; j++) {
-                    Optional<MapObject> object = world.getWorldMap().objectAt(new Vector2D(i,j));
-                    if(object.isPresent()){
-                        if(object.get() instanceof Doctor && object.get().isAlive()){
-                            context.drawImage(doctor, (cellWidth*i)+i*2, (cellHeight*j)+j*2, cellWidth-1, cellHeight-1);
-                        }
-                        else{
-                            MapObject daleki = object.get();
-                            if(daleki.isAlive()){
-                                context.drawImage(dalek, (cellWidth*i)+i*2, (cellHeight*j)+j*2, cellWidth-1, cellHeight-1);
+                    int finalI = i;
+                    int finalJ = j;
+                    world.getWorldMap()
+                    .objectAt(new Vector2D(i,j))
+                    .ifPresent( object -> {
+                        if (object instanceof Doctor && object.isAlive()) {
+                            context.drawImage(doctorImage, (cellWidth * finalI) + finalI * 2, (cellHeight * finalJ) + finalJ * 2, cellWidth - 1, cellHeight - 1);
+                        } else {
+                            if (object.isAlive()) {
+                                context.drawImage(dalekImage, (cellWidth * finalI) + finalI * 2, (cellHeight * finalJ) + finalJ * 2, cellWidth - 1, cellHeight - 1);
+                            } else {
+                                context.drawImage(rockImage, (cellWidth * finalI) + finalI * 2, (cellHeight * finalJ) + finalJ * 2, cellWidth - 1, cellHeight - 1);
                             }
-                            else{
-                                context.drawImage(rock, (cellWidth*i)+i*2, (cellHeight*j)+j*2, cellWidth-1, cellHeight-1);
-                            }
                         }
-                    }
+                    });
                 }
             }
         });

@@ -10,8 +10,8 @@ import model.Vector2D;
 import java.util.*;
 
 public class WorldMap  {
-    private int height;
-    private int width;
+    private final int height;
+    private final int width;
 
     private final Map<Vector2D, MapObject> positionsOfAlive;
     private final Map<Vector2D, MapObject> positionsOfDead;
@@ -86,7 +86,8 @@ public class WorldMap  {
 
     private void checkObjectCollision(MapObject mapObject) {
         if(this.isOccupied(mapObject.getPosition())) {
-            MapObject otherObject = this.objectAt(mapObject.getPosition()).get(); //cannot be null because of if fun
+            MapObject otherObject = this.objectAt(mapObject.getPosition())
+                    .orElseThrow(() -> new RuntimeException("Object not found at occupied field"));
 
             this.makeEntityDead(mapObject);
             mapObject.setAlive(false);
@@ -133,11 +134,5 @@ public class WorldMap  {
     }
     public Map<Vector2D, MapObject> getPositionsOfAlive() {
         return positionsOfAlive;
-    }
-    public void setHeight(int height) {
-        this.height = height;
-    }
-    public void setWidth(int width) {
-        this.width = width;
     }
 }
