@@ -13,6 +13,7 @@ import java.util.List;
 
 public class World {
     private final WorldMap worldMap;
+    private final WorldCollisions worldCollisions;
     private  List<Dalek> dalekList;
     private  Doctor doctor;
     private int score = 0;
@@ -21,6 +22,7 @@ public class World {
     @Inject
     public World(WorldMap worldMap, @Named("DalekNumber") int dalekNumber) {
         this.worldMap = worldMap;
+        this.worldCollisions = new WorldCollisions(worldMap);
         this.dalekNumber = dalekNumber;
         this.initializeWorld(dalekNumber);
     }
@@ -56,9 +58,9 @@ public class World {
     }
 
     private void onWorldAction(){
-        worldMap.checkDoctorCollision(getDoctor());
+        worldCollisions.checkDoctorCollision(getDoctor());
         dalekList.forEach(dalek -> dalek.moveTowards(doctor.getPosition()));
-        worldMap.checkDaleksCollisions(getDalekList(), getDoctor());
+        worldCollisions.checkDaleksCollisions(getDalekList(), getDoctor());
         this.increaseScoreBy(1);
     }
 
