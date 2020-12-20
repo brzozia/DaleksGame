@@ -99,4 +99,54 @@ public class DoctorMovementTestIT {
         assertEquals(new Vector2D(4,8), dalekBottom.getPosition());
         assertEquals(new Vector2D(4,1), dalekTop.getPosition());
     }
+
+    @Test
+    public void testAfterTeleportDaleksMovement(){
+        //given
+        Dalek dalekLeft = new Dalek(new Vector2D(2,2));
+        Dalek dalekRight = new Dalek(new Vector2D(8,2));
+        List<Dalek> daleks = Arrays.asList(dalekLeft,dalekRight);
+        world.getDalekList().addAll(daleks);
+        daleks.forEach(worldMap::addEntity);
+
+        doctor.move(new Vector2D(0,0));
+        worldMap.positionChange(doctor);
+        Vector2D newPosition = new Vector2D(5,5);
+
+        //when
+        doctor.teleport(newPosition);
+        world.onWorldAction();
+
+        //then
+        assertFalse(world.isGameOver());
+        assertEquals(newPosition, doctor.getPosition());
+        assertEquals(new Vector2D(3,3), dalekLeft.getPosition());
+        assertEquals(new Vector2D(7,3), dalekRight.getPosition());
+    }
+
+    @Test
+    public void testAfterBombDaleksMovement(){
+        //given
+        Dalek dalekLeft = new Dalek(new Vector2D(2,2));
+        Dalek dalekRight = new Dalek(new Vector2D(8,2));
+        Dalek dalekDead = new Dalek(new Vector2D(0,1));
+        List<Dalek> daleks = Arrays.asList(dalekLeft,dalekRight, dalekDead);
+        world.getDalekList().addAll(daleks);
+        daleks.forEach(worldMap::addEntity);
+
+        doctor.move(new Vector2D(0,0));
+        worldMap.positionChange(doctor);
+
+        //when
+        world.useBomb();
+
+        //then
+        assertFalse(world.isGameOver());
+        assertEquals(new Vector2D(0,0), doctor.getPosition());
+        assertEquals(new Vector2D(1,1), dalekLeft.getPosition());
+        assertEquals(new Vector2D(7,1), dalekRight.getPosition());
+        assertEquals(new Vector2D(0,1), dalekDead.getPosition());
+    }
+
+
 }

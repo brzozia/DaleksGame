@@ -6,8 +6,7 @@ import model.Vector2D;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -138,5 +137,45 @@ public class WorldMapTest {
         //then
         assertTrue(worldMap.isInMapBounds(inMapPositionOne));
         assertTrue(worldMap.isInMapBounds(inMapPositionTwo));
+    }
+
+    @Test
+    public void makeAliveEntityDeadTest() {
+        //given
+
+        //when
+        worldMap.makeEntityDead(dalekOne);
+
+        //then
+        assertTrue(worldMap.isOccupied(positionOne));
+        assertFalse(worldMap.getPositionsOfAlive().containsKey(positionOne));
+
+    }
+
+
+    @Test
+    public void destroyObjectsOnVectorsTest() {
+        //given
+        Vector2D positionTwo = new Vector2D(1,1);
+        Vector2D positionThree = new Vector2D(2,20);
+        Vector2D positionFour = new Vector2D(2,7);
+        Dalek dalekTwo = new Dalek(positionTwo);
+        worldMap.addEntity(dalekTwo);
+        worldMap.addEntity(new Dalek(positionThree));
+        List<Vector2D> positions = new ArrayList<>( worldMap.getPositionsOfAlive().keySet());
+        positions.add(positionFour);
+
+
+        //when
+        worldMap.destroyObjectsOnVectors(positions);
+
+        //then
+        assertFalse(worldMap.getPositionsOfAlive().containsKey(positionOne));
+        assertFalse(worldMap.getPositionsOfAlive().containsKey(positionTwo));
+        assertTrue(worldMap.getPositionsOfAlive().containsKey(positionThree));
+        assertFalse(worldMap.getPositionsOfAlive().containsKey(positionFour));
+
+        assertFalse(dalekOne.isAlive());
+        assertFalse(dalekTwo.isAlive());
     }
 }

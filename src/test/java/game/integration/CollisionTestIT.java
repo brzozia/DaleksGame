@@ -59,6 +59,25 @@ public class CollisionTestIT {
     }
 
     @Test
+    public void testDoctorIntoDeadDalekCollision() {
+        //given
+        doctor.move(new Vector2D(2,2));
+        worldMap.positionChange(doctor);
+        Dalek dalek2 = createPlaceDalek(new Vector2D(3,3));
+        world.makeMove(Direction.NORTHEAST);
+
+        //when
+        world.makeMove(Direction.SOUTH);
+
+        //then
+        assertTrue(world.isGameOver());
+        assertFalse(doctor.isAlive());
+        assertEquals(world.getDalekList().size(), 2);
+        assertEquals(doctor.getPosition(), dalek.getPosition());
+        assertEquals(dalek2.getPosition(), dalek.getPosition());
+    }
+
+    @Test
     public void testDoctorAndDalekToNewTileCollision() {
         //given
         doctor.move(new Vector2D(2, 1));
@@ -88,6 +107,27 @@ public class CollisionTestIT {
         assertEquals(2, world.getDalekList().size());
         assertEquals(dalek.getPosition(), dalek2.getPosition());
         assertNotEquals(dalek.getPosition(), doctor.getPosition());
+    }
+
+    @Test
+    public void testDalekAndDeadDalekCollision(){
+        //given
+        doctor.move(new Vector2D(3,4));
+        worldMap.positionChange(doctor);
+        Dalek dalek2 = createPlaceDalek(new Vector2D(3,3));
+        Dalek dalek3 = createPlaceDalek(new Vector2D(3,2));
+        world.makeMove(Direction.SOUTH);
+
+        //when
+        world.makeMove(Direction.SOUTH);
+
+        //then
+        assertFalse(world.isGameOver());
+        assertFalse(dalek2.isAlive());
+        assertFalse(dalek3.isAlive());
+        assertEquals(3, world.getDalekList().size());
+        assertEquals(dalek.getPosition(), dalek2.getPosition());
+        assertEquals(dalek2.getPosition(), dalek3.getPosition());
     }
 
     @Test

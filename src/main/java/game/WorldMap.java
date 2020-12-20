@@ -79,7 +79,7 @@ public class WorldMap  {
         return Optional.ofNullable(positionsOfDead.get(position));
     }
 
-    public void positionChange(MapObject object) { //TODO make it private
+    public void positionChange(MapObject object) {
         positionsOfAlive.put(object.getPosition(), object);
     }
 

@@ -2,7 +2,13 @@ package model;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Vector;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class Vector2DTest {
@@ -101,6 +107,26 @@ public class Vector2DTest {
 
         // then
         assertEquals(expectedStringPosition,toStringPosition);
+    }
+
+    @Test
+    public void getPositionsAroundTest(){
+        //given
+        Vector2D centerPosition = new Vector2D(5,5);
+        List<Vector2D> expectedPositions = Arrays.asList(
+                new Vector2D(4,4), new Vector2D(5, 4), new Vector2D(6,4),
+                new Vector2D(4,5), new Vector2D(6,5),
+                new Vector2D(4,6), new Vector2D(5,6), new Vector2D(6,6));
+        List<Vector2D> positions;
+
+        //when
+        positions = Vector2D.getPositionsAround(centerPosition);
+
+        //then
+        expectedPositions.forEach((pos) -> {
+            System.out.println(pos.toString());
+            assertTrue(positions.contains(pos));
+        });
     }
 
 }

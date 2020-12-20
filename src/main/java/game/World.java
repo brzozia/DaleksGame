@@ -57,7 +57,7 @@ public class World {
         }
     }
 
-    private void onWorldAction(){
+    public void onWorldAction(){
         worldCollisions.checkDoctorCollision(getDoctor());
         dalekList.forEach(dalek -> dalek.moveTowards(doctor.getPosition()));
         worldCollisions.checkDaleksCollisions(getDalekList(), getDoctor());
