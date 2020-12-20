@@ -178,4 +178,13 @@ public class WorldMapTest {
         assertFalse(dalekOne.isAlive());
         assertFalse(dalekTwo.isAlive());
     }
+
+    @Test
+    public void testCheckObjectCollisions(){
+        //given
+
+        //when
+
+        //then
+    }
 }

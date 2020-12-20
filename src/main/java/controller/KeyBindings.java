@@ -31,7 +31,7 @@ public class KeyBindings {
     }
 
     public static Direction keyToDirection(String key) {
-        if(!isMovementKey(key)) throw new RuntimeException("This button isn't mapped to movement direction");
+        if(!isMovementKey(key)) throw new IllegalArgumentException("This button isn't mapped to movement direction");
         return moveControls.get(key);
     }
 }
