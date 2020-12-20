@@ -18,6 +18,7 @@ public class MainApp extends Application {
     public static final int WIDTH = 15;
     public static final int HEIGHT = 15;
     public static final int DALEK_NUMBER = 5;
+    public static final int NAVIGATION_PART_SIZE = 200;
 
     @Override
     public void start(Stage primaryStage) {
@@ -32,7 +33,7 @@ public class MainApp extends Application {
 
             MapController mapController = loader.getController();
 
-            Scene scene = new Scene(root, WIDTH*TILE_SIZE, HEIGHT*TILE_SIZE);
+            Scene scene = new Scene(root, WIDTH*TILE_SIZE+NAVIGATION_PART_SIZE, HEIGHT*TILE_SIZE);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Dalek Game");
             mapController.addKeyboardEventToScene(scene);
