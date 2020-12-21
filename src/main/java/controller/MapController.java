@@ -75,11 +75,11 @@ public class MapController {
     }
 
     private void executeKeyFunction(String keyChar){
-        disable = true;
         if(world.isGameOver() || world.hasWon()) {
             if(KeyBindings.isResetKey(keyChar)) {
                 //TODO add reset game prompt to UI
                 onResetWorld();
+                disable = true;
             }
         }
         else {
@@ -95,6 +95,12 @@ public class MapController {
                 }
             }
         }
+
+        checkEndGame();
+        drawScreen(disable);
+    }
+
+    private void checkEndGame(){
         if(world.hasWon()){
             disable = false;
             System.out.println("Y O U   W O N!!!");
@@ -103,15 +109,13 @@ public class MapController {
             disable = false;
             System.out.println("Y O U   L O S T  :(");
         }
-
-        drawScreen(disable);
     }
-
 
     @FXML
     private void onTeleportationButtonPress(){
         executeKeyFunction(KeyBindings.USE_TELEPORT);
     }
+
     @FXML
     private void onBombButtonPress(){
         executeKeyFunction(KeyBindings.USE_BOMB);
