@@ -39,7 +39,6 @@ public class World {
     }
 
     public void initializeWorld(int dalekNumber) { //right now doctor resets bomb and tp every won game
-        if(this.isGameOver()) score = 0;
         MapGenerationHelper.clearDaleksFromWorldAndList(worldMap, dalekList);
         doctor = MapGenerationHelper.randomPlaceDoctor(worldMap);
         dalekList = MapGenerationHelper.randomPlaceDaleks(worldMap, dalekNumber);
@@ -48,10 +47,19 @@ public class World {
     //actions
     public void resetWorld() {
         if(hasWon()) {
+            int bombsLeft = doctor.getBombs();
+            int teleportsLeft = doctor.getTeleports();
+
             dalekNumber++;
+            this.increaseScoreBy(MainApp.SCORE_ON_WON_GAME);
             this.initializeWorld(dalekNumber);
+
+            doctor.setBombs(bombsLeft + 1);
+            doctor.setTeleports(teleportsLeft + 1);
+
         }
         if(isGameOver()) {
+            score = 0;
             dalekNumber = MainApp.DALEK_NUMBER;
             this.initializeWorld(dalekNumber);
         }
@@ -90,7 +98,7 @@ public class World {
             System.out.println("Bombard");
             List<Vector2D> vectorsAround = Vector2D.getPositionsAround(getDoctor().getPosition());
             worldMap.destroyObjectsOnVectors(vectorsAround);
-            this.onWorldAction();  // can be here also Move(0) (but now doctor's positions are change in Doctor class in useBomb())
+            this.onWorldAction();
         }
         else {
             System.out.println("You've ran out of bombs!");

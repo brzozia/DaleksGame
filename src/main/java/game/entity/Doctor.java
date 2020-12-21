@@ -1,5 +1,7 @@
 package game.entity;
 
+import com.sun.tools.javac.Main;
+import mainApp.MainApp;
 import model.Vector2D;
 
 public class Doctor extends MapObject {
@@ -37,13 +39,21 @@ public class Doctor extends MapObject {
         return false;
     }
 
+    public void setBombs(int bombs) {
+        if(bombs > MainApp.INITIAL_BOMBS) this.bombs = MainApp.INITIAL_BOMBS;
+        this.bombs = bombs;
+    }
+    public void setTeleports(int teleports) {
+        if(teleports > MainApp.INITIAL_TELEPORTS) this.teleports = MainApp.INITIAL_TELEPORTS;
+        this.teleports = teleports;
+    }
     public int getBombs() {
         return bombs;
     }
-    public Vector2D getPrevPosition() {
-        return this.prevPosition;
-    }
     public int getTeleports() {
         return teleports;
+    }
+    public Vector2D getPrevPosition() {
+        return this.prevPosition;
     }
 }

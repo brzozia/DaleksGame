@@ -3,6 +3,7 @@ package game.utils;
 import game.WorldMap;
 import game.entity.Dalek;
 import game.entity.Doctor;
+import mainApp.MainApp;
 import model.Vector2D;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class MapGenerationHelper {
 
     public static Doctor randomPlaceDoctor(WorldMap worldMap) {
         Vector2D doctorPosition = worldMap.getRandomVector(true);
-        Doctor doctor = new Doctor(doctorPosition,  2, 3);
+        Doctor doctor = new Doctor(doctorPosition,  MainApp.INITIAL_BOMBS, MainApp.INITIAL_TELEPORTS);
         worldMap.addEntity(doctor);
         return doctor;
     }

@@ -87,7 +87,7 @@ public class WorldTest {
         world.resetWorld();
 
         //then
-        assertEquals(score,world.getScore());
+        assertEquals(score+MainApp.SCORE_ON_WON_GAME,world.getScore());
         assertEquals(dalekNumber+1, world.getDalekList().size());
     }
 
