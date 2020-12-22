@@ -8,7 +8,10 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
+
+import java.util.List;
 
 
 //TODO add score, bombs left, teleports left to UI, not console
@@ -21,7 +24,26 @@ public class MapController {
 
     @FXML
     private Button restartButton;
-    private boolean disable;
+
+    @FXML private Button moveS;
+    @FXML private Button moveN;
+    @FXML private Button moveE;
+    @FXML private Button moveW;
+    @FXML private Button moveSW;
+    @FXML private Button moveSE;
+    @FXML private Button moveNW;
+    @FXML private Button moveNE;
+
+    @FXML private Label scoreLabel;
+
+    @FXML
+    private Button teleportationButton;
+
+    @FXML
+    private Button undoButton;
+
+    @FXML
+    private Button bombButton;
 
     private final World world;
     private final MapDrafter mapDrafter;
@@ -35,6 +57,7 @@ public class MapController {
 
     public void initialize() {
         mapDrafter.initialize(canvas, world.getWorldMap());
+        setAllButtonsToGameState();
     }
 
     public void addKeyboardEventToScene(Scene scene){
@@ -50,13 +73,23 @@ public class MapController {
         if(world.isGameOver() || world.hasWon()) {
             if(KeyBindings.isResetKey(keyChar)) {
                 this.onResetWorld();
-                disable = true;
+                setAllButtonsToGameState();
             }
         }
         else {
             switch (keyChar) {
-                case KeyBindings.USE_TELEPORT, KeyBindings.USE_TELEPORT_NUMERICAL -> onUseTeleport();
-                case KeyBindings.USE_BOMB -> onUseBomb();
+                case KeyBindings.USE_TELEPORT, KeyBindings.USE_TELEPORT_NUMERICAL -> {
+                    onUseTeleport();
+                    if(world.howManyTeleports() == 0) {
+                        teleportationButton.setDisable(true);
+                    }
+                }
+                case KeyBindings.USE_BOMB -> {
+                    onUseBomb();
+                    if(world.howManyBombs() == 0) {
+                        bombButton.setDisable(true);
+                    }
+                }
                 default -> {
                     if (KeyBindings.isMovementKey(keyChar)) {
                         this.onMoveKeyPress(KeyBindings.keyToDirection(keyChar));
@@ -68,21 +101,56 @@ public class MapController {
 
         mapDrafter.drawScreen(world.getWorldMap());
         this.checkEndGame();
+        setScore();
     }
 
     private void checkEndGame(){
-        if(world.hasWon()){
-            disable = false;
+        if(world.hasWon()) {
             System.out.println("Y O U   W O N!!!");
             mapDrafter.drawTextOnVictory(world.getScore());
+            setAllButtonsToWonOrLostState();
         }
         if(world.isGameOver()) {
-            disable = false;
             System.out.println("Y O U   L O S T  :(");
             mapDrafter.drawTextOnLosing(world.getScore());
+            setAllButtonsToWonOrLostState();
         }
+    }
 
-        restartButton.setDisable(disable);
+    private void setAllButtonsToGameState() {
+        bombButton.setDisable(false);
+        teleportationButton.setDisable(false);
+        restartButton.setDisable(true);
+        undoButton.setDisable(false);
+        moveS.setDisable(false);
+        moveN.setDisable(false);
+        moveE.setDisable(false);
+        moveW.setDisable(false);
+        moveSW.setDisable(false);
+        moveSE.setDisable(false);
+        moveNW.setDisable(false);
+        moveNE.setDisable(false);
+    }
+
+    private void setAllButtonsToWonOrLostState() {
+        bombButton.setDisable(true);
+        teleportationButton.setDisable(true);
+        restartButton.setDisable(false);
+        undoButton.setDisable(true);
+        moveS.setDisable(true);
+        moveN.setDisable(true);
+        moveE.setDisable(true);
+        moveW.setDisable(true);
+        moveSW.setDisable(true);
+        moveSE.setDisable(true);
+        moveNW.setDisable(true);
+        moveNE.setDisable(true);
+    }
+
+    private void setScore() {
+        int score = world.getScore();
+        String scoreText = "Score: " + score;
+        scoreLabel.setText(scoreText);
     }
 
     @FXML

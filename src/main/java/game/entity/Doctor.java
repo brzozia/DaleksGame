@@ -1,6 +1,5 @@
 package game.entity;
 
-import com.sun.tools.javac.Main;
 import mainApp.MainApp;
 import model.Vector2D;
 

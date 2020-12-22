@@ -119,4 +119,12 @@ public class World {
         return score;
     }
     public void setScore(int score){this.score = score;}
+
+    public int howManyTeleports() {
+        return doctor.getTeleports();
+    }
+
+    public int howManyBombs() {
+        return doctor.getBombs();
+    }
 }
