@@ -5,46 +5,45 @@ import model.Vector2D;
 public class Doctor extends MapObject {
     private int bombs;
     private int teleports;
-    private boolean isAlive;
+    private Vector2D prevPosition;
 
     public Doctor(Vector2D position, int bombs, int teleports) {
         super(position);
-
         this.bombs = bombs;
         this.teleports = teleports;
-        isAlive = true;
+        this.prevPosition = position;
     }
 
     public void move(Vector2D newPosition) {
-        this.prevPosition = position;
+        this.prevPosition = this.position;
         this.position = newPosition;
     }
 
     public boolean teleport(Vector2D newPosition) {
         if(teleports > 0) {
-            this.prevPosition = position;
-            this.position = newPosition;
+            this.move(newPosition);
             teleports--;
             return true;
         }
         return false;
     }
 
-    public void die() {
-        isAlive = false;
+    public boolean useBomb() {
+        if(bombs > 0) {
+            this.move(getPosition());
+            bombs--;
+            return true;
+        }
+        return false;
     }
 
-    public boolean isAlive() {
-        return isAlive;
+    public int getBombs() {
+        return bombs;
     }
-
-    @Override
-    public void interact(MapObject mapObject) {
-
+    public Vector2D getPrevPosition() {
+        return this.prevPosition;
     }
-
-    public void useBomb() {
-
+    public int getTeleports() {
+        return teleports;
     }
-
 }

@@ -1,10 +1,12 @@
 package game;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import game.entity.Dalek;
 import game.entity.Doctor;
-import game.entity.MapObject;
-import game.entity.PowerUp;
+import game.utils.Direction;
 import game.utils.MapGenerationHelper;
+import mainApp.MainApp;
 import model.Vector2D;
 
 import java.util.List;
@@ -13,161 +15,97 @@ public class World {
     private final WorldMap worldMap;
     private  List<Dalek> dalekList;
     private  Doctor doctor;
-    private List<PowerUp> powerUpsList;
-    private boolean gameOver;
+    private int score = 0;
+    private int dalekNumber;
 
-    public World(int height, int width, int dalekNumber) {
-        worldMap = new WorldMap(height, width);
+    @Inject
+    public World(WorldMap worldMap, @Named("DalekNumber") int dalekNumber) {
+        this.worldMap = worldMap;
+        this.dalekNumber = dalekNumber;
         this.initializeWorld(dalekNumber);
     }
 
-    public void initializeWorld(int dalekNumber) {
-        //TODO review it? MB GUICE
-        MapGenerationHelper.clearDaleksFromWorldAndList(worldMap, dalekList, doctor);
+    public boolean isGameOver() {
+        return doctor == null || !doctor.isAlive();
+    }
+    public boolean hasWon(){
+        return doctor.isAlive() && worldMap.aliveDaleks() == 0;
+    }
+    private void increaseScoreBy(int i){
+        if(doctor.isAlive())
+            score += i;
+    }
 
+    public void initializeWorld(int dalekNumber) { //right now doctor resets bomb and tp every won game
+        if(this.isGameOver()) score = 0;
+        MapGenerationHelper.clearDaleksFromWorldAndList(worldMap, dalekList);
         doctor = MapGenerationHelper.randomPlaceDoctor(worldMap);
-        dalekList = MapGenerationHelper.randomPlaceDalek(worldMap, dalekNumber);
-        this.gameOver = false;
+        dalekList = MapGenerationHelper.randomPlaceDaleks(worldMap, dalekNumber);
     }
 
-
-    public List<Dalek> getDalekList() {
-        return dalekList;
-    }
-
-    public Doctor getDoctor() {
-        return doctor;
-    }
-
-    public List<PowerUp> getPowerUpsList() {
-        return powerUpsList;
-    }
-
-
-    public void makeMove(Integer direction) {
-        Vector2D vec = parseToVector2D(direction, getDoctor().getPosition());
-        if(worldMap.isInMap(vec)){
-            getDoctor().move(vec);
-            checkCollisionsAndMoveDaleks();
+    //actions
+    public void resetWorld() {
+        if(hasWon()) {
+            dalekNumber++;
+            this.initializeWorld(dalekNumber);
         }
-        else{
+        if(isGameOver()) {
+            dalekNumber = MainApp.DALEK_NUMBER;
+            this.initializeWorld(dalekNumber);
+        }
+    }
+
+    private void onWorldAction(){
+        worldMap.checkDoctorCollision(getDoctor());
+        dalekList.forEach(dalek -> dalek.moveTowards(doctor.getPosition()));
+        worldMap.checkDaleksCollisions(getDalekList(), getDoctor());
+        this.increaseScoreBy(1);
+    }
+
+    public void makeMove(Direction direction) {
+        Vector2D newDocPosition = doctor.getPosition().add(direction.toVector());
+        if(worldMap.isInMapBounds(newDocPosition)){
+            doctor.move(newDocPosition);
+            onWorldAction();
+        }
+        else {
             System.out.println("What you are trying to do? Wanna run beyond the borders? GL");
         }
     }
 
     public void makeTeleport() {
-        getDoctor().teleport(worldMap.getRandomVector());
-        checkCollisionsAndMoveDaleks();
-    }
-
-    private void checkCollisionsAndMoveDaleks(){
-        checkDoctorCollision();
-        if(isGameOver()) {
-            return;
+        if(doctor.teleport(worldMap.getRandomVector(false))) {
+            System.out.println("Teleportation!");
+            this.onWorldAction();
         }
-        getDalekList().forEach(dalek -> dalek.move( getDoctor().getPosition()) );
-        checkDaleksCollisions();
-    }
-
-    private void checkDoctorCollision() {
-        if(worldMap.isOccupied(getDoctor().getPosition())){
-            this.setGameOver();
-            System.out.println("Doctor's Collision detected! - E N D   G A M E");
-
-            worldMap.removePosition(getDoctor().getPrevPosition());
-        }
-        else{
-            worldMap.positionChanged(getDoctor(), getDoctor().getPrevPosition(), getDoctor().getPosition());
+        else {
+            System.out.println("You've ran out of teleportations!");
         }
     }
 
-    private void checkDaleksCollisions() {
-        // TODO fix collisions: 2 daleks bump into each other then they dont reset;
-        //  When daleks are going to same direction they kill themselves - after movement we MUST update position
-        getDalekList()
-            .stream().filter(Dalek::isAlive)
-            .forEach(dalek -> {
-                if(worldMap.isOccupied(dalek.getPosition())){
-                    MapObject obj = worldMap.objectAt(dalek.getPosition()).get();
-
-                    if(obj instanceof Doctor){
-                        System.out.println("DALEK ATE THE DOCTOR - E N D   G A M E ");
-                        worldMap.positionChanged(dalek, dalek.getPrevPosition(), dalek.getPosition());
-                        this.setGameOver();
-
-                    }else{
-                        Dalek dalek2 = (Dalek) obj;
-                        dalek2.setAlive(false);
-
-                        System.out.println("Dalek's Collision detected!");
-                    }
-
-                    worldMap.removePosition(dalek.getPrevPosition());
-                    dalek.setAlive(false);
-
-                }
-                else{
-                    worldMap.positionChanged(dalek, dalek.getPrevPosition(), dalek.getPosition());
-                }
-
-            });
+    public void useBomb() {
+        if(doctor.useBomb()) {
+            System.out.println("Bombard");
+            List<Vector2D> vectorsAround = Vector2D.getPositionsAround(getDoctor().getPosition());
+            worldMap.destroyObjectsOnVectors(vectorsAround);
+            this.onWorldAction();  // can be here also Move(0) (but now doctor's positions are change in Doctor class in useBomb())
+        }
+        else {
+            System.out.println("You've ran out of bombs!");
+        }
     }
 
+    //getters/setters
+    public List<Dalek> getDalekList() {
+        return dalekList;
+    }
+    public Doctor getDoctor() {
+        return doctor;
+    }
     public WorldMap getWorldMap() {
         return worldMap;
     }
-
-    private void setGameOver() {
-        this.gameOver = true;
-    }
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
-    public static Vector2D parseToVector2D(int num, Vector2D position){
-        int x = position.getX();
-        int y = position.getY();
-
-        //TODO make enum making it more explicit
-        switch (num) {
-            case 1 -> {
-                x += -1;
-                y += 1;
-            }
-            case 2 -> {
-                x += 0;
-                y += 1;
-            }
-            case 3 -> {
-                x += 1;
-                y += 1;
-            }
-            case 6 -> {
-                x += 1;
-                y += 0;
-            }
-            case 9 -> {
-                x += 1;
-                y += -1;
-            }
-            case 8 -> {
-                x += 0;
-                y += -1;
-            }
-            case 7 -> {
-                x += -1;
-                y += -1;
-            }
-            case 4 -> {
-                x += -1;
-                y += 0;
-            }
-            default -> {
-                x += 0;
-                y += 0;
-            }
-        }
-
-        return new Vector2D(x,y);
+    public int getScore(){
+        return score;
     }
 }

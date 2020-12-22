@@ -1,48 +1,27 @@
 package model;
 
+import game.utils.Direction;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
-import java.util.Vector;
 
 public class Vector2D {
-    private int x;
-    private int y;
-
-    public int getX() {
-        return x;
-    }
-    public int getY() {
-        return y;
-    }
+    private final int x;
+    private final int y;
 
     public Vector2D(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-//    public Vector2D(int num) {
-//        parseToVector2D(num);
-//    }
+    public static List<Vector2D> getPositionsAround(Vector2D position) {
+        List<Vector2D> positionsAround = new ArrayList<>();
 
-    public String toString(){
-        return "x:  "+ this.x +",  y: "+this.y;
-    }
+        Arrays.asList(Direction.values()).forEach(dir -> positionsAround.add(position.add(dir.toVector())));
 
-    public void add(Vector2D move) {
-        this.x += move.getX();
-        this.y += move.getY();
-    }
-
-    public void substract(Vector2D move) {
-        this.x -= move.getX();
-        this.y -= move.getY();
-    }
-
-    public Vector2D follows(Vector2D move) {
-        return new Vector2D(move.x+1, move.y+1);
-    }
-
-    public Vector2D precedes(Vector2D move) {
-        return new Vector2D(move.x-1, move.y-1);
+        return positionsAround;
     }
 
     public Vector2D getCloseTo(Vector2D to){
@@ -58,6 +37,10 @@ public class Vector2D {
         return new Vector2D(x,y);
     }
 
+    public Vector2D add(Vector2D other) {
+        return new Vector2D(this.x + other.getX(), this.y + other.getY());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,4 +53,19 @@ public class Vector2D {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
+    @Override
+    public String toString(){
+        return "x: "+ this.x +", y: "+this.y;
+    }
+
+    //getters
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
+    }
 }
+
+

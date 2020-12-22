@@ -4,24 +4,22 @@ import model.Vector2D;
 
 public abstract class MapObject {
     protected Vector2D position;
-    protected Vector2D prevPosition;
+    protected boolean isAlive;
 
     public MapObject(Vector2D position) {
         this.position = position;
+        this.isAlive = true;
     }
 
     public Vector2D getPosition() {
-        return this.position;
+        return position;
     }
 
-    public Vector2D getPrevPosition() {
-        return this.prevPosition;
+    public void setAlive(boolean isAlive) {
+        this.isAlive = isAlive;
     }
 
-    public void setPosition(Vector2D position) {
-        this.position = position;
+    public boolean isAlive() {
+        return isAlive;
     }
-
-    public abstract void interact(MapObject mapObject);
-
 }
