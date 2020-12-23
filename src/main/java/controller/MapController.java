@@ -3,6 +3,7 @@ package controller;
 import com.google.inject.Inject;
 import game.World;
 import game.utils.Direction;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -10,8 +11,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
-
-import java.util.List;
+import javafx.scene.layout.VBox;
 
 
 //TODO add score, bombs left, teleports left to UI, not console
@@ -22,28 +22,40 @@ public class MapController {
     @FXML
     private Canvas canvas;
 
+//    @FXML private Button moveS;
+//    @FXML private Button moveN;
+//    @FXML private Button moveE;
+//    @FXML private Button moveW;
+//    @FXML private Button moveSW;
+//    @FXML private Button moveSE;
+//    @FXML private Button moveNW;
+//    @FXML private Button moveNE;
     @FXML
-    private Button restartButton;
+    private VBox movementButtons;
 
-    @FXML private Button moveS;
-    @FXML private Button moveN;
-    @FXML private Button moveE;
-    @FXML private Button moveW;
-    @FXML private Button moveSW;
-    @FXML private Button moveSE;
-    @FXML private Button moveNW;
-    @FXML private Button moveNE;
+    @FXML
+    private VBox powerUpButtons;
 
-    @FXML private Label scoreLabel;
+    @FXML
+    private Label scoreLabel;
 
     @FXML
     private Button teleportationButton;
+
+    @FXML
+    private Button restartButton;
 
     @FXML
     private Button undoButton;
 
     @FXML
     private Button bombButton;
+
+    @FXML
+    private Label remainingTeleports;
+
+    @FXML
+    private Label remainingBombs;
 
     private final World world;
     private final MapDrafter mapDrafter;
@@ -57,7 +69,8 @@ public class MapController {
 
     public void initialize() {
         mapDrafter.initialize(canvas, world.getWorldMap());
-        setAllButtonsToGameState();
+        setButtonsAndLabelsBinding();
+        setResetButtonState(true);
     }
 
     public void addKeyboardEventToScene(Scene scene){
@@ -70,25 +83,20 @@ public class MapController {
 
     private void executeKeyFunction(String keyChar){
         //  if\else used to disable other buttons when the game is over
-        if(world.isGameOver() || world.hasWon()) {
+        if(world.isGameOver()|| world.hasWon()) {
             if(KeyBindings.isResetKey(keyChar)) {
                 this.onResetWorld();
-                setAllButtonsToGameState();
+                setResetButtonState(true);
+                setButtonsAndLabelsBinding();
             }
         }
         else {
             switch (keyChar) {
                 case KeyBindings.USE_TELEPORT, KeyBindings.USE_TELEPORT_NUMERICAL -> {
                     onUseTeleport();
-                    if(world.howManyTeleports() == 0) {
-                        teleportationButton.setDisable(true);
-                    }
                 }
                 case KeyBindings.USE_BOMB -> {
                     onUseBomb();
-                    if(world.howManyBombs() == 0) {
-                        bombButton.setDisable(true);
-                    }
                 }
                 default -> {
                     if (KeyBindings.isMovementKey(keyChar)) {
@@ -98,7 +106,6 @@ public class MapController {
                 }
             }
         }
-
         mapDrafter.drawScreen(world.getWorldMap());
         this.checkEndGame();
         setScore();
@@ -108,44 +115,30 @@ public class MapController {
         if(world.hasWon()) {
             System.out.println("Y O U   W O N!!!");
             mapDrafter.drawTextOnVictory(world.getScore());
-            setAllButtonsToWonOrLostState();
+            setResetButtonState(false);
         }
         if(world.isGameOver()) {
             System.out.println("Y O U   L O S T  :(");
             mapDrafter.drawTextOnLosing(world.getScore());
-            setAllButtonsToWonOrLostState();
+            setResetButtonState(false);
         }
     }
 
-    private void setAllButtonsToGameState() {
-        bombButton.setDisable(false);
-        teleportationButton.setDisable(false);
-        restartButton.setDisable(true);
-        undoButton.setDisable(false);
-        moveS.setDisable(false);
-        moveN.setDisable(false);
-        moveE.setDisable(false);
-        moveW.setDisable(false);
-        moveSW.setDisable(false);
-        moveSE.setDisable(false);
-        moveNW.setDisable(false);
-        moveNE.setDisable(false);
+
+
+    private void setButtonsAndLabelsBinding() {
+        movementButtons.disableProperty().bind(restartButton.disabledProperty().not());
+        bombButton.disableProperty().bind(world.getDoctor().getBombs().isEqualTo(0).or(restartButton.disabledProperty().not()));
+        teleportationButton.disableProperty().bind(world.getDoctor().getTeleports().isEqualTo(0).or(restartButton.disabledProperty().not()));
+
+        remainingTeleports.textProperty().bind(Bindings.format("remaining teleports: %d",world.getDoctor().getTeleports()));
+        remainingBombs.textProperty().bind(Bindings.format("remaining bombs: %d",world.getDoctor().getBombs()));
     }
 
-    private void setAllButtonsToWonOrLostState() {
-        bombButton.setDisable(true);
-        teleportationButton.setDisable(true);
-        restartButton.setDisable(false);
-        undoButton.setDisable(true);
-        moveS.setDisable(true);
-        moveN.setDisable(true);
-        moveE.setDisable(true);
-        moveW.setDisable(true);
-        moveSW.setDisable(true);
-        moveSE.setDisable(true);
-        moveNW.setDisable(true);
-        moveNE.setDisable(true);
+    private void setResetButtonState(boolean disable){
+        restartButton.setDisable(disable);
     }
+
 
     private void setScore() {
         int score = world.getScore();

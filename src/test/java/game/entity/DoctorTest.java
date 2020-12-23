@@ -46,7 +46,7 @@ public class DoctorTest {
 
         //then
         assertEquals(teleportedPosition, doctor.getPosition());
-        assertEquals(2, doctor.getTeleports());
+        assertEquals(2, doctor.getTeleports().get());
         assertEquals(prevPosition, doctor.getPrevPosition());
     }
 
@@ -62,7 +62,7 @@ public class DoctorTest {
 
         //then
         assertEquals(teleportedPositionTwo, doctor.getPosition());
-        assertEquals(1, doctor.getTeleports());
+        assertEquals(1, doctor.getTeleports().get());
         assertEquals(teleportedPositionOne, doctor.getPrevPosition());
     }
 
@@ -80,7 +80,7 @@ public class DoctorTest {
 
         //then
         assertEquals(teleportedPositionThree, doctor.getPosition());
-        assertEquals(0, doctor.getTeleports());
+        assertEquals(0, doctor.getTeleports().get());
         assertEquals(teleportedPositionTwo, doctor.getPrevPosition());
     }
 
@@ -100,7 +100,7 @@ public class DoctorTest {
 
         //then
         assertEquals(teleportedPositionThree, doctor.getPosition());
-        assertEquals(0, doctor.getTeleports());
+        assertEquals(0, doctor.getTeleports().get());
         assertEquals(teleportedPositionTwo, doctor.getPrevPosition());
     }
 
@@ -112,7 +112,7 @@ public class DoctorTest {
         doctor.useBomb();
 
         //then
-        assertEquals(0, doctor.getBombs());
+        assertEquals(0, doctor.getBombs().get());
     }
 
     @Test
@@ -124,6 +124,6 @@ public class DoctorTest {
         doctor.useBomb();
 
         //then
-        assertEquals(0, doctor.getBombs());
+        assertEquals(0, doctor.getBombs().get());
     }
 }

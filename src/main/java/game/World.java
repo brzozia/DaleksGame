@@ -6,6 +6,8 @@ import game.entity.Dalek;
 import game.entity.Doctor;
 import game.utils.Direction;
 import game.utils.MapGenerationHelper;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableNumberValue;
 import mainApp.MainApp;
 import model.Vector2D;
 
@@ -38,6 +40,7 @@ public class World {
             score += i;
     }
 
+
     public void initializeWorld(int dalekNumber) { //right now doctor resets bomb and tp every won game
         MapGenerationHelper.clearDaleksFromWorldAndList(worldMap, dalekList);
         doctor = MapGenerationHelper.randomPlaceDoctor(worldMap);
@@ -47,8 +50,8 @@ public class World {
     //actions
     public void resetWorld() {
         if(hasWon()) {
-            int bombsLeft = doctor.getBombs();
-            int teleportsLeft = doctor.getTeleports();
+            int bombsLeft = doctor.getBombs().get();
+            int teleportsLeft = doctor.getTeleports().get();
 
             dalekNumber++;
             this.increaseScoreBy(MainApp.SCORE_ON_WON_GAME);
@@ -120,11 +123,4 @@ public class World {
     }
     public void setScore(int score){this.score = score;}
 
-    public int howManyTeleports() {
-        return doctor.getTeleports();
-    }
-
-    public int howManyBombs() {
-        return doctor.getBombs();
-    }
 }
