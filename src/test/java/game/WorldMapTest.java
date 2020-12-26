@@ -80,7 +80,7 @@ public class WorldMapTest {
     public void checkIfDoctorIsOnPlaceTest() {
         //given
         Vector2D doctorPosition = new Vector2D(3,3);
-        Doctor doctor = new Doctor(doctorPosition, 0, 3);
+        Doctor doctor = new Doctor(doctorPosition, 0, 3, 3);
 
         //when
         worldMap.addEntity(doctor);

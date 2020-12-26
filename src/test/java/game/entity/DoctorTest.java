@@ -11,6 +11,7 @@ public class DoctorTest {
     Vector2D position;;
     int bombs;
     int teleports;
+    int rewinds;
     Doctor doctor;
 
     @BeforeEach
@@ -18,7 +19,8 @@ public class DoctorTest {
         position = new Vector2D(2,2);
         bombs = 1;
         teleports = 3;
-        doctor = new Doctor(position, bombs, teleports);
+        rewinds = 3;
+        doctor = new Doctor(position, bombs, teleports, rewinds);
     }
 
     @Test

@@ -99,7 +99,7 @@
                </Button>
             </VBox>
 
-            <Button fx:id="undoButton" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onResetButtonPress" text="Undo move">
+            <Button fx:id="undoButton" alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onUndoButtonPress" text="Undo move">
                <VBox.margin>
                   <Insets bottom="20.0" left="5.0" right="5.0" top="5.0" />
                </VBox.margin>
@@ -111,6 +111,7 @@
             </Button>
             <Label fx:id="remainingTeleports" text="Remaining teleports: 0" />
             <Label fx:id="remainingBombs" text="Remaining Bombs: 0" />
+            <Label fx:id="remainingRewinds" text="Remaining Rewinds: 0" />
             <Label fx:id="scoreLabel" text="Score: 0" />
 
             <Label text="Instruction will be added here">

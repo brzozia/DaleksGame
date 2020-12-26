@@ -52,6 +52,7 @@ public class World {
         if(hasWon()) {
             int bombsLeft = doctor.getBombs().get();
             int teleportsLeft = doctor.getTeleports().get();
+            int rewindsLeft = doctor.getRewinds().get();
 
             dalekNumber++;
             this.increaseScoreBy(MainApp.SCORE_ON_WON_GAME);
@@ -59,7 +60,7 @@ public class World {
 
             doctor.setBombs(bombsLeft + 1);
             doctor.setTeleports(teleportsLeft + 1);
-
+            doctor.setRewinds(rewindsLeft + 1);
         }
         if(isGameOver()) {
             score = 0;

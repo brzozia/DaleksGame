@@ -107,4 +107,7 @@ public class WorldMap  {
     public Map<Vector2D, MapObject> getPositionsOfAlive() {
         return positionsOfAlive;
     }
+    public Map<Vector2D, MapObject> getPositionsOfDead() {
+        return positionsOfDead;
+    }
 }

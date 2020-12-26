@@ -10,6 +10,7 @@ public class KeyBindings {
     public final static String USE_TELEPORT_NUMERICAL = "5";
     public final static String USE_BOMB = "b";
     public final static String USE_RESET = "r";
+    public final static String USE_REWIND = "h";
 
     //newer version of ke.getText().matches("[1-4|6-9]")
     private static final Map<String, Direction> moveControls = Map.of(
