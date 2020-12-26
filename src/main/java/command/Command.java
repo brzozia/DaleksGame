@@ -31,7 +31,7 @@ public abstract class Command {
         deadDaleksPos.addAll(world.getWorldMap().getPositionsOfDead().keySet());
     }
 
-    public abstract void execute();
+    public abstract boolean execute();
 
     public void undo() {
         world.getWorldMap().clearAllEntities();

@@ -12,7 +12,7 @@ public class MoveCommand extends Command {
     }
 
     @Override
-    public void execute() {
-        world.makeMove(direction);
+    public boolean execute() {
+        return world.makeMove(direction);
     }
 }

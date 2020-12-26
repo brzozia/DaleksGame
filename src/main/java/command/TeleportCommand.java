@@ -9,8 +9,8 @@ public class TeleportCommand extends Command {
     }
 
     @Override
-    public void execute() {
-        world.makeTeleport();
+    public boolean execute() {
+        return world.makeTeleport();
     }
 
     @Override

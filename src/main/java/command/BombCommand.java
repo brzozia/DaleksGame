@@ -9,8 +9,8 @@ public class BombCommand extends Command {
     }
 
     @Override
-    public void execute() {
-        world.useBomb();
+    public boolean execute() {
+        return world.useBomb();
     }
 
     @Override

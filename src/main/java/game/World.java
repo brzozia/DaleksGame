@@ -76,36 +76,42 @@ public class World {
         this.increaseScoreBy(1);
     }
 
-    public void makeMove(Direction direction) {
+    public boolean makeMove(Direction direction) {
         Vector2D newDocPosition = doctor.getPosition().add(direction.toVector());
         if(worldMap.isInMapBounds(newDocPosition)){
             doctor.move(newDocPosition);
             onWorldAction();
+            return true;
         }
         else {
             System.out.println("What you are trying to do? Wanna run beyond the borders? GL");
+            return false;
         }
     }
 
-    public void makeTeleport() {
+    public boolean makeTeleport() {
         if(doctor.teleport(worldMap.getRandomVector(false))) {
             System.out.println("Teleportation!");
             this.onWorldAction();
+            return true;
         }
         else {
             System.out.println("You've ran out of teleportations!");
+            return false;
         }
     }
 
-    public void useBomb() {
+    public boolean useBomb() {
         if(doctor.useBomb()) {
             System.out.println("Bombard");
             List<Vector2D> vectorsAround = Vector2D.getPositionsAround(getDoctor().getPosition());
             worldMap.destroyObjectsOnVectors(vectorsAround);
             this.onWorldAction();
+            return true;
         }
         else {
             System.out.println("You've ran out of bombs!");
+            return false;
         }
     }
 

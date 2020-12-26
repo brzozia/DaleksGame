@@ -11,12 +11,11 @@ public class CommandRegistry {
     IntegerBinding stackSizeProperty = Bindings.size(commandStack);
 
     public void executeCommand(Command command) {
-        command.execute();
-        if(MainApp.INITIAL_REWINDS <= commandStack.size()) {
-            commandStack.remove(0);
+        if(command.execute()) {
+            if(MainApp.INITIAL_REWINDS <= commandStack.size()) commandStack.remove(0);
+            commandStack.add(command);
+            System.out.println("STACKSIZE: " + commandStack.size());
         }
-        commandStack.add(command);
-        System.out.println("STACKSIZE: " + commandStack.size());
     }
 
     public void undo() {
