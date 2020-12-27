@@ -6,7 +6,10 @@ import game.entity.Dalek;
 import game.entity.Doctor;
 import game.utils.Direction;
 import game.utils.MapGenerationHelper;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.IntegerBinding;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableNumberValue;
 import mainApp.MainApp;
 import model.Vector2D;
@@ -16,9 +19,9 @@ import java.util.List;
 public class World {
     private final WorldMap worldMap;
     private final WorldCollisions worldCollisions;
+    private final SimpleIntegerProperty score = new SimpleIntegerProperty(0);
     private  List<Dalek> dalekList;
     private  Doctor doctor;
-    private int score = 0;
     private int dalekNumber;
 
     @Inject
@@ -37,7 +40,7 @@ public class World {
     }
     private void increaseScoreBy(int i){
         if(doctor.isAlive())
-            score += i;
+            score.set(score.getValue() + i);
     }
 
 
@@ -63,7 +66,7 @@ public class World {
             doctor.setRewinds(rewindsLeft + 1);
         }
         if(isGameOver()) {
-            score = 0;
+            score.set(0);
             dalekNumber = MainApp.DALEK_NUMBER;
             this.initializeWorld(dalekNumber);
         }
@@ -125,9 +128,9 @@ public class World {
     public WorldMap getWorldMap() {
         return worldMap;
     }
-    public int getScore(){
+    public SimpleIntegerProperty getScore(){
         return score;
     }
-    public void setScore(int score){this.score = score;}
+    public void setScore(int score){this.score.set(score);}
 
 }

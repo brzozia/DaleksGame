@@ -6,16 +6,16 @@ import mainApp.MainApp;
 import model.Vector2D;
 
 public class Doctor extends MapObject {
-    private final SimpleIntegerProperty bombs ;
-    private final SimpleIntegerProperty teleports;
-    private final SimpleIntegerProperty rewinds;
+    private final SimpleIntegerProperty bombs = new SimpleIntegerProperty();
+    private final SimpleIntegerProperty teleports = new SimpleIntegerProperty();
+    private final SimpleIntegerProperty rewinds = new SimpleIntegerProperty();
     private Vector2D prevPosition;
 
     public Doctor(Vector2D position, int bombs, int teleports, int rewinds) {
         super(position);
-        this.bombs = new SimpleIntegerProperty(bombs);
-        this.teleports = new SimpleIntegerProperty(teleports);
-        this.rewinds = new SimpleIntegerProperty(rewinds);
+        this.bombs.set(bombs);
+        this.teleports.set(teleports);
+        this.rewinds.set(rewinds);
         this.prevPosition = position;
     }
 
@@ -53,17 +53,17 @@ public class Doctor extends MapObject {
     public void setBombs(int bombs) {
 //        if(bombs > this.bombs.get())
 //            this.bombs.set(bombs);
-        this.bombs.set(Math.min(bombs, MainApp.INITIAL_BOMBS));
+        this.bombs.set(Math.max(bombs, MainApp.INITIAL_BOMBS));
     }
 
     public void setTeleports(int teleports) {
 //        if(teleports > this.teleports.get())
 //            this.teleports.set(teleports);
-        this.teleports.set(Math.min(teleports, MainApp.INITIAL_TELEPORTS));
+        this.teleports.set(Math.max(teleports, MainApp.INITIAL_TELEPORTS));
     }
 
     public void setRewinds(int rewinds) {
-        this.rewinds.set(Math.min(rewinds, MainApp.INITIAL_REWINDS));
+        this.rewinds.set(Math.max(rewinds, MainApp.INITIAL_REWINDS));
     }
 
     public SimpleIntegerProperty getBombs() {

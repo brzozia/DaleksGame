@@ -63,7 +63,6 @@ public class MapController {
 
     private final World world;
     private final MapDrafter mapDrafter;
-
     private final CommandRegistry commandRegistry;
 
 
@@ -94,7 +93,7 @@ public class MapController {
             if(KeyBindings.isResetKey(keyChar)) {
                 this.onResetWorld();
                 setResetButtonState(true);
-                setButtonsAndLabelsBinding();
+                setButtonsAndLabelsBinding(); //doctor can be a singleton (?)- then we won't need to bind attributes every game
             }
         }
         else {
@@ -118,28 +117,28 @@ public class MapController {
         }
         mapDrafter.drawScreen(world.getWorldMap());
         this.checkEndGame();
-        setScore();
+//        setScore();
     }
 
     private void checkEndGame(){
         if(world.hasWon()) {
             System.out.println("Y O U   W O N!!!");
-            mapDrafter.drawTextOnVictory(world.getScore());
+            mapDrafter.drawTextOnVictory(world.getScore().get());
             setResetButtonState(false);
         }
         if(world.isGameOver()) {
             System.out.println("Y O U   L O S T  :(");
-            mapDrafter.drawTextOnLosing(world.getScore());
+            mapDrafter.drawTextOnLosing(world.getScore().get());
             setResetButtonState(false);
         }
     }
 
-
-
     private void setButtonsAndLabelsBinding() {
         movementButtons.disableProperty().bind(restartButton.disabledProperty().not());
-        bombButton.disableProperty().bind(world.getDoctor().getBombs().isEqualTo(0).or(restartButton.disabledProperty().not()));
-        teleportationButton.disableProperty().bind(world.getDoctor().getTeleports().isEqualTo(0).or(restartButton.disabledProperty().not()));
+        bombButton.disableProperty().bind(world.getDoctor().getBombs().isEqualTo(0)
+                .or(restartButton.disabledProperty().not()));
+        teleportationButton.disableProperty().bind(world.getDoctor().getTeleports().isEqualTo(0)
+                .or(restartButton.disabledProperty().not()));
 
         undoButton.disableProperty().bind(world.getDoctor().getRewinds().isEqualTo(0)
                 .or(commandRegistry.getStackSizeProperty().isEqualTo(0))
@@ -148,18 +147,18 @@ public class MapController {
         remainingTeleports.textProperty().bind(Bindings.format("Remaining teleports: %d",world.getDoctor().getTeleports()));
         remainingBombs.textProperty().bind(Bindings.format("Remaining bombs: %d",world.getDoctor().getBombs()));
         remainingRewinds.textProperty().bind(Bindings.format("Remaining rewinds: %d",world.getDoctor().getRewinds()));
+        scoreLabel.textProperty().bind(Bindings.format("Score: %d", world.getScore()));
     }
 
     private void setResetButtonState(boolean disable){
         restartButton.setDisable(disable);
     }
 
-
-    private void setScore() {
-        int score = world.getScore();
-        String scoreText = "Score: " + score;
-        scoreLabel.setText(scoreText);
-    }
+//    private void setScore() {
+//        int score = world.getScore().get();
+//        String scoreText = "Score: " + score;
+//        scoreLabel.setText(scoreText);
+//    }
 
     @FXML
     private void onTeleportationButtonPress(){

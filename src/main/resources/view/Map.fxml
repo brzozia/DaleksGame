@@ -20,8 +20,8 @@
             <VBox.margin>
                <Insets top="10.0" bottom="10.0"/>
             </VBox.margin>
-
             </Label>
+
             <VBox fx:id="movementButtons" maxHeight="-Infinity" prefHeight="39.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <HBox maxHeight="-Infinity" prefHeight="39.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                   <VBox.margin>
@@ -114,9 +114,14 @@
             <Label fx:id="remainingRewinds" text="Remaining Rewinds: 0" />
             <Label fx:id="scoreLabel" text="Score: 0" />
 
-            <Label text="Instruction will be added here">
+            <Label textAlignment="CENTER" wrapText="true" text="Instruction &#10;&#10;
+Use buttons or your numerical keyboard to move the Doctor and escape from monsters.&#10;
+When two Daleks run into each other they will die and turn into rock.&#10;
+When you run into rock or Dalek you will die and lose!&#10;&#10;
+Bomb kills all Daleks around you.&#10;
+You can use also Teleport and Undo." >
                <VBox.margin>
-                  <Insets top="200.0" />
+                  <Insets top="40.0" right="3" left="3"/>
                </VBox.margin>
             </Label>
 

@@ -4,11 +4,9 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import game.World;
 import game.WorldMap;
-import game.entity.Dalek;
 import game.entity.Doctor;
 import guice.AppModule;
 import mainApp.MainApp;
-import model.Vector2D;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,7 +46,7 @@ public class WorldTest {
         world.initializeWorld(dalekNumber);
 
         //then
-        assertEquals(0,world.getScore());
+        assertEquals(0,world.getScore().get());
         assertFalse(world.isGameOver());
         assertTrue(world.getDoctor().isAlive());
         assertTrue(worldMap.isInMapBounds(world.getDoctor().getPosition()));
@@ -70,7 +68,7 @@ public class WorldTest {
         world.resetWorld();
 
         //then
-        assertEquals(0,world.getScore());
+        assertEquals(0,world.getScore().get());
         assertEquals(dalekNumber, world.getDalekList().size());
     }
 
@@ -81,13 +79,13 @@ public class WorldTest {
         world.setScore(10);
         world.getDalekList().forEach((dal) -> dal.setAlive(false));
         world.onWorldAction();
-        int score = world.getScore();
+        int score = world.getScore().get();
 
         //when
         world.resetWorld();
 
         //then
-        assertEquals(score+MainApp.SCORE_ON_WON_GAME,world.getScore());
+        assertEquals(score+MainApp.SCORE_ON_WON_GAME,world.getScore().get());
         assertEquals(dalekNumber+1, world.getDalekList().size());
     }
 
@@ -126,7 +124,7 @@ public class WorldTest {
         world.onWorldAction();
 
         //then
-        assertEquals(1,world.getScore());
+        assertEquals(1,world.getScore().get());
     }
 
     @Test
@@ -139,7 +137,7 @@ public class WorldTest {
         world.onWorldAction();
 
         //then
-        assertEquals(0,world.getScore());
+        assertEquals(0,world.getScore().get());
     }
 
 
