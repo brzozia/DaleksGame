@@ -43,7 +43,6 @@ public class World {
             score.set(score.getValue() + i);
     }
 
-
     public void initializeWorld(int dalekNumber) { //right now doctor resets bomb and tp every won game
         MapGenerationHelper.clearDaleksFromWorldAndList(worldMap, dalekList);
         doctor = MapGenerationHelper.randomPlaceDoctor(worldMap);

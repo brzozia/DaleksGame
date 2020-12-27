@@ -23,19 +23,8 @@ public class MapController {
     @FXML
     private Canvas canvas;
 
-//    @FXML private Button moveS;
-//    @FXML private Button moveN;
-//    @FXML private Button moveE;
-//    @FXML private Button moveW;
-//    @FXML private Button moveSW;
-//    @FXML private Button moveSE;
-//    @FXML private Button moveNW;
-//    @FXML private Button moveNE;
     @FXML
     private VBox movementButtons;
-
-    @FXML
-    private VBox powerUpButtons;
 
     @FXML
     private Label scoreLabel;
@@ -65,7 +54,6 @@ public class MapController {
     private final MapDrafter mapDrafter;
     private final CommandRegistry commandRegistry;
 
-
     @Inject
     public MapController(World world, MapDrafter mapDrafter, CommandRegistry commandRegistry) {
         this.world = world;
@@ -91,7 +79,7 @@ public class MapController {
         //  if\else used to disable other buttons when the game is over
         if(world.isGameOver()|| world.hasWon()) {
             if(KeyBindings.isResetKey(keyChar)) {
-                this.onResetWorld();
+                onResetWorld();
                 setResetButtonState(true);
                 setButtonsAndLabelsBinding(); //doctor can be a singleton (?)- then we won't need to bind attributes every game
             }
@@ -109,15 +97,14 @@ public class MapController {
                 }
                 default -> {
                     if (KeyBindings.isMovementKey(keyChar)) {
-                        this.onMoveKeyPress(KeyBindings.keyToDirection(keyChar));
-                        System.out.println("Your score: " + world.getScore());
+                        onMoveKeyPress(KeyBindings.keyToDirection(keyChar));
+                        System.out.println("Your score: " + world.getScore().get());
                     }
                 }
             }
         }
         mapDrafter.drawScreen(world.getWorldMap());
         this.checkEndGame();
-//        setScore();
     }
 
     private void checkEndGame(){
@@ -139,7 +126,6 @@ public class MapController {
                 .or(restartButton.disabledProperty().not()));
         teleportationButton.disableProperty().bind(world.getDoctor().getTeleports().isEqualTo(0)
                 .or(restartButton.disabledProperty().not()));
-
         undoButton.disableProperty().bind(world.getDoctor().getRewinds().isEqualTo(0)
                 .or(commandRegistry.getStackSizeProperty().isEqualTo(0))
                 .or(restartButton.disabledProperty().not()));
@@ -153,12 +139,6 @@ public class MapController {
     private void setResetButtonState(boolean disable){
         restartButton.setDisable(disable);
     }
-
-//    private void setScore() {
-//        int score = world.getScore().get();
-//        String scoreText = "Score: " + score;
-//        scoreLabel.setText(scoreText);
-//    }
 
     @FXML
     private void onTeleportationButtonPress(){
@@ -185,21 +165,18 @@ public class MapController {
     }
 
     private void onMoveKeyPress(Direction direction) {
-//        world.makeMove(direction);
         commandRegistry.executeCommand(
                 new MoveCommand(this.world, direction)
         );
     }
 
     private void onUseTeleport() {
-//        world.makeTeleport();
         commandRegistry.executeCommand(
                 new TeleportCommand(this.world)
         );
     }
 
     private void onUseBomb() {
-//        world.useBomb();
         commandRegistry.executeCommand(
                 new BombCommand(this.world)
         );

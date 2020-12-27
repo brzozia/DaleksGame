@@ -1,6 +1,5 @@
 package game.entity;
 
-import javafx.beans.Observable;
 import javafx.beans.property.SimpleIntegerProperty;
 import mainApp.MainApp;
 import model.Vector2D;
@@ -51,14 +50,10 @@ public class Doctor extends MapObject {
     }
 
     public void setBombs(int bombs) {
-//        if(bombs > this.bombs.get())
-//            this.bombs.set(bombs);
         this.bombs.set(Math.max(bombs, MainApp.INITIAL_BOMBS));
     }
 
     public void setTeleports(int teleports) {
-//        if(teleports > this.teleports.get())
-//            this.teleports.set(teleports);
         this.teleports.set(Math.max(teleports, MainApp.INITIAL_TELEPORTS));
     }
 

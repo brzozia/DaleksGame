@@ -12,23 +12,23 @@ public abstract class Command {
 
     protected final World world;
 
-    protected final Vector2D prevDoctorPos;
-    protected final Vector2D doctorPos;
-    protected final List<Vector2D> daleksPos;
-    protected final List<Vector2D> deadDaleksPos;
+    protected final Vector2D prevDoctorPosition;
+    protected final Vector2D doctorPosition;
+    protected final List<Vector2D> daleksPosition;
+    protected final List<Vector2D> deadDaleksPosition;
 
     public Command(World world) {
         this.world = world;
 
-        prevDoctorPos = world.getDoctor().getPrevPosition();
-        doctorPos = world.getDoctor().getPosition();
+        prevDoctorPosition = world.getDoctor().getPrevPosition();
+        doctorPosition = world.getDoctor().getPosition();
 
-        daleksPos = new LinkedList<>();
-        daleksPos.addAll(world.getWorldMap().getPositionsOfAlive().keySet());
-        daleksPos.remove(doctorPos);
+        daleksPosition = new LinkedList<>();
+        daleksPosition.addAll(world.getWorldMap().getPositionsOfAlive().keySet());
+        daleksPosition.remove(doctorPosition);
 
-        deadDaleksPos = new LinkedList<>();
-        deadDaleksPos.addAll(world.getWorldMap().getPositionsOfDead().keySet());
+        deadDaleksPosition = new LinkedList<>();
+        deadDaleksPosition.addAll(world.getWorldMap().getPositionsOfDead().keySet());
     }
 
     public abstract boolean execute();
@@ -37,25 +37,27 @@ public abstract class Command {
         world.getWorldMap().clearAllEntities();
         world.getDalekList().clear();
 
+        world.getDalekList().addAll(world.getWorldMap().addDaleksToMap(daleksPosition, true));
+        world.getDalekList().addAll(world.getWorldMap().addDaleksToMap(deadDaleksPosition, false));
 
-        daleksPos.forEach(v -> {
-            Dalek dalek = new Dalek(v);
-            world.getWorldMap().getPositionsOfAlive().put(v, dalek);
-            world.getDalekList().add(dalek);
-        });
+//        daleksPosition.forEach(v -> {
+//            Dalek dalek = new Dalek(v);
+//            world.getWorldMap().getPositionsOfAlive().put(v, dalek);
+//            world.getDalekList().add(dalek);
+//        });
 
-        deadDaleksPos.forEach(v -> {
-            Dalek dalek = new Dalek(v);
-            dalek.setAlive(false);
-            world.getWorldMap().getPositionsOfDead().put(v, dalek);
-            world.getDalekList().add(dalek);
-        });
+//        deadDaleksPosition.forEach(v -> {
+//            Dalek dalek = new Dalek(v);
+//            dalek.setAlive(false);
+//            world.getWorldMap().getPositionsOfDead().put(v, dalek);
+//            world.getDalekList().add(dalek);
+//        });
 
-        Doctor doc = world.getDoctor();
-        doc.move(prevDoctorPos);
-        doc.move(doctorPos);
+        Doctor doctor = world.getDoctor();
+        doctor.move(prevDoctorPosition);
+        doctor.move(doctorPosition);
 
-        world.getWorldMap().getPositionsOfAlive().put(doc.getPosition(), doc);
+        world.getWorldMap().getPositionsOfAlive().put(doctor.getPosition(), doctor);
     }
 }
 

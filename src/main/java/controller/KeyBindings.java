@@ -12,7 +12,6 @@ public class KeyBindings {
     public final static String USE_RESET = "r";
     public final static String USE_REWIND = "h";
 
-    //newer version of ke.getText().matches("[1-4|6-9]")
     private static final Map<String, Direction> moveControls = Map.of(
             "1", SOUTHWEST,
             "2", SOUTH,

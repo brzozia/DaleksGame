@@ -83,8 +83,6 @@ public class WorldMap  {
         positionsOfAlive.put(object.getPosition(), object);
     }
 
-
-
     public void destroyObjectsOnVectors(List<Vector2D> positionsToDestroy) {
         positionsToDestroy.stream()
                 .filter(this::isInMapBounds)
@@ -95,6 +93,26 @@ public class WorldMap  {
                     this.makeEntityDead(obj);
                     obj.setAlive(false);
                 });
+    }
+
+    public List<Dalek> addDaleksToMap(List<Vector2D> positionList, boolean areAlive){
+        List<Dalek> dalekList = new ArrayList<>();
+
+        positionList.forEach(v -> {
+            Dalek dalek = new Dalek(v);
+
+            if(areAlive){
+                getPositionsOfAlive().put(v,dalek);
+            }
+            else{
+                dalek.setAlive(areAlive);
+                getPositionsOfDead().put(v, dalek);
+            }
+
+            dalekList.add(dalek);
+        });
+
+        return dalekList;
     }
 
     //getters/setters
