@@ -5,18 +5,36 @@ import mainApp.MainApp;
 import model.Vector2D;
 
 public class Doctor extends MapObject {
-    private final SimpleIntegerProperty bombs = new SimpleIntegerProperty();
-    private final SimpleIntegerProperty teleports = new SimpleIntegerProperty();
-    private final SimpleIntegerProperty rewinds = new SimpleIntegerProperty();
+    private final SimpleIntegerProperty bombs;
+    private final SimpleIntegerProperty teleports;
+    private final SimpleIntegerProperty rewinds;
     private Vector2D prevPosition;
+    private static Doctor doctorInstance;
 
-    public Doctor(Vector2D position, int bombs, int teleports, int rewinds) {
+    private Doctor(Vector2D position, int bombs, int teleports, int rewinds) {
         super(position);
-        this.bombs.set(bombs);
-        this.teleports.set(teleports);
-        this.rewinds.set(rewinds);
+        this.bombs = new SimpleIntegerProperty(bombs);
+        this.teleports = new SimpleIntegerProperty(teleports);
+        this.rewinds = new SimpleIntegerProperty(rewinds);
         this.prevPosition = position;
     }
+
+    public static Doctor getInstance(Vector2D position, int bombs, int teleports, int rewinds){
+        if(doctorInstance == null){
+            doctorInstance = new Doctor(position,bombs,teleports,rewinds);
+        }
+        updateInstance(position, bombs, teleports, rewinds);
+        return doctorInstance;
+    }
+
+    private static void updateInstance(Vector2D position, int bombs, int teleports, int rewinds){
+        doctorInstance.setAlive(true);
+        doctorInstance.move(position);
+        doctorInstance.setBombs(bombs);
+        doctorInstance.setTeleports(teleports);
+        doctorInstance.setRewinds(rewinds);
+    }
+
 
     public void move(Vector2D newPosition) {
         this.prevPosition = this.position;

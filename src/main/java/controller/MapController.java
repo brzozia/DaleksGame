@@ -81,7 +81,7 @@ public class MapController {
             if(KeyBindings.isResetKey(keyChar)) {
                 onResetWorld();
                 setResetButtonState(true);
-                setButtonsAndLabelsBinding(); //doctor can be a singleton (?)- then we won't need to bind attributes every game
+//                setButtonsAndLabelsBinding(); //doctor can be a singleton (?)- then we won't need to bind attributes every game
             }
         }
         else {
