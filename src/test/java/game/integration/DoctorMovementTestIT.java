@@ -75,7 +75,7 @@ public class DoctorMovementTestIT {
     }
 
     @Test
-    public void testDaleksFollowingDoctor() { //TODO: split test to more cases for easier separation?
+    public void testDaleksFollowingDoctor() {
         //given
         Dalek dalekLeft = new Dalek(new Vector2D(2,2));
         Dalek dalekRight = new Dalek(new Vector2D(8,2));

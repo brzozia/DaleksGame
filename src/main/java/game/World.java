@@ -6,11 +6,7 @@ import game.entity.Dalek;
 import game.entity.Doctor;
 import game.utils.Direction;
 import game.utils.MapGenerationHelper;
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.IntegerBinding;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ObservableNumberValue;
 import mainApp.MainApp;
 import model.Vector2D;
 
@@ -43,7 +39,7 @@ public class World {
             score.set(score.getValue() + i);
     }
 
-    public void initializeWorld(int dalekNumber) { //right now doctor resets bomb and tp every won game
+    public void initializeWorld(int dalekNumber) {
         MapGenerationHelper.clearDaleksFromWorldAndList(worldMap, dalekList);
         doctor = MapGenerationHelper.randomPlaceDoctor(worldMap);
         dalekList = MapGenerationHelper.randomPlaceDaleks(worldMap, dalekNumber);
@@ -131,5 +127,7 @@ public class World {
         return score;
     }
     public void setScore(int score){this.score.set(score);}
-
+    public void setDalekList(List<Dalek> dalekList) {
+        this.dalekList = dalekList;
+    }
 }

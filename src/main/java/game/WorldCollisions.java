@@ -30,7 +30,7 @@ public class WorldCollisions {
     }
 
     public void checkDoctorCollision(Doctor doctor) {
-        //removes doctor's previous position so he won't collide with himself wile using bomb or teleporting to same place
+        //removes doctor's previous position so he won't collide with himself while using bomb or teleporting to same place
         worldMap.getPositionsOfAlive().remove(doctor.getPrevPosition());
         this.checkObjectCollision(doctor);
     }

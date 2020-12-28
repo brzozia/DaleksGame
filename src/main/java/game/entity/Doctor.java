@@ -9,32 +9,14 @@ public class Doctor extends MapObject {
     private final SimpleIntegerProperty teleports;
     private final SimpleIntegerProperty rewinds;
     private Vector2D prevPosition;
-    private static Doctor doctorInstance;
 
-    private Doctor(Vector2D position, int bombs, int teleports, int rewinds) {
+    public Doctor(Vector2D position, int bombs, int teleports, int rewinds) {
         super(position);
         this.bombs = new SimpleIntegerProperty(bombs);
         this.teleports = new SimpleIntegerProperty(teleports);
         this.rewinds = new SimpleIntegerProperty(rewinds);
         this.prevPosition = position;
     }
-
-    public static Doctor getInstance(Vector2D position, int bombs, int teleports, int rewinds){
-        if(doctorInstance == null){
-            doctorInstance = new Doctor(position,bombs,teleports,rewinds);
-        }
-        updateInstance(position, bombs, teleports, rewinds);
-        return doctorInstance;
-    }
-
-    private static void updateInstance(Vector2D position, int bombs, int teleports, int rewinds){
-        doctorInstance.setAlive(true);
-        doctorInstance.move(position);
-        doctorInstance.setBombs(bombs);
-        doctorInstance.setTeleports(teleports);
-        doctorInstance.setRewinds(rewinds);
-    }
-
 
     public void move(Vector2D newPosition) {
         this.prevPosition = this.position;
@@ -93,5 +75,13 @@ public class Doctor extends MapObject {
 
     public Vector2D getPrevPosition() {
         return this.prevPosition;
+    }
+
+    public void setPosition(Vector2D position) {
+        this.position = position;
+    }
+
+    public void setPrevPosition(Vector2D prevPosition) {
+        this.prevPosition = prevPosition;
     }
 }

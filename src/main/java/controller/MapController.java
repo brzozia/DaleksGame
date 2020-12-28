@@ -17,38 +17,18 @@ import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 
-//TODO make better injection to MapDrawer? Maybe pass it canvas somehow?
 public class MapController {
 
-    @FXML
-    private Canvas canvas;
-
-    @FXML
-    private VBox movementButtons;
-
-    @FXML
-    private Label scoreLabel;
-
-    @FXML
-    private Button teleportationButton;
-
-    @FXML
-    private Button restartButton;
-
-    @FXML
-    private Button undoButton;
-
-    @FXML
-    private Button bombButton;
-
-    @FXML
-    private Label remainingTeleports;
-
-    @FXML
-    private Label remainingBombs;
-
-    @FXML
-    private Label remainingRewinds;
+    @FXML private Canvas canvas;
+    @FXML private VBox movementButtons;
+    @FXML private Label scoreLabel;
+    @FXML private Button teleportationButton;
+    @FXML private Button restartButton;
+    @FXML private Button undoButton;
+    @FXML private Button bombButton;
+    @FXML private Label remainingTeleports;
+    @FXML private Label remainingBombs;
+    @FXML private Label remainingRewinds;
 
     private final World world;
     private final MapDrafter mapDrafter;
@@ -76,12 +56,11 @@ public class MapController {
     }
 
     private void executeKeyFunction(String keyChar){
-        //  if\else used to disable other buttons when the game is over
         if(world.isGameOver()|| world.hasWon()) {
             if(KeyBindings.isResetKey(keyChar)) {
                 onResetWorld();
                 setResetButtonState(true);
-//                setButtonsAndLabelsBinding(); //doctor can be a singleton (?)- then we won't need to bind attributes every game
+                setButtonsAndLabelsBinding();
             }
         }
         else {
@@ -186,7 +165,7 @@ public class MapController {
         if(commandRegistry.getStackSizeProperty().get() > 0 && world.getDoctor().useRewind()) {
             commandRegistry.undo();
             System.out.println("It's rewind time!");
-            //TODO remove score by 1 or no?
+            world.setScore(world.getScore().get() -1);
         }
         else {
             System.out.println("Cannot rewind: empty command stack or no rewinds left");

@@ -25,8 +25,8 @@ public class MapGenerationHelperTest {
         Doctor generatedDoctor = MapGenerationHelper.randomPlaceDoctor(worldMap);
 
         //then
-        assertEquals(2, generatedDoctor.getBombs());
-        assertEquals(3, generatedDoctor.getTeleports());
+        assertEquals(2, generatedDoctor.getBombs().get());
+        assertEquals(3, generatedDoctor.getTeleports().get());
         assertTrue(generatedDoctor.getPosition().getX() < MainApp.WIDTH);
         assertTrue(generatedDoctor.getPosition().getY() < MainApp.HEIGHT);
         assertTrue(worldMap.getPositionsOfAlive().containsValue(generatedDoctor));

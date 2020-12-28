@@ -3,7 +3,6 @@ package game;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import game.entity.Dalek;
-import game.entity.Doctor;
 import game.entity.MapObject;
 import model.Vector2D;
 
@@ -98,15 +97,15 @@ public class WorldMap  {
     public List<Dalek> addDaleksToMap(List<Vector2D> positionList, boolean areAlive){
         List<Dalek> dalekList = new ArrayList<>();
 
-        positionList.forEach(v -> {
-            Dalek dalek = new Dalek(v);
+        positionList.forEach(position -> {
+            Dalek dalek = new Dalek(position);
 
             if(areAlive){
-                getPositionsOfAlive().put(v,dalek);
+                getPositionsOfAlive().put(position,dalek);
             }
             else{
                 dalek.setAlive(areAlive);
-                getPositionsOfDead().put(v, dalek);
+                getPositionsOfDead().put(position, dalek);
             }
 
             dalekList.add(dalek);
