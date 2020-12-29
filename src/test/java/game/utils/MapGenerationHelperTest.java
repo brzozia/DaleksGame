@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MapGenerationHelperTest {
 
     @Test
-    public void checkCreatingDoctor() {
+    public void creatingDoctorTest() {
         //given
         int mapWidth = 10;
         int mapHeight = 10;
@@ -33,7 +33,7 @@ public class MapGenerationHelperTest {
     }
 
     @Test
-    public void checkCreatingDaleks() {
+    public void creatingDaleksTest() {
         //given
         int mapWidth = 10;
         int mapHeight = 10;

@@ -44,7 +44,7 @@ public class MoveCommandTest {
     }
 
     @Test
-    public void testExecuteDoctorMovement(){
+    public void executeDoctorMovementTest(){
         //given
         Vector2D doctorPosition = new Vector2D(5,5);
         moveDoctor(doctorPosition);

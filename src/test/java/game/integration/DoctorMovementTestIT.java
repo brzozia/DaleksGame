@@ -39,7 +39,7 @@ public class DoctorMovementTestIT {
     }
 
     @Test
-    public void testDownLeftBoundaries() {
+    public void downLeftBoundariesTest() {
         //given
         doctor.move(new Vector2D(0,0));
         worldMap.positionChange(doctor);
@@ -57,7 +57,7 @@ public class DoctorMovementTestIT {
     }
 
     @Test
-    public void testTopRightBoundaries() {
+    public void topRightBoundariesTest() {
         //given
         doctor.move(new Vector2D(MainApp.WIDTH-1,MainApp.HEIGHT-1));
         worldMap.positionChange(doctor);
@@ -75,7 +75,7 @@ public class DoctorMovementTestIT {
     }
 
     @Test
-    public void testDaleksFollowingDoctor() {
+    public void daleksFollowingDoctorTest() {
         //given
         Dalek dalekLeft = new Dalek(new Vector2D(2,2));
         Dalek dalekRight = new Dalek(new Vector2D(8,2));
@@ -101,7 +101,7 @@ public class DoctorMovementTestIT {
     }
 
     @Test
-    public void testAfterTeleportDaleksMovement(){
+    public void afterTeleportDaleksMovementTest(){
         //given
         Dalek dalekLeft = new Dalek(new Vector2D(2,2));
         Dalek dalekRight = new Dalek(new Vector2D(8,2));
@@ -125,7 +125,7 @@ public class DoctorMovementTestIT {
     }
 
     @Test
-    public void testAfterBombDaleksMovement(){
+    public void afterBombDaleksMovementTest(){
         //given
         Dalek dalekLeft = new Dalek(new Vector2D(2,2));
         Dalek dalekRight = new Dalek(new Vector2D(8,2));
@@ -147,10 +147,5 @@ public class DoctorMovementTestIT {
         assertEquals(new Vector2D(7,1), dalekRight.getPosition());
         assertEquals(new Vector2D(0,1), dalekDead.getPosition());
     }
-
-
-
-
-
 
 }

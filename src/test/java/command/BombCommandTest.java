@@ -44,7 +44,7 @@ public class BombCommandTest {
     }
 
     @Test
-    public void testExecuteBombCommandLessBombs(){
+    public void executeBombCommandLessBombsTest(){
         //given
         BombCommand command = new BombCommand(world);
         int bombNumber = doctor.getBombs().get();
@@ -57,7 +57,7 @@ public class BombCommandTest {
     }
 
     @Test
-    public void testExecuteBombCommandKillNeighbours(){
+    public void executeBombCommandKillNeighboursTest(){
         //given
         Vector2D doctorPosition = new Vector2D(5,5);
         moveDoctor(doctorPosition);

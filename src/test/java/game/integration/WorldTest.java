@@ -39,7 +39,7 @@ public class WorldTest {
 
 
     @Test
-    public void testInitializeNewWorld(){
+    public void initializeNewWorldTest(){
         //given
 
         //when
@@ -58,7 +58,7 @@ public class WorldTest {
     }
 
     @Test
-    public void testResetScoreAfterGameOver(){
+    public void resetScoreAfterGameOverTest(){
         //given
         prepare(0);
         world.setScore(10);
@@ -73,7 +73,7 @@ public class WorldTest {
     }
 
     @Test
-    public void testScoreAfterWon(){
+    public void scoreAfterWonTest(){
         //given
         prepare(dalekNumber);
         world.setScore(10);
@@ -90,7 +90,7 @@ public class WorldTest {
     }
 
     @Test
-    public void testHasWon(){
+    public void hasWonTest(){
         //given
         prepare(dalekNumber);
 
@@ -103,7 +103,7 @@ public class WorldTest {
     }
 
     @Test
-    public void testGameOver(){
+    public void gameOverTest(){
         //given
         prepare(0);
         world.setScore(10);
@@ -116,7 +116,7 @@ public class WorldTest {
     }
 
     @Test
-    public void testIncreaseScoreAfterMove(){
+    public void increaseScoreAfterMoveTest() {
         //given
         prepare(0);
 
@@ -128,7 +128,7 @@ public class WorldTest {
     }
 
     @Test
-    public void testIncreaseScoreAfterDeath(){
+    public void increaseScoreAfterDeathTest() {
         //given
         prepare(0);
 
@@ -140,6 +140,34 @@ public class WorldTest {
         assertEquals(0,world.getScore().get());
     }
 
+    @Test
+    public void runOutOfBombsTest() {
+        //given
+        prepare(0);
 
+        //when //then
+        assertEquals(2, doctor.getBombs().get());
+        for(int i = 0; i<3; i++) {
+            doctor.useBomb();
+        }
+        assertEquals(0, doctor.getBombs().get());
+        assertFalse(doctor.useBomb());
+        assertEquals(0, doctor.getBombs().get());
+    }
+
+    @Test
+    public void runOutOfTeleportationTest() {
+        //given
+        prepare(0);
+
+        //when //then
+        assertEquals(3, doctor.getTeleports().get());
+        for(int i = 0; i<4; i++) {
+            world.makeTeleport();
+        }
+        assertEquals(0, doctor.getTeleports().get());
+        world.makeTeleport();
+        assertEquals(0, doctor.getTeleports().get());
+    }
 
 }

@@ -100,6 +100,10 @@ public class WorldMap  {
         List<Dalek> dalekList = new ArrayList<>();
 
         positionList.forEach(position -> {
+            if(isOccupied(position)) {
+                throw new RuntimeException("Place is already occupied!");
+            }
+
             Dalek dalek = new Dalek(position);
 
             if(areAlive){

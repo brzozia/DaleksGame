@@ -36,7 +36,7 @@ public class TeleportCommandTest {
     }
 
     @Test
-    public void testExecuteTeleportCommandLessTeleports(){
+    public void executeTeleportCommandLessTeleportsTest(){
         //given
         TeleportCommand command = new TeleportCommand(world);
         int teleportNumber = doctor.getTeleports().get();

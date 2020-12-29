@@ -44,7 +44,7 @@ public class CollisionTestIT {
     }
 
     @Test
-    public void testDoctorIntoDalekCollision() {
+    public void doctorIntoDalekCollisionTest() {
         //given
         doctor.move(new Vector2D(2,2));
         worldMap.positionChange(doctor);
@@ -59,7 +59,7 @@ public class CollisionTestIT {
     }
 
     @Test
-    public void testDoctorIntoDeadDalekCollision() {
+    public void doctorIntoDeadDalekCollisionTest() {
         //given
         doctor.move(new Vector2D(2,2));
         worldMap.positionChange(doctor);
@@ -78,7 +78,7 @@ public class CollisionTestIT {
     }
 
     @Test
-    public void testDoctorAndDalekToNewTileCollision() {
+    public void doctorAndDalekToNewTileCollisionTest() {
         //given
         doctor.move(new Vector2D(2, 1));
         worldMap.positionChange(doctor);
@@ -93,7 +93,7 @@ public class CollisionTestIT {
     }
 
     @Test
-    public void testTwoDalekCollision() {
+    public void twoDalekCollisionTest() {
         //given
         doctor.move(new Vector2D(3,4));
         worldMap.positionChange(doctor);
@@ -110,7 +110,7 @@ public class CollisionTestIT {
     }
 
     @Test
-    public void testDalekAndDeadDalekCollision(){
+    public void dalekAndDeadDalekCollisionTest(){
         //given
         doctor.move(new Vector2D(3,4));
         worldMap.positionChange(doctor);
@@ -131,7 +131,7 @@ public class CollisionTestIT {
     }
 
     @Test
-    public void testTwoDaleksGoSameDirectionNotColliding() {
+    public void twoDaleksGoSameDirectionNotCollidingTest() {
         //given
         doctor.move(new Vector2D(7,3));
         worldMap.positionChange(doctor);

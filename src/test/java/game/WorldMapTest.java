@@ -180,11 +180,48 @@ public class WorldMapTest {
     }
 
     @Test
-    public void testCheckObjectCollisions(){
+    public void addAliveDaleksToMapProperlyTest() {
         //given
+        Vector2D positionTwo = new Vector2D(1,1);
+        Vector2D positionThree = new Vector2D(3,3);
+        boolean isAlive = true;
+        List<Vector2D> positionList = List.of(positionTwo, positionThree);
 
         //when
+        worldMap.addDaleksToMap(positionList, isAlive);
 
         //then
+        assertTrue(worldMap.isOccupied(positionOne));
+        assertTrue(worldMap.isOccupied(positionTwo));
+        assertTrue(worldMap.isOccupied(positionThree));
     }
+
+    @Test
+    public void addDeadDaleksToMapProperlyTest() {
+        //given
+        Vector2D positionTwo = new Vector2D(1,1);
+        Vector2D positionThree = new Vector2D(3,3);
+        boolean isAlive = false;
+        List<Vector2D> positionList = List.of(positionTwo, positionThree);
+
+        //when
+        worldMap.addDaleksToMap(positionList, isAlive);
+
+        //then
+        assertEquals(2, worldMap.getPositionsOfDead().size());
+        assertEquals(1, worldMap.getPositionsOfAlive().size());
+    }
+
+    @Test
+    public void addDaleksToMapErrorTest() {
+        //given
+        Vector2D positionTwo = new Vector2D(1,1);
+        Vector2D positionThree = new Vector2D(2,2);
+        boolean isAlive = true;
+        List<Vector2D> positionList = List.of(positionTwo, positionThree);
+
+        //when //then
+        assertThrows(RuntimeException.class, () -> worldMap.addDaleksToMap(positionList, isAlive));
+    }
+
 }

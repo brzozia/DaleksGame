@@ -127,7 +127,4 @@ public class World {
         return score;
     }
     public void setScore(int score){this.score.set(score);}
-    public void setDalekList(List<Dalek> dalekList) {
-        this.dalekList = dalekList;
-    }
 }

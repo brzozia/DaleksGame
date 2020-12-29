@@ -128,4 +128,16 @@ public class DoctorTest {
         //then
         assertEquals(0, doctor.getBombs().get());
     }
+
+    @Test
+    public void useRewindTest() {
+        //given //when //then
+        assertEquals(3, doctor.getRewinds().get());
+        for(int i = 0; i<5; i++) {
+            doctor.useRewind();
+        }
+        assertEquals(0, doctor.getRewinds().get());
+        doctor.useRewind();
+        assertEquals(0, doctor.getRewinds().get());
+    }
 }
