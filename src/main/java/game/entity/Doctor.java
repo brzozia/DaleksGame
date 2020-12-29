@@ -50,15 +50,15 @@ public class Doctor extends MapObject {
     }
 
     public void setBombs(int bombs) {
-        this.bombs.set(Math.max(bombs, MainApp.INITIAL_BOMBS));
+        this.bombs.set(Math.min(bombs, MainApp.INITIAL_BOMBS));
     }
 
     public void setTeleports(int teleports) {
-        this.teleports.set(Math.max(teleports, MainApp.INITIAL_TELEPORTS));
+        this.teleports.set(Math.min(teleports, MainApp.INITIAL_TELEPORTS));
     }
 
     public void setRewinds(int rewinds) {
-        this.rewinds.set(Math.max(rewinds, MainApp.INITIAL_REWINDS));
+        this.rewinds.set(Math.min(rewinds, MainApp.INITIAL_REWINDS));
     }
 
     public SimpleIntegerProperty getBombs() {
