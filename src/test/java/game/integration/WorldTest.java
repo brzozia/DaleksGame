@@ -17,7 +17,7 @@ public class WorldTest {
 
     private static World world;
     private static WorldMap worldMap;
-    private int dalekNumber = MainApp.DALEK_NUMBER;
+    private final int dalekNumber = MainApp.DALEK_NUMBER;
     Doctor doctor;
 
     void prepare(int number) {

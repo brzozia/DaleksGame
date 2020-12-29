@@ -19,7 +19,7 @@ public abstract class Command {
         prevDoctorPosition = world.getDoctor().getPrevPosition();
         doctorPosition = world.getDoctor().getPosition();
         daleksPosition = new LinkedList<>();
-        daleksPosition.addAll(world.getWorldMap().getPositionsOfAlive().keySet());
+        daleksPosition.addAll(world.getWorldMap().getPositionsOfAlive().keySet());;
         daleksPosition.remove(doctorPosition);
         deadDaleksPosition = new LinkedList<>();
         deadDaleksPosition.addAll(world.getWorldMap().getPositionsOfDead().keySet());

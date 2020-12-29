@@ -16,7 +16,7 @@ public class TeleportCommand extends Command {
     @Override
     public void undo() {
         super.undo();
-        int oldTp = this.world.getDoctor().getRewinds().getValue();
-        this.world.getDoctor().setRewinds(oldTp + 1);
+        int oldTp = this.world.getDoctor().getTeleports().getValue();
+        this.world.getDoctor().setTeleports(oldTp + 1);
     }
 }

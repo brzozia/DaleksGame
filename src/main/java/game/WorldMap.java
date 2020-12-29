@@ -81,7 +81,9 @@ public class WorldMap  {
     public void positionChange(MapObject object) {
         positionsOfAlive.put(object.getPosition(), object);
     }
-
+    public void removeAlivePosition(Vector2D position){
+        positionsOfAlive.remove(position);
+    }
     public void destroyObjectsOnVectors(List<Vector2D> positionsToDestroy) {
         positionsToDestroy.stream()
                 .filter(this::isInMapBounds)
@@ -110,7 +112,6 @@ public class WorldMap  {
 
             dalekList.add(dalek);
         });
-
         return dalekList;
     }
 
