@@ -18,3 +18,6 @@ Jeśli chcesz przeteleportować doktorka użyj klawisza "5" lub "t" na swojej kl
 Za każdy ruch, w którym nie zginisz zwiększasz swojego scora ;).
 <br><br>
 Docs link: https://docs.google.com/document/d/13rMfs7QGNSwKgsZjAkUUq26ZmsYeGK3iuUSnGvoJv-Q/edit?ts=5fbbc8cc
+
+### Przykładowa rozgrywka
+![](docs/daleksgame.gif)
