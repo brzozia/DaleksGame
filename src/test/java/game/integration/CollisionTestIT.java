@@ -47,7 +47,8 @@ public class CollisionTestIT {
     public void doctorIntoDalekCollisionTest() {
         //given
         doctor.move(new Vector2D(2,2));
-        worldMap.positionChange(doctor);
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
 
         //when
         world.makeMove(Direction.SOUTH);
@@ -62,7 +63,8 @@ public class CollisionTestIT {
     public void doctorIntoDeadDalekCollisionTest() {
         //given
         doctor.move(new Vector2D(2,2));
-        worldMap.positionChange(doctor);
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
         Dalek dalek2 = createPlaceDalek(new Vector2D(3,3));
         world.makeMove(Direction.NORTHEAST);
 
@@ -81,7 +83,8 @@ public class CollisionTestIT {
     public void doctorAndDalekToNewTileCollisionTest() {
         //given
         doctor.move(new Vector2D(2, 1));
-        worldMap.positionChange(doctor);
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
 
         //then
         world.makeMove(Direction.SOUTH);
@@ -96,7 +99,8 @@ public class CollisionTestIT {
     public void twoDalekCollisionTest() {
         //given
         doctor.move(new Vector2D(3,4));
-        worldMap.positionChange(doctor);
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
         Dalek dalek2 = createPlaceDalek(new Vector2D(3,3));
 
         //when
@@ -113,7 +117,8 @@ public class CollisionTestIT {
     public void dalekAndDeadDalekCollisionTest(){
         //given
         doctor.move(new Vector2D(3,4));
-        worldMap.positionChange(doctor);
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
         Dalek dalek2 = createPlaceDalek(new Vector2D(3,3));
         Dalek dalek3 = createPlaceDalek(new Vector2D(3,2));
         world.makeMove(Direction.SOUTH);
@@ -134,7 +139,8 @@ public class CollisionTestIT {
     public void twoDaleksGoSameDirectionNotCollidingTest() {
         //given
         doctor.move(new Vector2D(7,3));
-        worldMap.positionChange(doctor);
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
         Dalek dalek2 = createPlaceDalek(new Vector2D(3,3));
 
         ///when
