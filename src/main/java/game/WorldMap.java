@@ -96,27 +96,18 @@ public class WorldMap  {
                 });
     }
 
-    public List<Dalek> addDaleksToMap(List<Vector2D> positionList, boolean areAlive){
-        List<Dalek> dalekList = new ArrayList<>();
-
-        positionList.forEach(position -> {
-            if(isOccupied(position)) {
+    public void addMapObjectsFromList(List<MapObject> objectList) {
+        objectList.forEach(obj -> {
+            if(this.isOccupied(obj.getPosition())) {
                 throw new RuntimeException("Place is already occupied!");
             }
-
-            Dalek dalek = new Dalek(position);
-
-            if(areAlive){
-                getPositionsOfAlive().put(position,dalek);
+            if(obj.isAlive()) {
+                getPositionsOfAlive().put(obj.getPosition(), obj);
             }
-            else{
-                dalek.setAlive(areAlive);
-                getPositionsOfDead().put(position, dalek);
+            else {
+                getPositionsOfDead().put(obj.getPosition(), obj);
             }
-
-            dalekList.add(dalek);
         });
-        return dalekList;
     }
 
     //getters/setters
@@ -131,5 +122,11 @@ public class WorldMap  {
     }
     public Map<Vector2D, MapObject> getPositionsOfDead() {
         return positionsOfDead;
+    }
+    public Set<Vector2D> getVectorsOfAlive() {
+        return positionsOfAlive.keySet();
+    }
+    public Set<Vector2D> getVectorsOfDead() {
+        return  positionsOfDead.keySet();
     }
 }

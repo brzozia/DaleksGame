@@ -2,6 +2,7 @@ package game;
 
 import game.entity.Dalek;
 import game.entity.Doctor;
+import game.entity.MapObject;
 import model.Vector2D;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -184,16 +185,18 @@ public class WorldMapTest {
         //given
         Vector2D positionTwo = new Vector2D(1,1);
         Vector2D positionThree = new Vector2D(3,3);
-        boolean isAlive = true;
-        List<Vector2D> positionList = List.of(positionTwo, positionThree);
+        Dalek dalekOne = new Dalek(positionTwo);
+        Dalek dalekTwo = new Dalek(positionThree);
+        List<MapObject> dalekList = List.of(dalekOne, dalekTwo);
 
         //when
-        worldMap.addDaleksToMap(positionList, isAlive);
+        worldMap.addMapObjectsFromList(dalekList);
 
         //then
         assertTrue(worldMap.isOccupied(positionOne));
         assertTrue(worldMap.isOccupied(positionTwo));
         assertTrue(worldMap.isOccupied(positionThree));
+        assertEquals(3, worldMap.getVectorsOfAlive().size());
     }
 
     @Test
@@ -201,11 +204,13 @@ public class WorldMapTest {
         //given
         Vector2D positionTwo = new Vector2D(1,1);
         Vector2D positionThree = new Vector2D(3,3);
-        boolean isAlive = false;
-        List<Vector2D> positionList = List.of(positionTwo, positionThree);
+        Dalek dalekOne = new Dalek(positionTwo);
+        Dalek dalekTwo = new Dalek(positionThree);
+        List<MapObject> dalekList = List.of(dalekOne, dalekTwo);
+        dalekList.forEach(d -> d.setAlive(false));
 
         //when
-        worldMap.addDaleksToMap(positionList, isAlive);
+        worldMap.addMapObjectsFromList(dalekList);
 
         //then
         assertEquals(2, worldMap.getPositionsOfDead().size());
@@ -217,11 +222,12 @@ public class WorldMapTest {
         //given
         Vector2D positionTwo = new Vector2D(1,1);
         Vector2D positionThree = new Vector2D(2,2);
-        boolean isAlive = true;
-        List<Vector2D> positionList = List.of(positionTwo, positionThree);
+        Dalek dalekOne = new Dalek(positionTwo);
+        Dalek dalekTwo = new Dalek(positionThree);
+        List<MapObject> dalekList = List.of(dalekOne, dalekTwo);
 
         //when //then
-        assertThrows(RuntimeException.class, () -> worldMap.addDaleksToMap(positionList, isAlive));
+        assertThrows(RuntimeException.class, () -> worldMap.addMapObjectsFromList(dalekList));
     }
 
 }

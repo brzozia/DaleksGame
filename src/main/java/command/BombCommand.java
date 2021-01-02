@@ -16,7 +16,7 @@ public class BombCommand extends Command {
     @Override
     public void undo() {
         super.undo();
-        int b = world.getDoctor().getBombs().get();
-        world.getDoctor().setBombs(b + 1);
+        int oldB = world.getDoctor().getBombs().get();
+        world.getDoctor().setBombs(oldB + 1);
     }
 }
