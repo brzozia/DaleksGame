@@ -79,6 +79,10 @@ public class DoctorMovementTestIT {
     @Test
     public void daleksFollowingDoctorTest() {
         //given
+        doctor.move(new Vector2D(5,2));
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
+
         Dalek dalekLeft = new Dalek(new Vector2D(2,2));
         Dalek dalekRight = new Dalek(new Vector2D(8,2));
         Dalek dalekBottom = new Dalek(new Vector2D(4,9));
@@ -86,10 +90,6 @@ public class DoctorMovementTestIT {
         List<Dalek> daleks = Arrays.asList(dalekLeft,dalekRight, dalekTop, dalekBottom);
         world.getDalekList().addAll(daleks);
         daleks.forEach(worldMap::addEntity);
-
-        doctor.move(new Vector2D(5,2));
-        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
-        world.getWorldMap().positionChange(doctor);
 
         //when
         world.makeMove(Direction.WEST); // x-=1, y+=0
@@ -106,15 +106,16 @@ public class DoctorMovementTestIT {
     @Test
     public void afterTeleportDaleksMovementTest(){
         //given
+        doctor.move(new Vector2D(0,0));
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
+
         Dalek dalekLeft = new Dalek(new Vector2D(2,2));
         Dalek dalekRight = new Dalek(new Vector2D(8,2));
         List<Dalek> daleks = Arrays.asList(dalekLeft,dalekRight);
         world.getDalekList().addAll(daleks);
         daleks.forEach(worldMap::addEntity);
 
-        doctor.move(new Vector2D(0,0));
-        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
-        world.getWorldMap().positionChange(doctor);
         Vector2D newPosition = new Vector2D(5,5);
 
         //when
@@ -131,16 +132,16 @@ public class DoctorMovementTestIT {
     @Test
     public void afterBombDaleksMovementTest(){
         //given
+        doctor.move(new Vector2D(0,0));
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
+
         Dalek dalekLeft = new Dalek(new Vector2D(2,2));
         Dalek dalekRight = new Dalek(new Vector2D(8,2));
         Dalek dalekDead = new Dalek(new Vector2D(0,1));
         List<Dalek> daleks = Arrays.asList(dalekLeft,dalekRight, dalekDead);
         world.getDalekList().addAll(daleks);
         daleks.forEach(worldMap::addEntity);
-
-        doctor.move(new Vector2D(0,0));
-        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
-        world.getWorldMap().positionChange(doctor);
 
         //when
         world.useBomb();
