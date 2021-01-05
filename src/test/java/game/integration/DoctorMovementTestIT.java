@@ -26,6 +26,12 @@ public class DoctorMovementTestIT {
     private static WorldMap worldMap;
     Doctor doctor;
 
+    private void moveDoctor(Vector2D position){
+        doctor.move(position);
+        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
+        world.getWorldMap().positionChange(doctor);
+    }
+
     @BeforeAll
     static void init() {
         world = Guice.createInjector(new AppModule()).getInstance(World.class);
@@ -41,9 +47,7 @@ public class DoctorMovementTestIT {
     @Test
     public void downLeftBoundariesTest() {
         //given
-        doctor.move(new Vector2D(0,0));
-        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
-        world.getWorldMap().positionChange(doctor);
+        moveDoctor(new Vector2D(0,0));
 
         //when
         world.makeMove(Direction.SOUTHWEST);
@@ -60,9 +64,7 @@ public class DoctorMovementTestIT {
     @Test
     public void topRightBoundariesTest() {
         //given
-        doctor.move(new Vector2D(MainApp.WIDTH-1,MainApp.HEIGHT-1));
-        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
-        world.getWorldMap().positionChange(doctor);
+        moveDoctor(new Vector2D(MainApp.WIDTH-1,MainApp.HEIGHT-1));
 
         //when
         world.makeMove(Direction.SOUTHWEST);
@@ -79,9 +81,7 @@ public class DoctorMovementTestIT {
     @Test
     public void daleksFollowingDoctorTest() {
         //given
-        doctor.move(new Vector2D(5,2));
-        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
-        world.getWorldMap().positionChange(doctor);
+        moveDoctor(new Vector2D(5,2));
 
         Dalek dalekLeft = new Dalek(new Vector2D(2,2));
         Dalek dalekRight = new Dalek(new Vector2D(8,2));
@@ -106,9 +106,7 @@ public class DoctorMovementTestIT {
     @Test
     public void afterTeleportDaleksMovementTest(){
         //given
-        doctor.move(new Vector2D(0,0));
-        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
-        world.getWorldMap().positionChange(doctor);
+        moveDoctor(new Vector2D(0,0));
 
         Dalek dalekLeft = new Dalek(new Vector2D(2,2));
         Dalek dalekRight = new Dalek(new Vector2D(8,2));
@@ -132,9 +130,7 @@ public class DoctorMovementTestIT {
     @Test
     public void afterBombDaleksMovementTest(){
         //given
-        doctor.move(new Vector2D(0,0));
-        world.getWorldMap().removeAlivePosition(doctor.getPrevPosition());
-        world.getWorldMap().positionChange(doctor);
+        moveDoctor(new Vector2D(0,0));
 
         Dalek dalekLeft = new Dalek(new Vector2D(2,2));
         Dalek dalekRight = new Dalek(new Vector2D(8,2));
