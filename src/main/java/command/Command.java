@@ -42,17 +42,24 @@ public abstract class Command {
             dalek.setAlive(false);
             dalekList.add(dalek);
         });
-
-        //undo doctor
         Doctor doctor = world.getDoctor();
+
+        undoDoctor(doctor);
+        undoWorld(dalekList);
+        undoWorldMap(doctor, dalekList);
+    }
+
+    private void undoDoctor(Doctor doctor){
         doctor.setPrevPosition(prevDoctorPosition);
         doctor.setPosition(doctorPosition);
+    }
 
-        //undo world
+    private void undoWorld(List<Dalek> dalekList){
         world.getDalekList().clear();
         world.getDalekList().addAll(dalekList);
+    }
 
-        //undo worldMap
+    private void undoWorldMap(Doctor doctor, List<Dalek> dalekList) {
         List<MapObject> mapObjectList = new LinkedList<>(dalekList);
         mapObjectList.add(doctor);
         world.getWorldMap().clearAllEntities();

@@ -2,6 +2,7 @@ package controller;
 
 import game.WorldMap;
 import game.entity.Doctor;
+import game.entity.MapObject;
 import javafx.application.Platform;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
@@ -54,38 +55,45 @@ public class MapDrafter {
         Platform.runLater( () -> {
             context.setFill(Color.WHITE);
             context.clearRect(0,0, canvas.getWidth(), canvas.getHeight());
-
-            for (int i=0; i<MainApp.HEIGHT-1; i++) {
-                context.setLineWidth(2.0);
-                context.setFill(Color.BLACK);
-                context.strokeLine(0,  0.5+(i+1)*cellHeight + i*2, canvas.getWidth(), 0.5+(i+1)*cellHeight + i*2);
-            }
-            for (int i=0; i<MainApp.WIDTH; i++) {
-                context.setLineWidth(TILE_LINE_WIDTH);
-                context.setFill(Color.BLACK);
-                context.strokeLine( 0.5+(i+1)*cellWidth + i*2, 0, 0.5+(i+1)*cellWidth + i*2, canvas.getHeight());
-            }
-
-            for (int i=0; i<MainApp.HEIGHT; i++) {
-                for (int j=0; j<MainApp.WIDTH; j++) {
-                    int finalI = i;
-                    int finalJ = j;
-                    worldMap
-                            .objectAt(new Vector2D(i,j))
-                            .ifPresent( object -> {
-                                if (object instanceof Doctor && object.isAlive()) {
-                                    context.drawImage(doctorImage, (cellWidth * finalI) + finalI * 2, (cellHeight * finalJ) + finalJ * 2, cellWidth - 1, cellHeight - 1);
-                                } else {
-                                    if (object.isAlive()) {
-                                        context.drawImage(dalekImage, (cellWidth * finalI) + finalI * 2, (cellHeight * finalJ) + finalJ * 2, cellWidth - 1, cellHeight - 1);
-                                    } else {
-                                        context.drawImage(rockImage, (cellWidth * finalI) + finalI * 2, (cellHeight * finalJ) + finalJ * 2, cellWidth - 1, cellHeight - 1);
-                                    }
-                                }
-                            });
-                }
-            }
+            drawGrid();
+            drawSprites(worldMap);
         });
+    }
+
+    private void drawGrid() {
+        for (int i=0; i<MainApp.HEIGHT-1; i++) {
+            context.setLineWidth(2.0);
+            context.setFill(Color.BLACK);
+            context.strokeLine(0,  0.5+(i+1)*cellHeight + i*2, canvas.getWidth(), 0.5+(i+1)*cellHeight + i*2);
+        }
+        for (int i=0; i<MainApp.WIDTH; i++) {
+            context.setLineWidth(TILE_LINE_WIDTH);
+            context.setFill(Color.BLACK);
+            context.strokeLine( 0.5+(i+1)*cellWidth + i*2, 0, 0.5+(i+1)*cellWidth + i*2, canvas.getHeight());
+        }
+    }
+
+    private void drawSprites(WorldMap worldMap) {
+        for (int i=0; i<MainApp.HEIGHT; i++) {
+            for (int j=0; j<MainApp.WIDTH; j++) {
+                int finalI = i;
+                int finalJ = j;
+                worldMap.objectAt(new Vector2D(i,j))
+                        .ifPresent( object ->  drawImage(object, finalI, finalJ));
+            }
+        }
+    }
+
+    private void drawImage(MapObject object, int finalI, int finalJ) {
+        if (object instanceof Doctor && object.isAlive()) {
+            context.drawImage(doctorImage, (cellWidth * finalI) + finalI * 2, (cellHeight * finalJ) + finalJ * 2, cellWidth - 1, cellHeight - 1);
+        } else {
+            if (object.isAlive()) {
+                context.drawImage(dalekImage, (cellWidth * finalI) + finalI * 2, (cellHeight * finalJ) + finalJ * 2, cellWidth - 1, cellHeight - 1);
+            } else {
+                context.drawImage(rockImage, (cellWidth * finalI) + finalI * 2, (cellHeight * finalJ) + finalJ * 2, cellWidth - 1, cellHeight - 1);
+            }
+        }
     }
 
     public void drawTextOnVictory(int score) {

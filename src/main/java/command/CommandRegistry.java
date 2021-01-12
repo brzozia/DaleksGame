@@ -8,7 +8,7 @@ import mainApp.MainApp;
 
 public class CommandRegistry {
     private final ObservableList<Command> commandStack = FXCollections.observableArrayList();
-    IntegerBinding stackSizeProperty = Bindings.size(commandStack);
+    private final IntegerBinding stackSizeProperty = Bindings.size(commandStack);
 
     public void executeCommand(Command command) {
         if(command.execute()) {
