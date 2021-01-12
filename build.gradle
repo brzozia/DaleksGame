@@ -34,14 +34,17 @@ java {
 
 javafx {
     version = '14'
-    modules = ['javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media', 'javafx.swing', 'javafx.web']
+    modules = ['javafx.base', 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media', 'javafx.swing']
 }
 
 jar {
     manifest {
         attributes(
-                "Main-Class": 'mainApp.MainApp'
+                "Main-Class": 'mainApp.SecondMain'
         )
+        }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
-
 }
+
