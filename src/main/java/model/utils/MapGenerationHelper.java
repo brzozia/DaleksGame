@@ -1,10 +1,9 @@
-package game.utils;
+package model.utils;
 
-import game.WorldMap;
-import game.entity.Dalek;
-import game.entity.Doctor;
+import model.WorldMap;
+import model.entity.Dalek;
+import model.entity.Doctor;
 import mainApp.MainApp;
-import model.Vector2D;
 
 import java.util.ArrayList;
 import java.util.List;

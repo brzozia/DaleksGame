@@ -1,10 +1,7 @@
-package game;
+package controller;
 
-import controller.KeyBindings;
-import game.utils.Direction;
+import model.utils.Direction;
 import org.junit.jupiter.api.Test;
-
-import javax.swing.text.JTextComponent;
 
 import static org.junit.jupiter.api.Assertions.*;
 

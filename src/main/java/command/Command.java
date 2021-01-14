@@ -1,10 +1,10 @@
 package command;
 
-import game.World;
-import game.entity.Dalek;
-import game.entity.Doctor;
-import game.entity.MapObject;
-import model.Vector2D;
+import model.World;
+import model.entity.Dalek;
+import model.entity.Doctor;
+import model.entity.MapObject;
+import model.utils.Vector2D;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -57,6 +57,8 @@ public abstract class Command {
     private void undoWorld(List<Dalek> dalekList){
         world.getDalekList().clear();
         world.getDalekList().addAll(dalekList);
+
+        world.setScore(world.getScore().get() -1);
     }
 
     private void undoWorldMap(Doctor doctor, List<Dalek> dalekList) {

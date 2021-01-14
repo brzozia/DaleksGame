@@ -1,9 +1,9 @@
-package game;
+package model;
 
 import com.google.inject.Inject;
-import game.entity.Dalek;
-import game.entity.Doctor;
-import game.entity.MapObject;
+import model.entity.Dalek;
+import model.entity.Doctor;
+import model.entity.MapObject;
 
 import java.util.List;
 

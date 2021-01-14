@@ -1,7 +1,7 @@
 package controller;
 
-import game.utils.Direction;
-import static game.utils.Direction.*;
+import model.utils.Direction;
+import static model.utils.Direction.*;
 import java.util.Map;
 
 //class made for easier remapping buttons

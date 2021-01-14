@@ -1,8 +1,8 @@
-package game.entity;
+package model.entity;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import mainApp.MainApp;
-import model.Vector2D;
+import model.utils.Vector2D;
 
 public class Doctor extends MapObject {
     private final SimpleIntegerProperty bombs;

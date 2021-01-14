@@ -1,14 +1,14 @@
-package game.integration;
+package integration;
 
 import com.google.inject.Guice;
-import game.World;
-import game.WorldMap;
-import game.entity.Dalek;
-import game.entity.Doctor;
-import game.utils.Direction;
+import model.World;
+import model.WorldMap;
+import model.entity.Dalek;
+import model.entity.Doctor;
+import model.utils.Direction;
 import guice.AppModule;
 import mainApp.MainApp;
-import model.Vector2D;
+import model.utils.Vector2D;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

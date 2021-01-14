@@ -1,6 +1,6 @@
 package command;
 
-import game.World;
+import model.World;
 
 public class BombCommand extends Command {
 

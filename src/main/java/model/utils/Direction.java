@@ -1,6 +1,4 @@
-package game.utils;
-
-import model.Vector2D;
+package model.utils;
 
 public enum Direction {
     NORTH,

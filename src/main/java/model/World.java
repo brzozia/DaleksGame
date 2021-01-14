@@ -1,14 +1,14 @@
-package game;
+package model;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import game.entity.Dalek;
-import game.entity.Doctor;
-import game.utils.Direction;
-import game.utils.MapGenerationHelper;
+import model.entity.Dalek;
+import model.entity.Doctor;
+import model.utils.Direction;
+import model.utils.MapGenerationHelper;
 import javafx.beans.property.SimpleIntegerProperty;
 import mainApp.MainApp;
-import model.Vector2D;
+import model.utils.Vector2D;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class World {
     private final WorldCollisions worldCollisions;
     private final SimpleIntegerProperty score = new SimpleIntegerProperty(0);
     private  List<Dalek> dalekList;
-    private  Doctor doctor;
+    private Doctor doctor;
     private int dalekNumber;
 
     @Inject
@@ -88,7 +88,7 @@ public class World {
     }
 
     public boolean makeTeleport() {
-        if(doctor.teleport(worldMap.getRandomVector(false))) {
+        if(doctor.teleport(worldMap.getRandomVector(true))) {
             System.out.println("Teleportation!");
             this.onWorldAction();
             return true;

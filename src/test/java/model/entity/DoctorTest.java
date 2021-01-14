@@ -1,6 +1,6 @@
-package game.entity;
+package model.entity;
 
-import model.Vector2D;
+import model.utils.Vector2D;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

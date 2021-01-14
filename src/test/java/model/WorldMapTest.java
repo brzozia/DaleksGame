@@ -1,9 +1,10 @@
-package game;
+package model;
 
-import game.entity.Dalek;
-import game.entity.Doctor;
-import game.entity.MapObject;
-import model.Vector2D;
+import model.entity.Dalek;
+import model.entity.Doctor;
+import model.entity.MapObject;
+import model.WorldMap;
+import model.utils.Vector2D;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

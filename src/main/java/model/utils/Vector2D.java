@@ -1,6 +1,4 @@
-package model;
-
-import game.utils.Direction;
+package model.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

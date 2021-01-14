@@ -5,8 +5,8 @@ import command.BombCommand;
 import command.CommandRegistry;
 import command.MoveCommand;
 import command.TeleportCommand;
-import game.World;
-import game.utils.Direction;
+import model.World;
+import model.utils.Direction;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -165,7 +165,6 @@ public class MapController {
         if(commandRegistry.getStackSizeProperty().get() > 0 && world.getDoctor().useRewind()) {
             commandRegistry.undo();
             System.out.println("It's rewind time!");
-            world.setScore(world.getScore().get() -1);
         }
         else {
             System.out.println("Cannot rewind: empty command stack or no rewinds left");

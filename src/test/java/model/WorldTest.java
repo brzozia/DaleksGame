@@ -1,10 +1,10 @@
-package game.integration;
+package model;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import game.World;
-import game.WorldMap;
-import game.entity.Doctor;
+import model.World;
+import model.WorldMap;
+import model.entity.Doctor;
 import guice.AppModule;
 import mainApp.MainApp;
 import org.junit.jupiter.api.BeforeAll;

@@ -1,6 +1,6 @@
-# Daleks game
+# Daleks controller
 
-<i>Daleks game</i> jest grą, w której biorą udział dwa rodzaje postaci:<br>
+<i>Daleks controller</i> jest grą, w której biorą udział dwa rodzaje postaci:<br>
     doktor - jest głównym bohaterem i postacią, którą sterujemy <br>
     daleki - są potworkami, które chcą zjeść naszego doktorka - z każdym naszym ruchem daleki przybliżają się do nas coraz bardziej...
     <br><br>

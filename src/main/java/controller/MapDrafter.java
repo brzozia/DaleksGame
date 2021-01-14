@@ -1,8 +1,8 @@
 package controller;
 
-import game.WorldMap;
-import game.entity.Doctor;
-import game.entity.MapObject;
+import model.WorldMap;
+import model.entity.Doctor;
+import model.entity.MapObject;
 import javafx.application.Platform;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import mainApp.MainApp;
-import model.Vector2D;
+import model.utils.Vector2D;
 
 public class MapDrafter {
     private Canvas canvas;

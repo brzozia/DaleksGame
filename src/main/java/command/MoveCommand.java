@@ -1,7 +1,7 @@
 package command;
 
-import game.World;
-import game.utils.Direction;
+import model.World;
+import model.utils.Direction;
 
 public class MoveCommand extends Command {
     private final Direction direction;

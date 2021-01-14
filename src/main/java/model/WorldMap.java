@@ -1,10 +1,9 @@
-package game;
+package model;
 
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import game.entity.Dalek;
-import game.entity.MapObject;
-import model.Vector2D;
+import model.entity.MapObject;
+import model.utils.Vector2D;
 
 import java.util.*;
 

@@ -1,8 +1,8 @@
-package game.utils;
+package model.utils;
 
-import game.WorldMap;
-import game.entity.Dalek;
-import game.entity.Doctor;
+import model.WorldMap;
+import model.entity.Dalek;
+import model.entity.Doctor;
 import mainApp.MainApp;
 import org.junit.jupiter.api.Test;
 
