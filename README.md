@@ -29,4 +29,8 @@ To move the doctor you can use your mouse or keyboard. The keyboard buttons move
 ![](docs/daleks-game1.gif)
 ![](docs/daleks-game2.gif)  
 
-Pictures from [Pixabay](https://pixabay.com/pl/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1295483) by [OpenClipart-Vectors](https://pixabay.com/pl/users/openclipart-vectors-30363/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1295483) and [Abhilash Jacob](https://pixabay.com/pl/users/abhi_jacob-8581153/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=5077346)
+Pictures from [Pixabay](https://pixabay.com/pl/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1295483) by [OpenClipart-Vectors](https://pixabay.com/pl/users/openclipart-vectors-30363/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=1295483) and [Abhilash Jacob](https://pixabay.com/pl/users/abhi_jacob-8581153/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=5077346)  
+
+Small inspiration for us https://www.isaacsukin.com/sites/daleks/ by [Isaac Sukin](https://www.isaacsukin.com/) - e.g. the idea for bombs comes from here
+
+
