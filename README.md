@@ -21,8 +21,8 @@ To move the doctor you can use your mouse or keyboard. The keyboard buttons move
 7  &nbsp;8  &nbsp;9 <br>
 4  &nbsp;&nbsp;&nbsp;&nbsp; 6 <br>
 1  &nbsp;2  &nbsp;3 <br>
-- Teleport - "T" or "5" 
-- Bombs - "B".
+- Teleport - "T" or "5" - teleports you to the random location on tha map (it could be a place where the Dalek is standing!)
+- Bombs - "B" - kills all Daleks around you (in spaces adjacent to your space)
 - Restart of the game or next level - "R"
 
 ### Sample gameplay
