@@ -8,7 +8,7 @@ Developed by:
 - Natalia Brzozowska, [@brzozia](https://github.com/brzozia)
 
 ### Game description
-<i>Daleks game</i> is a game with two types of characters:
+<i>Daleks game</i> is a game with two types of alive characters:
 - doctor - the main character controlled by a player
 - daleks - monsters who want to eat doctor
 
